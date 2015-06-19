@@ -1,0 +1,86 @@
+.top {
+	background:url(images/indexhead_bg.jpg) repeat-x;
+	height: 170px;
+	margin: 0 auto;
+	padding: 0px;
+}
+
+#main {
+	height: 400px;
+	margin: 0 auto;
+	padding: 0px;
+	float: left;
+}
+
+#main ul {
+	padding: 0px;
+	margin: 0px;
+	list-style: none;
+}
+
+#main ul li {
+	float: left;
+	margin: 25px;
+	width: 209px;
+	height: 86px;
+	padding-top: 6px;
+	background:no-repeat;
+}
+
+#main ul li dd {
+	margin: 0px;
+	padding: 0px;
+	margin-left: 89px;
+}
+
+#main ul li a {
+	margin: 0px;
+	padding: 0px;
+	margin-left: 105px;
+}
+
+body {
+	margin: 0px;
+}
+
+.note {
+	font-size: 14px;
+	line-height: 24px;
+	color: #333;
+}
+
+.font1 {
+	color: #034b97;
+	font-weight: bold;
+}
+
+a.font1:link {
+	text-decoration: underline;
+}
+
+a.font1:active {
+	text-decoration: none;
+}
+
+.font2 {
+	font-size: 12px;
+	line-height: 16px;
+}
+
+a.font2:link {
+	color: #333;
+	text-decoration: none
+}
+
+a.font2:visited {
+	color: #666;
+}
+
+a.font2:hover {
+	color: #333;
+	text-decoration: underline;
+}
+
+a.font2:active {
+	color: #333;
+}

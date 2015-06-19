@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{38FBA425-F7F5-4F4C-9429-0A1D874DC021}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TCEPORT.TC.Data</RootNamespace>
+    <AssemblyName>TCEPORT.TC.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DCIS.DbAccess">
+      <HintPath>..\DLL\DCIS.DbAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="DCIS.Lib">
+      <HintPath>..\DLL\DCIS.Lib.dll</HintPath>
+    </Reference>
+    <Reference Include="DCIS.Persistence">
+      <HintPath>..\DLL\DCIS.Persistence.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TRAN_CARGO_DETAILEntity.cs" />
+    <Compile Include="TRAN_DELETE_UPDATEEntity.cs" />
+    <Compile Include="TRAN_DOC_BTM_LISTEntity.cs" />
+    <Compile Include="TRAN_DOC_BTM_STORE_LISTEntity.cs" />
+    <Compile Include="TRAN_DOC_DANGEEntity.cs" />
+    <Compile Include="TRAN_DOC_EMPTY_BOXEntity.cs" />
+    <Compile Include="TRAN_DOC_ENTRY_GOODSEntity.cs" />
+    <Compile Include="TRAN_DOC_EQUIPMENT_SOTREEntity.cs" />
+    <Compile Include="TRAN_DOC_GOODS_REPORTEntity.cs" />
+    <Compile Include="TRAN_DOC_MARINE_STOREEntity.cs" />
+    <Compile Include="TRAN_DOC_REPORTEntity.cs" />
+    <Compile Include="TRAN_DOC_REPORT_BAKEntity.cs" />
+    <Compile Include="TRAN_DOC_VOYAGEEntity.cs" />
+    <Compile Include="TRAN_INVOICES_HEADEntity.cs" />
+    <Compile Include="TRAN_IN_CONFIRMEntity.cs" />
+    <Compile Include="TRAN_IN_CONFIRM_BAKEntity.cs" />
+    <Compile Include="TRAN_IN_FORECASTEntity.cs" />
+    <Compile Include="TRAN_IN_FORECAST_BAKEntity.cs" />
+    <Compile Include="TRAN_KEYEntity.cs" />
+    <Compile Include="TRAN_OUT_CONFIRMEntity.cs" />
+    <Compile Include="TRAN_OUT_FORECASTEntity.cs" />
+    <Compile Include="TRAN_OUT_FORECAST_BAKEntity.cs" />
+    <Compile Include="TRAN_REACHPORTEntity.cs" />
+    <Compile Include="TRAN_REACHPORT_BAKEntity.cs" />
+    <Compile Include="TRAN_SCHEDULE_INFOEntity.cs" />
+    <Compile Include="TRAN_SHIFTINGEntity.cs" />
+    <Compile Include="TRAN_SHIFTING_BAKEntity.cs" />
+    <Compile Include="TRAN_SHIP_FILINGEntity.cs" />
+    <Compile Include="TRAN_SHIP_FILING_BAKEntity.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,311 @@
+﻿.north
+{
+    overflow: hidden;
+    font-family: Verdana, 微软雅黑,黑体;
+    background-image: url('../themes/appImage/top_bg.jpg');
+    background-repeat: repeat-x;
+}
+.titleJpg
+{
+    background-image: url('../themes/appImage/logoNew.jpg');
+    height: 74px;
+    width: 450px;
+    float: left;
+}
+.login_top_bg
+{
+    height: 42px;
+    background-image: url('../themes/appImage/login-top-bg.gif');
+    background-repeat: repeat-x;
+}
+.login_body
+{
+    background-image: url('../themes/appImage/login_bg.jpg');
+    background-repeat: repeat-x;
+    height: 100%;
+    width: 100%;
+}
+.login_body_left
+{
+    height: 100%;
+    width: 50%;
+    float: left;
+}
+.login_body_right
+{
+    height: 100%;
+    width: 50%;
+    float: right;
+}
+.south
+{
+    background: #D2E0F2;
+}
+.footer
+{
+    text-align: center;
+    color: #15428B;
+    margin-top: 3px;
+    padding: 0px;
+    line-height: 23px;
+    font-weight: bold;
+}
+.titleJpg2
+{
+    background-image: url('../themes/appImage/top_bg.jpg');
+    height: 74px;
+    width: 114px;
+    float: right;
+}
+
+.userName
+{
+    float: right;
+    width: auto;
+    height: 10px;
+    margin-right: 150px;
+    margin-top: 40px;
+}
+
+.GIS-EnterpriseList:hover
+{
+    background-color: #DFE8F6;
+    cursor: pointer;
+}
+
+.GIS-EnterpriseList
+{
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.GIS-EnterpriseList_highlight
+{
+    background-color: #DFE8F6;
+    cursor: pointer;
+}
+
+.actionColumn_Delete
+{
+    margin-left: 10px;
+}
+.checkboxLabelStyleByAuth
+{
+    color: #FF0000;
+}
+
+.x-btn-default-small .x-btn-inner, .x-btn-default-medium .x-btn-inner, .x-btn-default-large .x-btn-inner, .x-btn-default-toolbar-small .x-btn-inner, .x-btn-default-toolbar-medium .x-btn-inner, .x-btn-default-toolbar-large .x-btn-inner, .x-menu-item-text, .x-html-editor-tb .x-font-select, .x-panel-header-default, .x-panel-header-text-default, .x-panel-header-default-framed, .x-tip-header, .x-tip-body, .x-form-invalid-tip-body, .x-tip-header-text, .x-progress-text, .x-toolbar, .x-toolbar .x-form-item-label, .x-toolbar .x-toolbar-text, .x-window-header-text-default, .x-tab-bar, .x-tab button, .x-grid-rowbody, .x-grid-row .x-grid-cell, .x-grid-group-title, .x-grid-row-editor .x-form-field, .x-grid-row-editor .x-form-display-field, .x-form-invalid-under, .x-fieldset-header, .x-column-header, .x-mask-msg div, .x-btn-group-header-text-default-framed, table.x-datepicker-inner a, .x-monthpicker-item, .x-dd-drag-ghost, .x-tree-node-text
+{
+    font-size: 12px;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.x-panel-header-text
+{
+    font-size: 12px;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.x-panel-header-text-default-framed
+{
+    font-size: 12px;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.x-form-upload-trigger
+{
+    background-image: url('../../Resources/themes/appImage/upload-trigger.gif');
+}
+.x-tab-default .x-tab-inner
+{
+    font-size: 12px;
+    font-family: 宋体, Arial, Helvetica, sans-serif;
+}
+.firstBodyItem
+{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #D8D8D8;
+    width: 250px;
+    height: 150px;
+    margin: 40px;
+    float: left;
+    position: relative;
+}
+.firstBodyItemNumber
+{
+    width: 35px;
+    margin-top: 5px;
+    height: 35px;
+    position: absolute;
+    right: 0px;
+    font-size: medium;
+    color: #FFFFFF;
+    background-image: url('../themes/appImage/firstpage/圆圈.png');
+    background-repeat: no-repeat;
+}
+
+#app-header
+{
+    background-image: url('../themes/appImage/header-bg.png');
+    background-repeat: repeat-x;
+}
+
+#app-header-title
+{
+    padding: 15px 10px 10px 31px;
+    background: url(images/logo.png) no-repeat 10px 11px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 1px 0 #4e691f;
+}
+/*快捷提示*/
+#msg-div
+{
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    width: 300px;
+    margin-left: -200px;
+    z-index: 20000;
+}
+#msg-div .msg
+{
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    background: #F6F6F6;
+    border: 2px solid #ccc;
+    margin-top: 2px;
+    padding: 10px 15px;
+    color: #555;
+}
+#msg-div .msg h3
+{
+    margin: 0 0 8px;
+    font-weight: bold;
+    font-size: 15px;
+}
+#msg-div .msg p
+{
+    margin: 0;
+}
+
+.x-grid-row .custom-column
+{
+    background-color: #FFFFB9 !important;
+}
+.my-accordion .x-panel-header
+{
+    height: 30px;
+    padding: 5px 5px;
+}
+.my-accordion .x-panel-body-default
+{
+    background-color: #dfe9f5;
+}
+.infoQuery
+{
+    background-image: url('../themes/appImage/infoQuery.png');
+    height: 50px;
+    width: 90px;
+    float:left;
+    margin-top:50px;
+}
+.infoQueryIcon1
+{
+    height: 70px;
+    width: 55px;
+    float:left;
+    margin-top:20px;
+    cursor:pointer;
+}
+.indexYsgjIcon1
+{
+    height: 70px;
+    width: 55px;
+    float:left;
+    margin-left:50px;
+    margin-top:20px;
+    cursor:pointer;
+    text-align:center;
+}
+.infoQueryIcon1s
+{
+     margin-top:60px;
+}
+.infoQueryIcon2
+{
+    height: 70px;
+    width: 55px;
+    float:left;
+    margin-left:100px;
+    margin-top:20px;
+    cursor:pointer;
+}
+.indexDiv
+{
+     /*background-image: url('../themes/appImage/tbg1.png');
+     background-repeat:repeat;*/
+     height: 100%;
+     width: 100%;
+}
+.indexPanel
+{
+     height: 90px;
+     width: 100%;
+}
+.indexYsgj
+{
+    background-image: url('../themes/appImage/ysgj.png');
+    margin-left:50px;
+    margin-top:30px;
+    height: 50px;
+    width: 90px;
+    float:left;
+}
+.indexHwjg {
+    background-image: url('../themes/appImage/hwjg.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}
+.indexWlpt {
+    background-image: url('../themes/appImage/wlpt.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}
+.indexMyxk {
+    background-image: url('../themes/appImage/myxk.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}
+.indexQyzz {
+    background-image: url('../themes/appImage/qyzz.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}
+.indexZmzq {
+    background-image: url('../themes/appImage/zmzq.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}
+.indexInfoq {
+    background-image: url('../themes/appImage/infoQ.png');
+    margin-left: 50px;
+    height: 50px;
+    width: 90px;
+    float: left;
+    margin-top: 30px;
+}

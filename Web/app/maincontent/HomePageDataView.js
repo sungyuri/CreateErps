@@ -18,11 +18,11 @@ Ext.define('TCSYS.maincontent.HomePageDataView', {
 
          var  temp = "first";
 
-        //this.store.load({
+        this.store.load({
             
-        //    params: { type: temp}
+            params: { type: temp}
 
-        //});
+        });
 
 
     },

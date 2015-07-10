@@ -36,15 +36,16 @@ Ext.define("TCSYS.maincontent.North", {
     bbar: [
         {
             itemId: 'hddItemId',
-            text: "船舶管理",
+            text: "ERP系统",
             xtype: 'button',
             hidden:false,
             //style:'border: 3px solid #ccc;background-color:#99CCCC',
             iconCls: 'icon_hdd',
             handler: function() {
                // document.getElementById('defaultLoading').style.display = 'inline';
-                var firstUrlCB = "&surl=/main?action=webbuilder/application/tcgship/workAna.xwl";
-                setOnclickDiv('CBGL', '船舶管理', firstUrlCB);
+               // var firstUrlCB = "&surl=/main?action=webbuilder/application/tcgship/workAna.xwl";
+                //setOnclickDiv('CBGL', '船舶管理', firstUrlCB);
+                setOnclickDivNew('ERP', 'ERP系统');
 
             }
         }, {
@@ -52,7 +53,7 @@ Ext.define("TCSYS.maincontent.North", {
         text: "卫生检疫",
         xtype: 'button',
         iconCls: 'icon_bgd',
-        hidden: false,
+        hidden: true,
         handler: function () {
 
             var firstUrlWSJY = "&surl=/main?action=webbuilder/application/tceport/workAna.xwl";
@@ -75,7 +76,7 @@ Ext.define("TCSYS.maincontent.North", {
         text: "集卡优惠",
         xtype: 'button',
         iconCls: 'icon_bjd',
-        hidden: false,
+        hidden: true,
         handler: function () {
 
             var firstUrlJK = "&surl=/main?action=webbuilder/application/widget/weather.xwl";
@@ -88,7 +89,7 @@ Ext.define("TCSYS.maincontent.North", {
          text: "三个一",
          xtype: 'button',
          iconCls: 'icon_bgd',
-         hidden: false,
+         hidden: true,
          handler: function () {
 
              setOnclickDivNew('APP_SGY', '三个一');
@@ -100,7 +101,7 @@ Ext.define("TCSYS.maincontent.North", {
         text: "通关申报",
         xtype: 'button',
         iconCls: 'icon_ycsb',
-        hidden: false,
+        hidden: true,
         handler: function () {
 
             setOnclickDivNew('TGSB', '通关申报');        
@@ -112,7 +113,7 @@ Ext.define("TCSYS.maincontent.North", {
             text: "通关审批",
             xtype: 'button',
             iconCls: 'icon_ycsb',
-            hidden: false,
+            hidden: true,
             handler: function() {
 
                 setOnclickDivNew('APP_JZXTG', '通关审批');
@@ -123,7 +124,7 @@ Ext.define("TCSYS.maincontent.North", {
          itemId: 'ysgjItemId',
          text: "运输工具",
          xtype: 'button',
-         hidden: false,
+         hidden: true,
          //style:'border: 3px solid #ccc;background-color:#99CCCC',
          iconCls: 'icon_hdd',
          handler: function () {

@@ -173,7 +173,7 @@ Ext.define("TCSYS.maincontent.West", {
                 var arr = alias.split('/');
                 alias = arr[arr.length - 1];
             }
-            if (className && className.indexOf('transport') > -1) {
+            if (className && className.indexOf('erp') > -1) {
           
                 var center1 = Ext.ComponentQuery.query("maincontent_center")[0];
                 var panelQuery1 = Ext.ComponentQuery.query(alias);

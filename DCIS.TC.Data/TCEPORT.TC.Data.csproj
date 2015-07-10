@@ -49,35 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TRAN_CARGO_DETAILEntity.cs" />
-    <Compile Include="TRAN_DELETE_UPDATEEntity.cs" />
-    <Compile Include="TRAN_DOC_BTM_LISTEntity.cs" />
-    <Compile Include="TRAN_DOC_BTM_STORE_LISTEntity.cs" />
-    <Compile Include="TRAN_DOC_DANGEEntity.cs" />
-    <Compile Include="TRAN_DOC_EMPTY_BOXEntity.cs" />
-    <Compile Include="TRAN_DOC_ENTRY_GOODSEntity.cs" />
-    <Compile Include="TRAN_DOC_EQUIPMENT_SOTREEntity.cs" />
-    <Compile Include="TRAN_DOC_GOODS_REPORTEntity.cs" />
-    <Compile Include="TRAN_DOC_MARINE_STOREEntity.cs" />
-    <Compile Include="TRAN_DOC_REPORTEntity.cs" />
-    <Compile Include="TRAN_DOC_REPORT_BAKEntity.cs" />
-    <Compile Include="TRAN_DOC_VOYAGEEntity.cs" />
-    <Compile Include="TRAN_INVOICES_HEADEntity.cs" />
-    <Compile Include="TRAN_IN_CONFIRMEntity.cs" />
-    <Compile Include="TRAN_IN_CONFIRM_BAKEntity.cs" />
-    <Compile Include="TRAN_IN_FORECASTEntity.cs" />
-    <Compile Include="TRAN_IN_FORECAST_BAKEntity.cs" />
     <Compile Include="TRAN_KEYEntity.cs" />
-    <Compile Include="TRAN_OUT_CONFIRMEntity.cs" />
-    <Compile Include="TRAN_OUT_FORECASTEntity.cs" />
-    <Compile Include="TRAN_OUT_FORECAST_BAKEntity.cs" />
-    <Compile Include="TRAN_REACHPORTEntity.cs" />
-    <Compile Include="TRAN_REACHPORT_BAKEntity.cs" />
-    <Compile Include="TRAN_SCHEDULE_INFOEntity.cs" />
-    <Compile Include="TRAN_SHIFTINGEntity.cs" />
-    <Compile Include="TRAN_SHIFTING_BAKEntity.cs" />
     <Compile Include="TRAN_SHIP_FILINGEntity.cs" />
-    <Compile Include="TRAN_SHIP_FILING_BAKEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

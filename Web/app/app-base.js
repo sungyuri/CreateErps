@@ -118,7 +118,7 @@ Ext.onReady(function () {
         "TCEPORT.DateTimeField"
     ]);
 
-    //设置默认文本宽度为50,文本框长度为200
+    //设置默认文本宽度为60,文本框长度为200
     Ext.apply(Ext.form.field.Base.prototype, {
         labelWidth: 60,
         width: 230,
@@ -639,81 +639,15 @@ function setOnclickDivNew(eName, cName, surlIndex) {
     west.funGroup = null;
     west.init(eName);
     west.setTitle(cName);
-
-    west.hidden = false;
     var centerPanel = Ext.ComponentQuery.query('[name="tabCenterPanel"]')[0];
-
-
-    var length = centerPanel.items.length; 
-
-    if (length == 1) {
-        for (var i = length; i > 0; i--) {
-            centerPanel.remove(i);
-        }
-        var sPanel = Ext.create("TCSYS.maincontent.FirstPage", {
-            listeners: {
-                activate: function (panel, b) {
-                    callapi("SYSTEM_TMODULEQuery/getSysFlag", null, function (strSysFlag) {
-                        
-                        var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
-                        homePage.getStore().removeAll();
-                        homePage.getStore().load({ params: { type: strSysFlag } });
-                    }, this);                     
-                    
-                }
-            }
-        });
-        centerPanel.add(sPanel);
+    var length = centerPanel.items.length;
+    var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
+    homePage.getStore().removeAll();
+    homePage.getStore().load({ params: { type: eName } });
+    for (var i = length; i > 1; i--) {
+        centerPanel.remove(i);
     }
-    else {
-        var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
-        homePage.getStore().removeAll();
-        homePage.getStore().load({ params: { type: eName } });
-        for (var i = length; i > 1; i--) {
-            centerPanel.remove(i);
-        }
-    }
-
-    if(surlIndex=="wxp")
-    {
-
-        callapi("SYSTEM_TMODULEQuery/getToken", null, function (token) {
-            var aa = token.split(',');
-            var surl;
-            if (aa[1] == "NOAU") {
-                return;
-            }
-            var suuu = aa[2] + "/login?Token=" + aa[0];
-
-            var p = Ext.create("Ext.panel.Panel", {
-                title: eName,
-                name: eName,
-                autoScroll: true,
-                layout: 'fit',
-                hidden: false,
-                items: [{
-                    html: '<iframe id="iframe1" scrolling="auto" frameborder="0" width="100%" height="100%" src="' + suuu + '"></iframe>'
-                }],
-                closable: true,//标签上出现关闭按钮
-                id: eName,
-                listeners: {                   // 添加监听器，点击此页面的tab时候要重新加载（刷新功能）  
-                    activate: function () {
-                       // centerPanel.setActiveTab(0);
-                    },
-                    afterrender: function () {
-
-                    }
-                }
-            });
-            centerPanel.add(p);
-            centerPanel.setActiveTab(p);
-           // centerPanel.setActiveTab(0);
-           // centerPanel.setActiveTab(p);
-        }, this);
-
-    }
-
-
+    centerPanel.setActiveTab(0);
 }
 
 function dateFormatOwn(value, df) {

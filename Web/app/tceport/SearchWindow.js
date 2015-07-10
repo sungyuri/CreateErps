@@ -30,19 +30,31 @@
 
             this.store = Ext.create('TCEPORT.Store', storeCfg);
 
-            if (cfg.extraParams != null) {
-                this.store.load({
-                    params: cfg.extraParams
-                });
+            if (Ext.isIE8) {
+
             }
             else {
-                this.store.load();
+                if (cfg.extraParams != null) {
+                    this.store.load({
+                        params: cfg.extraParams
+                    });
+                }
+                else {
+                    this.store.load();
+                }
             }
             delete config.store;
         }
         config.items = this.buildItems();
         this.callParent([config]);
         this.initConfig(config);
+    },
+    listeners: {
+        show: function () {
+            if (Ext.isIE8) {
+                this.store.load();
+            }
+        }
     },
     initComponent: function () {
         var me = this;

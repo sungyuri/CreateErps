@@ -21,15 +21,6 @@ namespace Web
                 FormsAuthentication.SignOut();
                 //清除所有的session			
                 HttpContext.Current.Session.Clear();
-                //向单点登录申请注销
-                if (!string.IsNullOrEmpty(TokenVal))
-                {
-                    try
-                    {
-                        new tceport.TokenService().ClearToken(TokenVal.Trim());
-                    }
-                    catch { }
-                }
                 Response.Redirect("Default.aspx");
             }
         }

@@ -7,28 +7,26 @@ Ext.define("TCSYS.maincontent.Center", {
 //    cls: 'my-accordion',
     alias: "widget.maincontent_center",
     //  requires: ["TCSYS.maincontent.FirstPage","TCSYS.maincontent.IndexPage"],
-    requires: ["TCSYS.maincontent.IndexPage"],
+    requires: ["TCSYS.maincontent.FirstPage"],
     region: 'center',
-    frame:true,
+  //  frame:true,
     activeTab: 0,
     name: 'tabCenterPanel',
     items: [
         {
-            itemId: 'indexPageItemId',
-            xtype: 'maincontent_indexPage',
-           // hidden: true,
-           // autoDestroy: false,
+            itemId: 'firstPageItemId',
+            xtype: 'maincontent_firstpage',
             listeners: {
                 activate: function(panel, b) {
-
-                    if (_usertype != undefined) {
-                     
-                    }
+                    //callapi("SYSTEM_TMODULEQuery/getSysFlag", null, function (strSysFlag) {
+                    //    var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
+                    //    homePage.getStore().removeAll();
+                    //    homePage.getStore().load({ params: { type: strSysFlag } });
+                    //}, this);
                 }
-                //remove: function(tp, c) {
-                //   // c.hide();
-                //}
             }
+           // hidden: true,
+           // autoDestroy: false,
         }
 
     ],

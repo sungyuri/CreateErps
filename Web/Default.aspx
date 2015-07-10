@@ -75,10 +75,11 @@
      function keepsession() {
          //document.all["Back"].src = "SessionKeep.html?RandStr=" + Math.random();
          ////这里的RandStr=Math.random只是为了让每次back.src的值不同，防止同一地址刷新无效的情况   
-         //callapi('PublicDictionary/backMethod', {}, function (result) {
-         //});
+         callapi('PublicDictionary/backMethod', {}, function (result) {
+
+         });
          //alert(Math.random())
-         //window.setTimeout("keepsession()",1); //每隔300秒调用一下本身   
+         window.setTimeout("keepsession()", 300000); //每隔5分钟调用一下本身   
      }
      keepsession();
     </script>

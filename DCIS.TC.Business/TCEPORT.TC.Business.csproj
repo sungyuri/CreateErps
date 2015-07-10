@@ -78,11 +78,6 @@
     <Compile Include="ShipShiftDataRecord_BLL.cs" />
     <Compile Include="SYSTEM_TMODULEQuery.cs" />
     <Compile Include="SysUser.cs" />
-    <Compile Include="Web References\cn.com.tceport.www\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DCIS.TC.Data\TCEPORT.TC.Data.csproj">
@@ -95,38 +90,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferenceUrl Include="http://www.tceport.com.cn:8001/webservice/TokenService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\cn.com.tceport.www\</RelPath>
-      <UpdateFromURL>http://www.tceport.com.cn:8001/webservice/TokenService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>DCIS_TC_Business_cn_com_tceport_www_TokenService</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Web References\cn.com.tceport.www\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </None>
-    <None Include="Web References\cn.com.tceport.www\TokenService.wsdl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Web References\cn.com.tceport.www\TokenService.disco" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

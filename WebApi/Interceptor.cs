@@ -151,9 +151,38 @@ namespace WebApi
         /// <param name="context">http应用</param>
         public void Init(HttpApplication context)
         {
+            context.AcquireRequestState += new EventHandler(context_AcquireRequestState);
             context.PostMapRequestHandler += new EventHandler(context_PostMapRequestHandler);
             context.PreRequestHandlerExecute += new EventHandler(context_PreRequestHandlerExecute);
             context.Error += new EventHandler(context_Error);
+        }
+
+        /// <summary>
+        /// 完善AcquireRequestState方法，然后判断session过期
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void context_AcquireRequestState(object sender, EventArgs e)
+        {
+            HttpApplication app = (HttpApplication)sender;
+            if (app.Context.Request.UrlReferrer != null)
+            {
+                string urlRef = app.Context.Request.UrlReferrer.ToString();
+                string url = app.Context.Request.Url.ToString();
+                if (urlRef.IndexOf("BackURL") > -1 || url.IndexOf("Logout") > -1 || app.Context.Session == null || url.IndexOf("Default") > -1)
+                {
+
+                }
+                else
+                {
+                    if (app.Context.Session["UserGuid"] == null)
+                    {
+                        app.Context.Response.StatusCode = 999;
+                        app.Context.Response.Write("登录超时，请重新登录！");
+                        app.Context.Response.End();
+                    }
+                }
+            }
         }
 
         /// <summary>

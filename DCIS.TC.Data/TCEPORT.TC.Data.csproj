@@ -49,8 +49,49 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TRAN_KEYEntity.cs" />
-    <Compile Include="TRAN_SHIP_FILINGEntity.cs" />
+    <Compile Include="SysArea_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysCommonPayItem_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysCommonPay_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysCustomer_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysDepart_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysFileList_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysFlowMany_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysFlow_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysGoodsType_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysGoods_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysOutboundDetail_Entity.cs" />
+    <Compile Include="SysOutbound_Entity.cs" />
+    <Compile Include="SysProjectTrackingDetail_Entity.cs" />
+    <Compile Include="SysProjectTracking_Entity.cs" />
+    <Compile Include="SysPurchaseContract_Entity.cs" />
+    <Compile Include="SysPurchasePay_Entity.cs" />
+    <Compile Include="SysSaleAR_Entity.cs" />
+    <Compile Include="SysSaleContract_Entity.cs" />
+    <Compile Include="SysStorage_Entity.cs" />
+    <Compile Include="SysSupplier_Entity.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SysUser_Entity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -34,8 +34,8 @@ namespace TCEPORT.TC.Business
     }
 
 
-    /// <summary> oracle分页语句辅助类
-    /// 
+    /// <summary> 
+   /// sql分页语句辅助类
     /// </summary>
     public class OracleUtil
     {
@@ -49,9 +49,9 @@ namespace TCEPORT.TC.Business
         public static String PreparePageSqlString(string sql, int start, int limit)
         {
             var pagingSelect = new StringBuilder();
-            pagingSelect.Append("select * from ( select row_.*, rownum rownum_ from ( ");
+            pagingSelect.Append("select rowb_.* from ( select row_.*, ROW_NUMBER() OVER(ORDER BY row_.ROWNUM asc) AS rownum_ from ( ");
             pagingSelect.Append(sql);
-            pagingSelect.Append(" ) row_ where rownum <= {0}) where rownum_ > {1}");
+            pagingSelect.Append(" ) row_ where rownum <= {0}) rowb_ where rownum_ > {1}");
 
             #region Winform和ASP.NET 下都 打印出sql语句
             Console.WriteLine(value: String.Format(pagingSelect.ToString(), start + limit, start));

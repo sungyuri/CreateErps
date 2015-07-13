@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using System.Data;
+using DCIS.Persistence;
 
 namespace TCEPORT.TC.Business.Common
 {
@@ -158,5 +160,41 @@ namespace TCEPORT.TC.Business.Common
                 }
             }
         }
+
+        public string getTableNo(string tblName, string colName, string colHead)
+        {
+            string reStr = "";
+            string sql = string.Format(@"SELECT MAX({0}) FROM {1} )", colName, tblName);
+            DataTable dt = DBUtil.Fill(sql);
+            string strF = colHead + DateTime.Now.Date.ToString("yyMMdd");
+            if (dt.Rows.Count > 0)
+            {
+                string maxNo = dt.Rows[0][0].ToString();
+                if (maxNo.Substring(0, 8).Equals(strF))
+                {
+                    string strB = maxNo.Substring(8, 6);
+                    strB = (int.Parse(strB) + 1).ToString();
+                    int ilen = strB.Length;
+                    for (int i = 0; i < 6 - ilen; i++)
+                    {
+                        strB = "0" + strB;
+                    }
+                    reStr = strF + strB;
+
+                }
+                else
+                {
+                    reStr = colHead + DateTime.Now.Date.ToString("yyMMdd") + "000001";
+                }
+            }
+            else
+            {
+                reStr = colHead + DateTime.Now.Date.ToString("yyMMdd") + "000001";
+            }
+
+            return reStr;
+        }
+
+
     }
 }

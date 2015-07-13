@@ -70,12 +70,7 @@
     </Compile>
     <Compile Include="PublicDictionary.cs" />
     <Compile Include="ShipArriveDataRecord_BLL.cs" />
-    <Compile Include="ShipDataRecordBLL.cs" />
-    <Compile Include="ShipInCfmDataRecord_BLL.cs" />
     <Compile Include="ShipInPreDataRecord_BLL.cs" />
-    <Compile Include="ShipOutCfmDataRecord_BLL.cs" />
-    <Compile Include="ShipOutPreDataRecord_BLL.cs" />
-    <Compile Include="ShipShiftDataRecord_BLL.cs" />
     <Compile Include="SYSTEM_TMODULEQuery.cs" />
     <Compile Include="SysUser.cs" />
   </ItemGroup>

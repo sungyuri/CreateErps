@@ -93,60 +93,58 @@ namespace TCEPORT.TC.Business
         public DataTable SelectAllChild(dynamic data)
         {
             string type = data.type;
-            DataTable dt = new DataTable();
-            if (type.Equals("save"))
+            DataTable dt;
+            string SysFlag = "";
+            string rolelist = "";
+            SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString(); //系统标识
+            if (System.Web.HttpContext.Current.Session["rolelist"] != null)
             {
-                type = HttpContext.Current.Session["SysFlag"].ToString();
-            }
-            dt = GetAllMenus(type);
-            if(dt==null)
-            {
-                return null;
-            }
-            DataTable dtNew = dt.Clone();
-            if(type.Equals("HDPT"))
-            {
-                type = "APP_SGY";
-            }
-            string SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString();
-            HttpCookie cookie = HttpContext.Current.Request.Cookies[SysFlag];
-            if (cookie != null)
-            {
-                if (cookie["IdArray"].ToString() != "")
-                {
-                    string[] array = cookie["IdArray"].ToString().Split(',');
-                    DataRow[] drArr = dt.Select("M_LINK<>''");
-                    for (int i = 0; i < drArr.Length; i++)
-                    {
-                        foreach (string item in array)
-                        {
-                            if (item.Equals(drArr[i]["ID"].ToString()))
-                            {
-                                dtNew.ImportRow(drArr[i]);
-                                break;
-                            }
-                        }
-
-                    }
-                }
+                rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
+                dt = DBUtil.Fill(strSql);
             }
             else
             {
-                cookie = new HttpCookie(SysFlag);
-                cookie.Values.Set("IdArray", "");
-                cookie.Expires = System.DateTime.Now.AddYears(100);
-                HttpContext.Current.Response.Cookies.Add(cookie);
+                //rolelist = "1206,120601";
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1 and M_TARGET='{0}'  order by forderindex", SysFlag);
+                dt = DBUtil.Fill(strSql);
             }
-            DataRow dr = dtNew.NewRow();
-            dr[0] = "-1";
-            dr[1] = "添加菜单";
-            dr[2] = "-1";
-            dr[3] = "more.more";
-            dr[4] = "more.png";
-            dr[5] = "";
-            dtNew.Rows.Add(dr);
+            foreach (DataRow dr in dt.Rows)
+            {
+                int count = 0;
+                if (dr["ID"].ToString() == "120701")
+                {
+                    string strSql = "select count(1) from DEC_E_HEAD where ID_CHK='0' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+                }
+                if (dr["ID"].ToString() == "120702")
+                {
+                    string strSql = "select count(1) from DEC_I_HEAD where ID_CHK='0' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+                }
 
-            return dtNew;
+                //入境报检
+                if (dr["ID"].ToString() == "121002")
+                {
+                    string strSql = " select count(1) from DEC_I_DAIBAN where busniesstype='I' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+                }
+                //出境报检
+                if (dr["ID"].ToString() == "121001")
+                {
+                    string strSql = " select count(1) from DEC_I_DAIBAN where busniesstype='E' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+                };
+            }
+            return dt;
         }
 
 

@@ -51,6 +51,7 @@ namespace TCEPORT.TC.Business
                     strSql += string.Format(@" and A.DECLARATION_DATE between '%{0}%' and '%{1}%' ", data.dateFrom, data.dateTo);
                 }
             }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.SHIP_NO asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
             string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
             DataTable dtTmp = DBUtil.Fill(pagedSql);
             int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0})", strSql)).Rows[0][0].ToString());

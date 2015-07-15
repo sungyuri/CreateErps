@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="JsonHelper.cs" />
+    <Compile Include="MD5.cs" />
     <Compile Include="OperateTrustSite.cs" />
     <Compile Include="OracleUtil.cs" />
     <Compile Include="PageUtil.cs" />

@@ -16,12 +16,12 @@ namespace Web
             if (!this.IsPostBack)
             {
                 //string Eprotid = HttpContext.Current.Session["EPORTID"].ToString();
-                string TokenVal = Convert.ToString(Session["Token"]);
+               // string TokenVal = Convert.ToString(Session["Token"]);
                 //  string SysFlag = Convert.ToString(Session["SysFlag"]);
                 FormsAuthentication.SignOut();
                 //清除所有的session			
                 HttpContext.Current.Session.Clear();
-                Response.Redirect("Default.aspx");
+                Response.Redirect("Login.aspx");
             }
         }
     }

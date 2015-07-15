@@ -169,13 +169,13 @@ namespace WebApi
             {
                 string urlRef = app.Context.Request.UrlReferrer.ToString();
                 string url = app.Context.Request.Url.ToString();
-                if (urlRef.IndexOf("BackURL") > -1 || url.IndexOf("Logout") > -1 || app.Context.Session == null || url.IndexOf("Default") > -1)
+                if (urlRef.IndexOf("Login") > -1 || url.IndexOf("Logout") > -1 || app.Context.Session == null || url.IndexOf("Login") > -1)
                 {
 
                 }
                 else
                 {
-                    if (app.Context.Session["UserGuid"] == null)
+                    if (app.Context.Session["UserCode"] == null)
                     {
                         app.Context.Response.StatusCode = 999;
                         app.Context.Response.Write("登录超时，请重新登录！");

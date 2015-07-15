@@ -22,7 +22,7 @@ Ext.define("TCSYS.maincontent.North", {
             document.getElementById('defaultLoading').style.display = 'none';
             var me = this;
             var userSpan = me.getEl().select('.userName>span[name="userName"]');
-            userSpan.update($USER.realName + '(' + $USER.companyName + ')');
+            userSpan.update($USER.realName + '(' + $USER.PositionDesc + ')');
             //var timeSpan = me.getEl().select('.userName>span[name="ltime"]');
             //var time = Ext.Date.format(curDate, 'Y-m-d');
             //timeSpan.update(time);
@@ -65,7 +65,7 @@ Ext.define("TCSYS.maincontent.North", {
              text: "危险品",
              xtype: 'button',
              iconCls: 'icon_ycsb',
-             hidden: false,
+             hidden: true,
              handler: function () {
 
                  setOnclickDivNew('APP_WXPZY', '危险品',"wxp");                

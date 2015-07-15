@@ -1,0 +1,213 @@
+*{
+	/* Resetting the default styles of the page */
+	margin:0;
+	padding:0;
+}
+
+body{
+	/* Setting default text color, background and a font stack */
+	font-size:0.825em;
+	color:#666;
+	background:#fff;
+	font-family:Arial, Helvetica, sans-serif;
+}
+.login_container{
+	background:#fff;
+	text-align: left;
+	display:inline-block;
+	float:left;
+	margin:20px auto;
+	width:400px;
+	height:360px;
+}
+.sponsorListHolder{
+	display:inline-block;
+	float:left;
+	margin:20px auto;
+	width:540px;
+    height: 360px;
+}
+.sponsorListHolder_hiddenForLeft{
+	width:360px;
+	height:360px;
+	margin:0 0 0 180px;
+	background:#333;
+	position: absolute;
+	*position: relative;
+	display: none;
+	*float:left;
+	*top:-360px;
+	/*visibility: hidden;*/
+	background: #fff;
+	/*z-index: 9;*/
+}
+#mid01{
+	width:540px;
+	height:180px;
+	margin:0;
+	background:#333;
+	position: absolute;
+	*position: relative;
+	display: none;
+	*float:left;
+	*top:-360px;
+	/*visibility: hidden;*/
+	background: url("../img/sponsors/p009.jpg") no-repeat center;
+	/*z-index: 9;*/
+}
+#mid02{
+	width:540px;
+	height:180px;
+	margin:180px 0 0 0;
+	background:#333;
+	position: absolute;
+	*position: relative;
+	display: none;
+	*float:left;
+	*top:-360px;
+	/*visibility: hidden;*/
+	background: url("../img/sponsors/p008.jpg") no-repeat center;
+	/*z-index: 9;*/
+}
+.sponsorListHolder_hiddenForRight{
+	width:360px;
+	height:360px;
+	margin:0;
+	background:#333;
+	position: absolute;
+	*position: relative;
+	display: none;
+	*float:left;
+	*top:-360px;
+	/*visibility: hidden;*/
+	background: #333;
+	/*z-index: 9;*/
+}
+.sponsor{
+	width:180px;
+	height:180px;
+	float:left;
+	margin:0;
+	
+	/* Giving the sponsor div a relative positioning: */
+	position:relative;
+	cursor:pointer;
+}
+
+.sponsorFlip{
+	/*  The sponsor div will be positioned absolutely with respect
+		to its parent .sponsor div and fill it in entirely */
+
+	position:relative;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	border:1px solid #ddd;	
+	background:url("../img/background.jpg") no-repeat center center #f9f9f9;
+}
+
+.sponsorFlip:hover{
+	border:1px solid #999;
+	
+	/* CSS3 inset shadow: */
+	-moz-box-shadow:0 0 30px #999 inset;
+	-webkit-box-shadow:0 0 30px #999 inset;
+	box-shadow:0 0 30px #999 inset;
+}
+
+.sponsorFlip img{
+	/* Centering the logo image in the middle of the sponsorFlip div */
+	
+	position:absolute;
+	top:50%;
+	left:50%;
+	margin:-70px 0 0 -70px;
+}
+
+.sponsorData{
+	/* Hiding the .sponsorData div */
+	display:none;
+}
+
+.sponsorDescription{
+	font-size:20px;
+	padding:80px 10px 20px 10px;
+	font-style:italic;
+	font:"SimSun";
+}
+
+.sponsorURL{
+	font-size:10px;
+	font-weight:bold;
+	padding-left:20px;
+}
+
+.clear{
+	/* This class clears the floats */
+	clear:both;
+}
+
+
+/* The styles below are only necessary for the styling of the demo page: */
+
+#main{
+	position:relative;
+	text-align:center;
+	margin:60px auto;
+	width:940px;
+	height:400px;
+    top: 0px;
+    left: 0px;
+}
+
+.bottom{
+	width:1000px;
+	margin:0 auto;
+	text-align:center;
+}
+h1{
+	padding:45px 0;
+	text-align:center;
+	/*text-shadow:0 1px 1px white;*/
+	margin-bottom:30px;
+	background:url("../img/title_login1.png") no-repeat bottom #39c;
+	color:#333;
+	
+}
+
+h1,h2{
+	/*font-family:"Myriad Pro",Arial,Helvetica,sans-serif;*/
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+}
+
+h2{
+	font-size:14px;
+	font-weight:normal;
+	text-align:center;
+	
+	position:absolute;
+	right:40px;
+	top:40px;
+}
+
+.note{
+	font-size:12px;
+	font-style:italic;
+	padding-bottom:20px;
+	text-align:center;
+}
+
+a, a:visited {
+	color:#0196e3;
+	text-decoration:none;
+	outline:none;
+}
+
+a:hover{
+	text-decoration:underline;
+}
+
+a img{
+	border:none;
+}

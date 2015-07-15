@@ -407,7 +407,15 @@ Ext.EventManager.on(Ext.isIE ? document : window, 'keydown', function (e, target
     }
 });
 
-
+Ext.Ajax.on('requestexception', function (conn, response, options) {
+    //session过期
+    if (response.status == "999") {
+        Ext.Msg.alert('提示', '会话超时，请重新登录!', function () {
+            //  var url = document.getElementById("atsurlid").value;
+            top.location.href = "Logout.aspx";
+        });
+    }
+});
 
 /**
  * 表单全键盘导航功能 index:可选参数，用于设定页面加载完成后默认获取焦点的表单项，支持索引号和id/dom类型参数传入。

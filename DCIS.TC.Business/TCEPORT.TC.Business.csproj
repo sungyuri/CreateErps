@@ -59,7 +59,6 @@
   <ItemGroup>
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="Common\Users.cs" />
-    <Compile Include="DocDeclaration_BLL.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="PageUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,8 +68,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="PublicDictionary.cs" />
-    <Compile Include="ShipArriveDataRecord_BLL.cs" />
-    <Compile Include="ShipInPreDataRecord_BLL.cs" />
     <Compile Include="SYSTEM_TMODULEQuery.cs" />
     <Compile Include="SysUser.cs" />
   </ItemGroup>

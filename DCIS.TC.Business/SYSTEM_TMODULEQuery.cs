@@ -10,6 +10,7 @@ using System.Data.OracleClient;
 using System.ComponentModel;
 using System.Collections;
 using Microsoft.Win32;
+using TCEPORT.TC.Tools;
 
 namespace TCEPORT.TC.Business
 {
@@ -29,19 +30,19 @@ namespace TCEPORT.TC.Business
                 type = "first";
             }
             SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString(); //系统标识
-            if (System.Web.HttpContext.Current.Session["rolelist"] != null)
+            if (System.Web.HttpContext.Current.Session["rolelist"].ToString() != "")
             {
                 rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
                // string strSql = string.Format(@"select * from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and m_level='{1}' order by forderindex ", rolelist, type);
              //   string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 or fsuperid='0' order by forderindex ", rolelist);
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0})  and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
                 DataTable dt = DBUtil.Fill(strSql);
                 return dt;
             }
             else
             {
               //  string strSql = string.Format(@"select * from system_tmodule where m_isshow=1 and m_level='{0}' or fsuperid='0' order by forderindex", type);//a start with fsuperid=1200 connect by prior  id=fsuperid order by forderindex ";
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1 and M_TARGET='{0}'  order by forderindex", SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where   M_TARGET='{0}'  order by forderindex", SysFlag);
                 DataTable dt = DBUtil.Fill(strSql);
                 return dt;
             }
@@ -97,7 +98,7 @@ namespace TCEPORT.TC.Business
             string SysFlag = "";
             string rolelist = "";
             SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString(); //系统标识
-            if (System.Web.HttpContext.Current.Session["rolelist"] != null)
+            if (System.Web.HttpContext.Current.Session["rolelist"].ToString() != "")
             {
                 rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
                 string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
@@ -481,6 +482,27 @@ namespace TCEPORT.TC.Business
             return HttpContext.Current.Session["SysFlag"].ToString() ;
         }
 
+        public bool IsLoginOK(string Login_Name, string OriPassWord)
+        {
+            string sql = " SELECT * FROM SysUser WHERE UserCode='" + Login_Name + "' AND UserPassword='" + MD5.Lower32(OriPassWord) + "' AND IsUse='1' ";
+            DataTable dt = DBUtil.Fill(sql);
+            if(dt.Rows.Count>0)
+            {
+                //UserCode, UserName, UserPassword, DepartCode, PositionCode, PositionDesc, Uipaddress, Rolelist, CreateTime, CreateUserNo, LastUpdateTime, UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo
+                HttpContext.Current.Session["UserCode"] = dt.Rows[0]["UserCode"].ToString();
+                HttpContext.Current.Session["UserName"] = dt.Rows[0]["UserName"].ToString();
+                HttpContext.Current.Session["DepartCode"] = dt.Rows[0]["DepartCode"].ToString();
+                HttpContext.Current.Session["PositionCode"] = dt.Rows[0]["PositionCode"].ToString();
+                HttpContext.Current.Session["Rolelist"] = dt.Rows[0]["Rolelist"].ToString();
+                HttpContext.Current.Session["UserPhone"] = dt.Rows[0]["UserPhone"].ToString();
+                HttpContext.Current.Session["PositionDesc"] = dt.Rows[0]["PositionDesc"].ToString();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 

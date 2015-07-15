@@ -35,14 +35,14 @@ namespace TCEPORT.TC.Business
                 rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
                // string strSql = string.Format(@"select * from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and m_level='{1}' order by forderindex ", rolelist, type);
              //   string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 or fsuperid='0' order by forderindex ", rolelist);
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0})  and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and M_LEVEL=1  and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
                 DataTable dt = DBUtil.Fill(strSql);
                 return dt;
             }
             else
             {
               //  string strSql = string.Format(@"select * from system_tmodule where m_isshow=1 and m_level='{0}' or fsuperid='0' order by forderindex", type);//a start with fsuperid=1200 connect by prior  id=fsuperid order by forderindex ";
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where   M_TARGET='{0}'  order by forderindex", SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where   M_TARGET='{0}' and M_LEVEL=1  order by forderindex", SysFlag);
                 DataTable dt = DBUtil.Fill(strSql);
                 return dt;
             }
@@ -101,13 +101,13 @@ namespace TCEPORT.TC.Business
             if (System.Web.HttpContext.Current.Session["rolelist"].ToString() != "")
             {
                 rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE  where id in ({0}) and m_isshow=1 and M_LEVEL=1 and M_TARGET='{1}' order by forderindex ", rolelist, SysFlag);
                 dt = DBUtil.Fill(strSql);
             }
             else
             {
                 //rolelist = "1206,120601";
-                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1 and M_TARGET='{0}'  order by forderindex", SysFlag);
+                string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1 and M_LEVEL=1 and M_TARGET='{0}'  order by forderindex", SysFlag);
                 dt = DBUtil.Fill(strSql);
             }
             foreach (DataRow dr in dt.Rows)

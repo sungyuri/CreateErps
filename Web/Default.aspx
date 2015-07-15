@@ -78,7 +78,7 @@
 
          });
          //alert(Math.random())
-         window.setTimeout("keepsession()", 300000); //每隔5分钟调用一下本身   
+         window.setTimeout("keepsession()", 60000); //每隔5分钟调用一下本身   
      }
      keepsession();
     </script>

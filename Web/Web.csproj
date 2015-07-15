@@ -70,25 +70,39 @@
     <Content Include="app\app-all.js" />
     <Content Include="app\app-base.js" />
     <Content Include="app\ciq\bgxx.js" />
-    <Content Include="app\ciq\bjxx.js" />
-    <Content Include="app\ciq\cdgl.js" />
-    <Content Include="app\ciq\chaYanLianXiMgr.js" />
-    <Content Include="app\ciq\chuJingMoRenMgr.js" />
-    <Content Include="app\ciq\customChaYanLianXiMgr.js" />
-    <Content Include="app\ciq\customFangXingTongZhiMgr.js" />
-    <Content Include="app\ciq\customYiChangTongZhiMgr.js" />
-    <Content Include="app\ciq\cyjh.js" />
-    <Content Include="app\ciq\fangXingTongZhiMgr.js" />
-    <Content Include="app\ciq\gdgl.js" />
-    <Content Include="app\ciq\hwmtdy.js" />
     <Content Include="app\ciq\inCiqMgr.js" />
-    <Content Include="app\ciq\inResultCiqMgr.js" />
-    <Content Include="app\ciq\outCiqMgr.js" />
-    <Content Include="app\ciq\outResultCiqMgr.js" />
-    <Content Include="app\ciq\PeiTongRenYuanMgr.js" />
-    <Content Include="app\ciq\ruJingMoRenMgr.js" />
-    <Content Include="app\ciq\yiChangTongZhiMgr.js" />
-    <Content Include="app\ciq\zongDanChaXunMgr.js" />
+    <Content Include="app\erp\CommonPay.js" />
+    <Content Include="app\erp\CommonPayApp.js" />
+    <Content Include="app\erp\Goods.js" />
+    <Content Include="app\erp\PurchaseContract.js" />
+    <Content Include="app\erp\PurchaseContractApp.js" />
+    <Content Include="app\erp\PurchasePay.js" />
+    <Content Include="app\erp\PurchasePayApp.js" />
+    <Content Include="app\erp\PurchaseStorage.js" />
+    <Content Include="app\erp\PurchaseSupplier.js" />
+    <Content Include="app\erp\QueryCommonPay.js" />
+    <Content Include="app\erp\QueryPurchaseContract.js" />
+    <Content Include="app\erp\QueryPurchasePay.js" />
+    <Content Include="app\erp\QueryPurchaseSupplier.js" />
+    <Content Include="app\erp\QuerySaleContract.js" />
+    <Content Include="app\erp\QuerySaleCustomer.js" />
+    <Content Include="app\erp\QuerySaleTracking.js" />
+    <Content Include="app\erp\QueryWarehouseGoods.js" />
+    <Content Include="app\erp\SaleAR.js" />
+    <Content Include="app\erp\SaleArea.js" />
+    <Content Include="app\erp\SaleContract.js" />
+    <Content Include="app\erp\SaleContractApp.js" />
+    <Content Include="app\erp\SaleCustomer.js" />
+    <Content Include="app\erp\SaleOutbound.js" />
+    <Content Include="app\erp\SaleOutboundApp.js" />
+    <Content Include="app\erp\SaleTracking.js" />
+    <Content Include="app\erp\UserManage.js" />
+    <Content Include="app\erp\UserOwnInfo.js" />
+    <Content Include="app\erp\UserPwdChange.js" />
+    <Content Include="app\erp\WarehouseGoods.js" />
+    <Content Include="app\erp\WarehouseGoodsType.js" />
+    <Content Include="app\erp\WarehouseOutbound.js" />
+    <Content Include="app\erp\WarehouseStorage.js" />
     <Content Include="app\store\bussinessTypeStore.js" />
     <Content Include="app\store\communicationModeStore.js" />
     <Content Include="app\store\containerTypeStore.js" />
@@ -150,7 +164,6 @@
     <Content Include="app\maincontent\Center.js" />
     <Content Include="app\maincontent\FirstPage.js" />
     <Content Include="app\maincontent\HomePageDataView.js" />
-    <Content Include="app\maincontent\HomePageDataView1.js" />
     <Content Include="app\maincontent\IndexLeft.js" />
     <Content Include="app\maincontent\IndexPage.js" />
     <Content Include="app\maincontent\IndexPanel.js" />
@@ -162,7 +175,6 @@
     <Content Include="app\maincontent\South.js" />
     <Content Include="app\maincontent\West.js" />
     <Content Include="app\model\Navigation.js" />
-    <Content Include="app\SelectUser.js" />
     <Content Include="app\statistics\financialstatements.js" />
     <Content Include="app\statistics\outshippingadvice.js" />
     <Content Include="app\transport\docDeclaration.js" />
@@ -175,10 +187,49 @@
     <Content Include="app\transport\shipOutPreWin.js" />
     <Content Include="app\transport\shipShiftDataRecord.js" />
     <Content Include="app\user\User.js" />
-    <Content Include="cross.aspx" />
+    <Content Include="css\styles.css" />
     <Content Include="Default.aspx" />
     <Content Include="Firstpage.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="img\background.jpg" />
+    <Content Include="img\page_bg.gif" />
+    <Content Include="img\sponsors\1%281%29.png" />
+    <Content Include="img\sponsors\1.png" />
+    <Content Include="img\sponsors\2%281%29.png" />
+    <Content Include="img\sponsors\2.png" />
+    <Content Include="img\sponsors\3%281%29.png" />
+    <Content Include="img\sponsors\3.png" />
+    <Content Include="img\sponsors\4%281%29.png" />
+    <Content Include="img\sponsors\4%283%29.png" />
+    <Content Include="img\sponsors\4.png" />
+    <Content Include="img\sponsors\5%281%29.png" />
+    <Content Include="img\sponsors\5.png" />
+    <Content Include="img\sponsors\6%281%29.png" />
+    <Content Include="img\sponsors\6.png" />
+    <Content Include="img\sponsors\p002.png" />
+    <Content Include="img\sponsors\p003.png" />
+    <Content Include="img\sponsors\p004.png" />
+    <Content Include="img\sponsors\p005.png" />
+    <Content Include="img\sponsors\p006.png" />
+    <Content Include="img\sponsors\p007.png" />
+    <Content Include="img\sponsors\p008.jpg" />
+    <Content Include="img\sponsors\p009.jpg" />
+    <Content Include="img\sponsors\p010.jpg" />
+    <Content Include="img\sponsors\p011.jpg" />
+    <Content Include="img\sponsors\p012.jpg" />
+    <Content Include="img\sponsors\p013.jpg" />
+    <Content Include="img\title_login.png" />
+    <Content Include="img\title_login1.png" />
+    <Content Include="js\jquery-1.11.1.min.js" />
+    <Content Include="js\jquery-1.8.3.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.flip.min.js" />
+    <Content Include="js\jquery.js" />
+    <Content Include="js\jquery.watermark.js" />
+    <Content Include="js\jquery.watermark.min.js" />
+    <Content Include="js\script.js" />
+    <Content Include="js\script_bak.js" />
+    <Content Include="Login.aspx" />
     <Content Include="Logout.aspx" />
     <Content Include="resources\appThemes\first_page\lib\1.png" />
     <Content Include="resources\appThemes\first_page\lib\10.png" />
@@ -2896,33 +2947,25 @@
     <Content Include="resources\ux\DataView\DragSelector.js" />
     <Content Include="resources\ux\DataView\LabelEditor.js" />
     <Content Include="app\ciq\getToken.ashx" />
-    <None Include="Properties\PublishProfiles\配置文件1.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <Content Include="SessionKeep.html" />
-    <Content Include="Web References\tceport\Reference.map">
-      <Generator>MSDiscoCodeGenerator</Generator>
-      <LastGenOutput>Reference.cs</LastGenOutput>
-    </Content>
-    <None Include="Web References\tceport\TokenService.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Web.Publish.xml" />
-    <None Include="Web References\tceport\TokenService.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\ciq\getToken.ashx.cs">
       <DependentUpon>getToken.ashx</DependentUpon>
     </Compile>
-    <Compile Include="cross.aspx.cs">
-      <DependentUpon>cross.aspx</DependentUpon>
+    <Compile Include="Login.aspx.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="cross.aspx.designer.cs">
-      <DependentUpon>cross.aspx</DependentUpon>
+    <Compile Include="Login.aspx.designer.cs">
+      <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
     <Compile Include="Logout.aspx.cs">
       <DependentUpon>Logout.aspx</DependentUpon>
@@ -2936,11 +2979,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Web References\tceport\Reference.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Reference.map</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -2979,7 +3017,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\window\" />
+    <Folder Include="Properties\PublishProfiles\" />
     <Folder Include="resources\themes\images\access\boundlist\" />
     <Folder Include="resources\themes\images\access\box\" />
     <Folder Include="resources\themes\images\access\button\" />
@@ -3072,22 +3110,6 @@
       <Name>WebApi</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <WebReferences Include="Web References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WebReferenceUrl Include="http://www.tceport.com.cn:8001/webservice/TokenService.asmx">
-      <UrlBehavior>Dynamic</UrlBehavior>
-      <RelPath>Web References\tceport\</RelPath>
-      <UpdateFromURL>http://www.tceport.com.cn:8001/webservice/TokenService.asmx</UpdateFromURL>
-      <ServiceLocationURL>
-      </ServiceLocationURL>
-      <CachedDynamicPropName>
-      </CachedDynamicPropName>
-      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
-      <CachedSettingsPropName>Web_tceport_TokenService</CachedSettingsPropName>
-    </WebReferenceUrl>
-  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -3103,7 +3125,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21710</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.118.11:8903</IISUrl>
+          <IISUrl>http://192.168.31.143:8903</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

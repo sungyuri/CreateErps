@@ -71,6 +71,12 @@
     <Content Include="app\app-base.js" />
     <Content Include="app\ciq\bgxx.js" />
     <Content Include="app\ciq\inCiqMgr.js" />
+    <Content Include="app\combo\GoodsTypeCombo.js" />
+    <Content Include="app\combo\MBLCombo.js" />
+    <Content Include="app\combo\operatorCombo.js" />
+    <Content Include="app\combo\SysAreaCombo.js" />
+    <Content Include="app\combo\DepartCombo.js" />
+    <Content Include="app\combo\PositionCombo.js" />
     <Content Include="app\erp\CommonPay.js" />
     <Content Include="app\erp\CommonPayApp.js" />
     <Content Include="app\erp\PurchaseContract.js" />

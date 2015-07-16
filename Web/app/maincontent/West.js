@@ -168,41 +168,8 @@ Ext.define("TCSYS.maincontent.West", {
             if (className && className.indexOf('.') > -1) {
                 var arr = className.split('.');
                 alias = arr[arr.length - 1];
-            }
-            if (alias && alias.indexOf('/') > -1) {
-                var arr = alias.split('/');
-                alias = arr[arr.length - 1];
-            }
-            if (className && className.indexOf('erp') > -1) {
+            }                
           
-                var center1 = Ext.ComponentQuery.query("maincontent_center")[0];
-                var panelQuery1 = Ext.ComponentQuery.query(alias);
-                if (panelQuery1.length == 0) {
-                    var panel1 = Ext.create(className);
-                    center1.add(panel1);
-                    center1.setActiveTab(panel1);
-                    return;
-                }
-                else {
-                    center1.setActiveTab(panelQuery1[0]);
-                    return;
-                }
-            }
-            if (className && className.indexOf('ciq') > -1) {
-
-                var center1 = Ext.ComponentQuery.query("maincontent_center")[0];
-                var panelQuery1 = Ext.ComponentQuery.query(alias);
-                if (panelQuery1.length == 0) {
-                    var panel1 = Ext.create(className);
-                    center1.add(panel1);
-                    center1.setActiveTab(panel1);
-                    return;
-                }
-                else {
-                    center1.setActiveTab(panelQuery1[0]);
-                    return;
-                }
-            }
             if (alias == "" || alias == null) {
                 Ext.Msg.show({
                     title: '提示',
@@ -214,41 +181,14 @@ Ext.define("TCSYS.maincontent.West", {
                 });
             }
             else {
+     
                 var center = Ext.ComponentQuery.query("maincontent_center")[0];
-                var panelQuery = Ext.ComponentQuery.query("#"+item.ID);
+                var panelQuery = Ext.ComponentQuery.query(alias);
                 if (panelQuery.length == 0) {
-              
-                    var p = Ext.create("Ext.panel.Panel", {
-                        title: item.FMAINALIAS,
-                        name: item.ID,
-                        autoScroll: true,
-                        layout: {
-                            type: 'fit',
-                            align: 'stretch'
-                        },
-                        //html: '',
-                        //mask : '加载中...',
-                        items:[{
-                           html: '<iframe scrolling="auto" frameborder="0" width="100%" height="100%" src="' + className + '"></iframe>'
-                          //  html: '<iframe scrolling="auto"   frameborder="0"  width="100%" height="100%" src="cross.aspx?aa='+className+'"></iframe>'
-                        }],
-                        //autoLoad: {
-                        //    url: className,
-                        //   // dataType: 'JSONP',
-                        //    scripts: true
-                        //},
-                        closable: true,//标签上出现关闭按钮
-                        id: item.ID,
-                        listeners: {                   // 添加监听器，点击此页面的tab时候要重新加载（刷新功能）  
-                            activate: function () {
-                               // alert(p.name);
-                              //  var west = Ext.ComponentQuery.query("maincontent_west")[0];
-                              //  west.openPen(item, p);
-                            }
-                        }
-                    });
-                     center.add(p);
-                     center.setActiveTab(p);
+                    //   var panel = Ext.create(className);
+                    var panel = Ext.create(className);
+                    center.add(panel);
+                    center.setActiveTab(panel);
                 }
                 else {
                     center.setActiveTab(panelQuery[0]);

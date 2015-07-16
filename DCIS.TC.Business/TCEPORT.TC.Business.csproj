@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonPay_BLL.cs" />
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="Common\Users.cs" />
     <Compile Include="Menu.cs" />
@@ -68,8 +69,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="PublicDictionary.cs" />
+    <Compile Include="PurchaseContract_BLL.cs" />
+    <Compile Include="PurchasePay_BLL.cs" />
+    <Compile Include="PurchaseStorage_BLL.cs" />
+    <Compile Include="PurchaseSupplier_BLL.cs" />
+    <Compile Include="SaleContract_BLL.cs" />
+    <Compile Include="SaleCustomer_BLL.cs" />
+    <Compile Include="SaleOutbound_BLL.cs" />
+    <Compile Include="SaleTracking_BLL.cs" />
     <Compile Include="SYSTEM_TMODULEQuery.cs" />
     <Compile Include="SysUser.cs" />
+    <Compile Include="UserManage_BLL.cs" />
+    <Compile Include="WarehouseGoods_BLL.cs" />
+    <Compile Include="WarehouseOutbound_BLL.cs" />
+    <Compile Include="WarehouseStorage_BLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DCIS.TC.Data\TCEPORT.TC.Data.csproj">

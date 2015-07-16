@@ -73,7 +73,6 @@
     <Content Include="app\ciq\inCiqMgr.js" />
     <Content Include="app\erp\CommonPay.js" />
     <Content Include="app\erp\CommonPayApp.js" />
-    <Content Include="app\erp\Goods.js" />
     <Content Include="app\erp\PurchaseContract.js" />
     <Content Include="app\erp\PurchaseContractApp.js" />
     <Content Include="app\erp\PurchasePay.js" />
@@ -103,37 +102,13 @@
     <Content Include="app\erp\WarehouseGoodsType.js" />
     <Content Include="app\erp\WarehouseOutbound.js" />
     <Content Include="app\erp\WarehouseStorage.js" />
-    <Content Include="app\store\bussinessTypeStore.js" />
-    <Content Include="app\store\communicationModeStore.js" />
-    <Content Include="app\store\containerTypeStore.js" />
-    <Content Include="app\store\controlTypeStore.js" />
-    <Content Include="app\store\customsCodeStore.js" />
-    <Content Include="app\store\docBtmListStore.js" />
-    <Content Include="app\store\docBtmStoreListStore.js" />
-    <Content Include="app\store\docDangerStore.js" />
-    <Content Include="app\store\docEmptyBoxStore.js" />
-    <Content Include="app\store\docEntryGoodsStore.js" />
-    <Content Include="app\store\docEquipmentStore.js" />
-    <Content Include="app\store\docGoodsReportStore.js" />
-    <Content Include="app\store\docMarineStore.js" />
-    <Content Include="app\store\documentTypeStore.js" />
-    <Content Include="app\store\docVoyageStore.js" />
-    <Content Include="app\store\dutyProfessionStore.js" />
-    <Content Include="app\store\enterprisePropertyStore.js" />
-    <Content Include="app\store\goodsTypeStore.js" />
-    <Content Include="app\store\lineCodeStore.js" />
-    <Content Include="app\store\linePropertyStore.js" />
-    <Content Include="app\store\materielCodeStore.js" />
-    <Content Include="app\store\meteringUnitStore.js" />
-    <Content Include="app\store\moneyCodeStore.js" />
-    <Content Include="app\store\nationalityStore.js" />
-    <Content Include="app\store\packTypeStore.js" />
-    <Content Include="app\store\portCodeStore.js" />
-    <Content Include="app\store\portTypeStore.js" />
-    <Content Include="app\store\purposeOfCallStore.js" />
-    <Content Include="app\store\shipTypeStore.js" />
-    <Content Include="app\store\supervisionStore.js" />
-    <Content Include="app\store\tranTypeStore.js" />
+    <Content Include="app\store\GoodsTypeStore.js" />
+    <Content Include="app\store\SysDepartStore.js" />
+    <Content Include="app\store\SysGoodsStore.js" />
+    <Content Include="app\store\ViewUserStore.js" />
+    <Content Include="app\store\SysAreaStore.js" />
+    <Content Include="app\store\SysPositionStore.js" />
+    <Content Include="app\store\WarehouseTypeStore.js" />
     <Content Include="app\tceport\ApprovalWindow.js" />
     <Content Include="app\tceport\buttons\AddButton.js" />
     <Content Include="app\tceport\buttons\DeleteButton.js" />
@@ -3125,7 +3100,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21710</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.31.143:8903</IISUrl>
+          <IISUrl>http://192.168.118.4:8903</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

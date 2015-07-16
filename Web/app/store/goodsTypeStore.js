@@ -1,13 +1,12 @@
-﻿//货物类型
-Ext.define("TCSYS.store.goodsTypeStore", {
+﻿//货物类型    GoodsTypeCode, GoodsTypeName
+Ext.define("TCSYS.store.GoodsTypeStore", {
     extend: "TCEPORT.Store",
-    url: 'PublicDictionary/GetComboData?type=GOODSTYPE',
+    url: 'PublicDictionary/GetGoodsType',
     pageSize: 8,
     autoLoad: false,
-    storeId: 'goodsTypeStore',
+    storeId: 'GoodsTypeStore',
     fields: [
-        { name: 'KEY_VALUE', type: 'string', display: '代码', show: true },
-        { name: 'KEY_TEXT', type: 'string', display: '名称' },
-        { name: 'KEY_TEXT_EN', type: 'string', display: '英文名称' }
+        { name: 'GoodsTypeCode', type: 'int', displayInGrid: '代码', show: true },
+        { name: 'GoodsTypeName', type: 'string', displayInGrid: '名称' }
     ]
 });

@@ -71,27 +71,11 @@ Ext.define('TCSYS.maincontent.HomePageDataView', {
 
                 }
                 else {
-                    var panelQuery = Ext.ComponentQuery.query("#" + record.data.ID);
+                    var panelQuery = Ext.ComponentQuery.query(alias);
                     if (panelQuery.length == 0) {
-                        var p = Ext.create("Ext.panel.Panel", {
-                            title: record.data.FMAINALIAS,
-                            name: record.data.ID,
-                            html: '<iframe scrolling="auto" frameborder="0" width="100%" height="100%" src="' + className + '"></iframe>',
-                            //autoLoad: {
-                            //    url: className,
-                            //   // dataType: 'JSONP',
-                            //    scripts: true
-                            //},
-                            closable: true,//标签上出现关闭按钮
-                            id: record.data.ID
-                            //listeners: {                   // 添加监听器，点击此页面的tab时候要重新加载（刷新功能）  
-                            //    activate: function () {
-                            //       //this.load(className);
-                            //    }
-                            //}
-                        });
-                        center.add(p);
-                        center.setActiveTab(p);
+                        var panel = Ext.create(className);
+                        center.add(panel);
+                        center.setActiveTab(panel);
                     }
                     else {
                         center.setActiveTab(panelQuery[0]);

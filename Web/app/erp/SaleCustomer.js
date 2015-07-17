@@ -376,7 +376,8 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                     addWindow.show(this);
                     me.BasicInfoPK = null;
                 }
-            }],
+            }        
+            ],
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
@@ -432,7 +433,7 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                 }]
             }, {
                 dataIndex: 'CustomerName',
-                width: 120,
+                width: 180,
                 text: '客户名称'
             }, {
                 dataIndex: 'CPerson',

@@ -12,7 +12,9 @@ Ext.define('TCSYS.erp.SaleContract', {
     initComponent: function () {
         this.callParent(arguments);
         var me = this;
-
+        //BillNo, ContractCode, CustomerNo, CustomerName, SignPlace, SignDate, ContractAmount, ContractAmountBig, 
+        //DeliveryTime, QA, DeliveryWay, PayWay, OtherNote, Remarks, PurUserCode, PurUserName, StepNo, StepName,
+        //AppUserCode, AppUserName, IsPayoff, IsAppEnd, PaidAmount, IsStorage, CreateTime, DETAILEDINFO
         var store = Ext.create('TCEPORT.Store', {
             autoLoad: false,
             url: 'ShipDataRecordBLL/Get',
@@ -20,60 +22,9 @@ Ext.define('TCSYS.erp.SaleContract', {
             updateUrl: 'ShipDataRecordBLL/Update',
             deleteUrl: 'ShipDataRecordBLL/Delete',
             fields: [
-                'SHIP_NO',//not null
-                'VESSELNAMEEN',//船名
-                'VESSELNAMECN',//中文船名not null
-                'IMO',
-                'CALLSIGN',//呼号               
-                'NATIONALITY',//船旗国
-                'CERTIFICATENO',//船舶国籍证书编号not null
-                'CERTIFICATEDATE',//国籍证书签发日期not null
-                'BUILDDATE',//船舶建造日期not null
-                'HAILINGPORT',//船籍港代码
-                'VESSELSORT',//船舶种类代码
-                'LINETYPE',//运营性质
-                'COMMUNICATIONID',//船舶通讯号码not null
-                'COMMUNICATIONTYPE',//船舶通讯方式类别not null
-                'GROSSTONNAGE',//总吨位
-                'NETTONNAGE',//净吨位
-                'DEADWEIGHTTONNAGE',//最大重量
-                'VESSELLENGTH',//船长
-                'VESSELBREADTH',//船宽
-                'VESSELDEAPTH',//船高
-                'CONTROLTYPE',//船舶监管类型not null
-                'COCODE',//船公司编码
-                'VESSELCORPNAMEEN',//船公司英文名称
-                'VESSELCORPNAMECN',//船公司中文名称not null
-                'RECORDDATETIME',//备案日期
-                'CLASSLETTER',//等级号
-                'CLASSIFICATIONNO',//等级证书号
-                'VESSELCOLOR',//船体颜色  根据报文，应该有颜色代码词典
-                'FUNNELCOLOR',//烟囱颜色
-                'EMAIL',//电子邮件
-                'SATELLITEPHONE',//卫星电话
-                'HORSEPOWER',//马力
-                'SPEED',//船速
-                'TPITPC',//TPI/TPC
-                'DEEPDRAFT',//满吃水
-                'LIGHTDRAFT',//空吃水
-                'CARBINWINDOWNUM',//舱口数
-                'CARGODEAR',//起重设备
-                'BALECAPACITY',//包装舱容
-                'GRAINCAPACITY',//散装舱容
-                'CEILINGTEU',//舱内TEU
-                'DECKTEU',//甲板TEU
-                'CREWLIMIT',//船员限额
-                'PASSENGERLIMIT',//旅客限额
-                'MEMO',//备注
-                'R_STATUE',
-                'NATIONALITY_TEXT',
-                'VESSELSORT_TEXT',
-                'CONTROLTYPE_TEXT',
-                'HAILINGPORT_TEXT',
-                'COMMUNICATIONTYPE_TEXT',
-                'LINETYPE_TEXT',
-                'KEY_VALUE',
-                'KEY_TEXT',
+                'BillNo',//not null
+                'ContractCode',//船名
+                'CustomerNo',//中文船名not null             
                 'KEY_TEXT_EN'
             ]
         });

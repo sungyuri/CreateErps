@@ -79,7 +79,23 @@ namespace TCEPORT.TC.Business
            string returnValue = "";
            try
            {
-               if (PublicRule.Insert(entity) > 0)
+               string sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysCustomer]
+           ([CustomerName]
+           ,[CPerson]
+           ,[CPhone]
+           ,[CTelPhone]
+           ,[CFAX]
+           ,[ADRESS]
+           ,[AreaCode]
+           ,[Email]
+           ,[Tariff]
+           ,[BANK]
+           ,[BANKNO]
+           ,[Remarks]) 
+             VALUES('{0}','{1}','{2}','{3}','{4}','{5}',{6},'{7}','{8}','{9}','{10}','{11}') ", entity.CustomerName, entity.CPerson, entity.CPhone,
+                         entity.CTelPhone, entity.CFAX,entity.ADRESS,entity.AreaCode,entity.Email,entity.Tariff,entity.BANK,entity.BANKNO,entity.Remarks);
+
+               if (DBUtil.ExecuteNonQuery(sqlStr) > 0)
                {
                    returnValue = "true";
                }              

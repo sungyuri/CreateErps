@@ -117,7 +117,7 @@ namespace TCEPORT.TC.Business
        /// <returns></returns>
        public void Delete(string strID)
        {
-           string sql = string.Format(@"delete from SysCustomer where CustomerNo in({0}) )", strID);
+           string sql = string.Format(@"delete from SysCustomer where CustomerNo={0} ", strID);
            DBUtil.Fill(sql);
        }
 

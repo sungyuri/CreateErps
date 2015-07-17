@@ -12,71 +12,116 @@ Ext.define('TCSYS.erp.SaleContract', {
     initComponent: function () {
         this.callParent(arguments);
         var me = this;
-        //BillNo, ContractCode, CustomerNo, CustomerName, SignPlace, SignDate, ContractAmount, ContractAmountBig, 
-        //DeliveryTime, QA, DeliveryWay, PayWay, OtherNote, Remarks, PurUserCode, PurUserName, StepNo, StepName,
-        //AppUserCode, AppUserName, IsPayoff, IsAppEnd, PaidAmount, IsStorage, CreateTime, DETAILEDINFO
         var store = Ext.create('TCEPORT.Store', {
             autoLoad: false,
-            url: 'ShipDataRecordBLL/Get',
-            addUrl: 'ShipDataRecordBLL/Insert',
-            updateUrl: 'ShipDataRecordBLL/Update',
-            deleteUrl: 'ShipDataRecordBLL/Delete',
+            url: 'SaleContract_BLL/Get',
+            addUrl: 'SaleContract_BLL/Insert',
+            updateUrl: 'SaleContract_BLL/Update',
+            deleteUrl: 'SaleContract_BLL/Delete',
             fields: [
-                'BillNo',//not null
-                'ContractCode',//船名
-                'CustomerNo',//中文船名not null             
-                'KEY_TEXT_EN'
+                'BillNo',
+                'ContractCode',
+                'CustomerNo',        
+                'CustomerName',
+                'SignPlace',
+                'SignDate',
+                'ContractAmount',
+                'ContractAmountBig',
+                'DeliveryTime',
+                'QA',
+                'DeliveryWay',
+                'PayWay',
+                'OtherNote',
+                'Remarks',
+                'PurUserCode',
+                'PurUserName',
+                'StepNo',
+                'StepName',
+                'AppUserCode',
+                'AppUserName',
+                'IsPayoff',
+                'IsAppEnd',
+                'PaidAmount',
+                'IsStorage',
+                'CreateTime',
+                'DETAILEDINFO'
             ]
         });
 
-
-        var flag = '';
-        var record = null;
-
-
         //新增窗口
-        var complexMgrWindow = {
+        var SaleContractMgrWindow = {
             xtype: 'datawindow',
-            title: '船舶备案',
+            title: '销售合同',
             store: store,
             resizable: false,
             items: [{
                 xtype: 'form',
                 baseCls: 'x-plain',
                 border: false,
-                width: 700,
+                width: 1000,
                 defaults: {
                     xtype: 'textfield'
                 },
-                items: [{ xtype: 'textfield', name: 'SHIP_NO', hidden: true }, {
+                items: [{ xtype: 'textfield', name: 'BillNo', hidden: true },
+                    {
+                        columnWidth: 1,
+                        layout: 'form',
+                        border: false,
+                        items: [{
+                            margin: '5 0 5 0',
+                            xtype: 'label',
+                            text: "工 矿 产 品 购 销 合 同"
+                        }]
+                    },
+                    {
                     xtype: 'fieldset',
                     layout: 'column',
                     collapsible: true,
                     columnWidth: 1,
-                    title: '基本信息',
+                  //  title: '工 矿 产 品 购 销 合 同',
                     items: [{
-                        columnWidth: .35,
+                        columnWidth: .4,
                         layout: 'form',
                         border: false,
                         items: [{
-                            name: 'VESSELNAMEEN',
+                            name: 'CustomerNo',
                             margin: '5 0 5 0',
                             allowBlank: false,
                             fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                             blankText: '该输入项为必输项',
-                            fieldLabel: '英文名称',
-                            xtype: 'textfield',
+                            fieldLabel: '需方',
+                            store: 'ViewCustomerStore',
+                            xtype: 'searchfield',
+                            displayField: 'CustomerName',
+                            valueField: 'CustomerNo',
                             labelWidth: 50,
-                            style: 'background-color:#dfe8f6'
+                            style: 'background-color:#dfe8f6',
+                            listeners: {
+                                beforerender:
+                                    function (tigger, opt) {
+                                        if (record) {
+                                            tigger.setHiddenValue(record.get('CustomerNo'));
+                                            tigger.setValue(record.get('CustomerName'));
+                                        }
+                                    }
+
+                            }
                         }]
                     }, {
-                        columnWidth: .35,
+                        columnWidth: .3,
+                        layout: 'form',
+                        border: false,
+                        items: [{ 
+                            xtype: 'splitter'                        
+                        }]
+                    }, {
+                        columnWidth: .3,
                         layout: 'form',
                         border: false,
                         items: [{
-                            name: 'VESSELNAMECN',
+                            name: 'ContractCode',
                             margin: '5 0 5 0',
-                            fieldLabel: '中文名称',
+                            fieldLabel: '合同编号',
                             xtype: 'textfield',
                             allowBlank: false,
                             fieldStyle: 'background-color:#FFFFB9; background-image: none;',
@@ -90,21 +135,21 @@ Ext.define('TCSYS.erp.SaleContract', {
                         layout: 'form',
                         border: false,
                         items: [{
-                            name: 'NATIONALITY',
+                            name: 'PurUserCode',
                             xtype: 'searchfield',
-                            store: 'nationalityStore',
-                            displayField: 'KEY_TEXT',
-                            valueField: 'KEY_VALUE',
+                            store: 'ViewUserStore',
+                            displayField: 'PurUserName',
+                            valueField: 'PurUserCode',
                             margin: '5 0 5 0',
-                            fieldLabel: '船旗国',
+                            fieldLabel: '销售员',
                             labelWidth: 50,
                             style: 'background-color:#dfe8f6',
                             listeners: {
                                 beforerender:
                                     function (tigger, opt) {
                                         if (record) {
-                                            tigger.setHiddenValue(record.get('NATIONALITY'));
-                                            tigger.setValue(record.get('NATIONALITY_TEXT'));
+                                            tigger.setHiddenValue(record.get('PurUserCode'));
+                                            tigger.setValue(record.get('PurUserName'));
                                         }
                                     }
 
@@ -113,7 +158,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                     }, , {
                         columnWidth: .25,
                         layout: 'form',
-                        border: false,                        //根据报文，应该有颜色代码词典
+                        border: false,                     
                         items: [{
                             name: 'VESSELCOLOR',
                             margin: '5 0 5 0',
@@ -935,7 +980,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 text: '新增',
                 xtype: 'addbutton',
                 handler: function (sender) {
-                    var addWindow = Ext.ComponentMgr.create(complexMgrWindow);
+                    var addWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                     addWindow.setOperationType('add');
                     addWindow.callerComp = sender;
                     addWindow.show(this);
@@ -949,7 +994,7 @@ Ext.define('TCSYS.erp.SaleContract', {
             //        record = this.up('grid').getSelectionModel().getSelection()[0];
             //        //alert(record);
             //        if (record != null) {
-            //            var updateWindow = Ext.ComponentMgr.create(complexMgrWindow);
+            //            var updateWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
             //            updateWindow.setOperationType('update');
             //            updateWindow.callerComp = sender;
             //            updateWindow.down('form').loadRecord(record);
@@ -1007,7 +1052,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                         record = grid.getStore().getAt(rowIndex);
                         //record = grid.getSelectionModel().getSelection();
                         //alert(record.get('SHIP_NO'));
-                        var updateWindow = Ext.ComponentMgr.create(complexMgrWindow);
+                        var updateWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         updateWindow.setOperationType('update');
                         updateWindow.callerComp = sender;
                         updateWindow.down('form').loadRecord(record);

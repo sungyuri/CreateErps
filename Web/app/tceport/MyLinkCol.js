@@ -1,7 +1,9 @@
-Ext.define('TCEPORT.LinkColumn', {
+﻿Ext.define('TCEPORT.MyLinkCol', {
     extend: 'Ext.grid.column.Column',
-    alias: 'widget.linkColumn',
+    alias: 'widget.mylinkcol',
     linkIdRe: /x-link-col-(\d+)/,
+    linkFileName: '',
+    linkValue: '',
     cfg: '',
     constructor: function (cfg) {
         var me = this,
@@ -25,11 +27,19 @@ Ext.define('TCEPORT.LinkColumn', {
             for (i = 0; i < l; i++) {
                 item = items[i];
                 var aValue = cfg.dataIndex != null ? record.get(cfg.dataIndex) : item.linkText;
-                returnValue += '<a href="javascript:void(0)" class="x-link-col-icon x-link-col-' + String(i) + ' ' + (Ext.isFunction(item.getClass) ? item.getClass.apply(item.scope || this.scope || this, arguments) : '') + '"' +
-                    ((item.tooltip) ? ' data-qtip="' + item.tooltip + '"' : '') + '>' + (aValue || '') + '</a>';
-                if (i < l - 1)
-                    //returnValue += '&nbsp;&nbsp;&nbsp;&nbsp;';
-                    returnValue += '·';
+                if (record.get(cfg.linkFileName) == cfg.linkValue) {
+                    if (aValue == '查看') {
+                        returnValue = '<a href="javascript:void(0)" class="x-link-col-icon x-link-col-' + String(i) + ' ' + (Ext.isFunction(item.getClass) ? item.getClass.apply(item.scope || this.scope || this, arguments) : '') + '"' +
+                        ((item.tooltip) ? ' data-qtip="' + item.tooltip + '"' : '') + '>' + (aValue || '') + '</a>';
+                    }
+                }
+                else {
+                    returnValue += '<a href="javascript:void(0)" class="x-link-col-icon x-link-col-' + String(i) + ' ' + (Ext.isFunction(item.getClass) ? item.getClass.apply(item.scope || this.scope || this, arguments) : '') + '"' +
+                        ((item.tooltip) ? ' data-qtip="' + item.tooltip + '"' : '') + '>' + (aValue || '') + '</a>';
+                    if (i < l - 1)
+                        //returnValue += '&nbsp;&nbsp;&nbsp;&nbsp;';
+                        returnValue += '/';
+                }
             }
             return returnValue;
         };

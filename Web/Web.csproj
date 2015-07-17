@@ -130,6 +130,7 @@
     <Content Include="app\tceport\DropDownList.js" />
     <Content Include="app\tceport\LinkColumn.js" />
     <Content Include="app\tceport\MsgWindow.js" />
+    <Content Include="app\tceport\MyLinkCol.js" />
     <Content Include="app\tceport\Proxy.js" />
     <Content Include="app\tceport\SearchBoxNoField.js" />
     <Content Include="app\tceport\SearchBoxNoWindow.js" />

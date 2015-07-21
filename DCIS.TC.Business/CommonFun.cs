@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Data;
-using System.Diagnostics;
-using System.Dynamic;
 using DCIS.Persistence;
+using TCEPORT.TC.Data;
 using TCEPORT.TC.Business.Common;
+using DCIS.DbAccess;
 using System.Web;
 
 namespace TCEPORT.TC.Business
@@ -43,8 +46,10 @@ namespace TCEPORT.TC.Business
 
        public bool InsertFileInfo(string fileGuid, DateTime upTime, string fileName, int fileSize, string fileType, string groupGuid, string filePath)
        {
-           string userCode = HttpContext.Current.Session["UserCode"].ToString();
-           string userName = HttpContext.Current.Session["UserName"].ToString();
+          // string userCode = HttpContext.Current.Session["UserCode"].ToString();
+          // string userName = HttpContext.Current.Session["UserName"].ToString();
+           string userCode = "";
+           string userName = "";
            string strSql = @" INSERT INTO [SysFileList]
                                ([FILEGUID]
                                ,[FILENAME]

@@ -127,7 +127,7 @@ namespace TCEPORT.TC.Business
                 }
                 #endregion
 
-                delSql = delSql.TrimEnd(',');
+                delSql = delSql.Trim().TrimEnd(',');
                 DBUtil.ExecuteNonQuery(delSql);
                 DBUtil.Commit();
                 returnValue = billNo;

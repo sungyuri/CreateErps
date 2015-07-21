@@ -146,13 +146,13 @@ Ext.define('TCSYS.erp.SaleContract', {
                        needCheck: true,
                        listeners: {
                            'gridItemClick': function (record) {
-
                                this.up('form').down('textfield[name="PurUserCode"]').setValue(record.get('PurUserCode'));
                                this.up('form').down('textfield[name="PurUserName"]').setValue(record.get('PurUserName'));
                            },
                            beforerender:
                                       function (tigger, opt) {
-                                          var recd= this.up('window').record;
+                                          var recd = this.up('window').record;
+                                          //alert(recd);
                                           if (recd) {
                                                tigger.setHiddenValue(recd.get('PurUserCode'));
                                                tigger.setValue(recd.get('PurUserName'));
@@ -670,12 +670,13 @@ Ext.define('TCSYS.erp.SaleContract', {
                         var updateWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         updateWindow.setOperationType('update');
                         updateWindow.callerComp = sender;
-                        updateWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('SaleBillNo') }));
+                        updateWindow.record = record;
+                        updateWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
                         updateWindow.down('form').loadRecord(record);
-                        me.BasicInfoPK = record.get('SaleBillNo');
+                        me.BasicInfoPK = record.get('BillNo');
                         updateWindow.show(this);
                         gridstore.load({
-                            params: { SaleBillNo: record.get('SaleBillNo') }
+                            params: { SaleBillNo: record.get('BillNo') }
                         });
                     }
                     else {
@@ -706,18 +707,22 @@ Ext.define('TCSYS.erp.SaleContract', {
                         var viewWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         viewWindow.setOperationType('view');
                         viewWindow.callerComp = sender;
-                        viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('SaleBillNo') }));
+                        viewWindow.record = record;
+                        viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         viewWindow.down('form').loadRecord(record);
-                        me.BasicInfoPK = record.get('SaleBillNo');                   
+                        me.BasicInfoPK = record.get('BillNo');
                         Ext.getCmp('btnSave').hidden = true;//btnApp
                         Ext.getCmp('btnApp').hidden = true;
                         viewWindow.show(this);
                         gridstore.load({
-                            params: { SaleBillNo: record.get('SaleBillNo') }
+                            params: { SaleBillNo: record.get('BillNo') }
                         });
                     }
                 }
                ]
+            }, {
+                dataIndex: 'BillNo',
+                hidden:true
             }, {
                 dataIndex: 'ContractCode',
                 text: '合同编号'

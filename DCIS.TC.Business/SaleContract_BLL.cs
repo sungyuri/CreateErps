@@ -24,7 +24,7 @@ namespace TCEPORT.TC.Business
         public dynamic Get(int start, int limit, string strOrderBy, dynamic data)
         {
 
-            string strSql = @" SELECT  * FROM SysSaleContract WHERE StepNo=0 ";
+            string strSql = @" SELECT * FROM SysSaleContract WHERE StepNo=0 ";
             int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
             string UserCode = HttpContext.Current.Session["UserCode"].ToString();
             if (PositionCode==1)
@@ -225,7 +225,7 @@ namespace TCEPORT.TC.Business
                 }
                 #endregion
 
-                delSql = delSql.TrimEnd(',');
+                delSql = delSql.TrimEnd().TrimEnd(',')+";";
                 DBUtil.ExecuteNonQuery(delSql);
                 DBUtil.Commit();
                 returnValue = billNo;

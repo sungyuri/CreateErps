@@ -177,7 +177,7 @@ namespace TCEPORT.TC.Business
        public dynamic GetViewUser(int start, int limit, dynamic data)
        {
            //UserCode, UserName, PositionName, DepartName, PositionDesc
-           string strSql = " SELECT * FROM ViewUser where 1=1 ";
+           string strSql = " SELECT   UserCode as PurUserCode, UserName as PurUserName, PositionName, DepartName, PositionDesc  FROM ViewUser where 1=1 ";
            if (data != null)
            {
                if (data.name != null && data.name != "")
@@ -208,7 +208,7 @@ namespace TCEPORT.TC.Business
                    strSql += string.Format(@" and (GoodsVersion like '%{0}%' OR GoodsNo like '%{0}%' OR GoodsName like '%{0}%' OR Manufacturer like '%{0}%')", data.name.Value.Trim());
 
            }
-           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.Manufacturer asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.GoodsCode asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
            DataTable dtTmp = DBUtil.Fill(pagedSql);
            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());

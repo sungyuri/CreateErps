@@ -116,7 +116,9 @@ Ext.onReady(function () {
         "TCEPORT.StoreMgr",
         "TCEPORT.DateTimePicker",
         "TCEPORT.DateTimeField",
-        "TCEPORT.MyLinkCol"
+        "TCEPORT.MyLinkCol",
+        "TCEPORT.fileupload",
+		"TCEPORT.filesPanel"
     ]);
 
     //设置默认文本宽度为60,文本框长度为200

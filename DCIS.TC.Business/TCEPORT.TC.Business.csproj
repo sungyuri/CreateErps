@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonFun.cs" />
     <Compile Include="CommonPay_BLL.cs" />
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="Common\Users.cs" />

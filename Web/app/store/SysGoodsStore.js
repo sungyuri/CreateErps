@@ -6,7 +6,7 @@ Ext.define("TCSYS.store.SysGoodsStore", {
     autoLoad: false,
     storeId: 'SysGoodsStore',
     fields: [
-        { name: 'GoodsCode', type: 'int', displayInGrid: '代码', show: false },
+        { name: 'GoodsCode', type: 'int', displayInGrid: '代码', hidden: true },
         { name: 'GoodsVersion', type: 'string', displayInGrid: '型号' },
         { name: 'GoodsNo', type: 'string', displayInGrid: '编号' },
          { name: 'GoodsName', type: 'string', displayInGrid: '名字' },

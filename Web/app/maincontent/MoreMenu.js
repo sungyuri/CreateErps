@@ -9,6 +9,7 @@
     },
     modal: true,
     border: false,
+    usercode:'',
     bodyBorder: false,
    // closeAction: "hide",
     name: 'maincontent_MoreMenu',
@@ -16,7 +17,9 @@
     initComponent: function () {
         this.callParent(arguments);
         var me = this;
-        var treePl = Ext.create('TCSYS.maincontent.MenuWindow');
+        var treePl = Ext.create('TCSYS.maincontent.MenuWindow', {
+
+        });
         this.items = ({
             xtype: 'panel',
             border: false,
@@ -46,17 +49,23 @@
         );
         this.callParent(arguments);
         this.on("afterrender", function () {
-            this.initUserEnvironment();
+            this.initUserEnvironment(this.usercode);
         });
     },
     onCheckedNodesClick: function () {
         var MenuWindow = Ext.ComponentQuery.query("maincontent_MenuWindow")[0];
         var sysflag = "save";
          //alert(MenuWindow.idarr);  
-        callapi("SYSTEM_TMODULEQuery/saveCookie", { type: MenuWindow.idarr }, function (result) {
+        callapi("SYSTEM_TMODULEQuery/saveCookie", { rolist: MenuWindow.idarr, ucode: MenuWindow.usercode }, function (result) {
+            if (result == 'true') {
+                Ext.shortAlert('操作成功');
+            }
+            else {
+                Ext.shortAlert(result);
+            }
             this.up('window').close();
-            var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
-            homePage.getStore().load({ params: { type: sysflag } });
+           // var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
+          //  homePage.getStore().load({ params: { type: sysflag } });
         }, this);
         //var homePage = Ext.ComponentQuery.query('[name="homepagedataview"]')[0];
         //homePage.getStore().load({ params: { type: sysflag } });

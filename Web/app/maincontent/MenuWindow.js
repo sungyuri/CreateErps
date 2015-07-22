@@ -20,24 +20,26 @@ Ext.define("TCSYS.maincontent.MenuWindow", {
     },
     animate: false, //开启动画
     idarr: [],
+    usercode:'',
     addid: function () {
         //alert(this.idarr);
-        callapi("SYSTEM_TMODULEQuery/getIdarr", { type: this.idarr }, function (result) {
+        callapi("SYSTEM_TMODULEQuery/getIdarr", { type: this.usercode }, function (result) {
             // this.idarr = result;
             if(result!=null)
             {
-                var jarr = result.split(",");
-                //alert(jarr);
-                this.idarr = jarr;
-                //alert(this.idarr);
+                if (result != "") {
+                    var jarr = result.split(",");
+                    this.idarr = jarr;
+                }
+                else {
+                   
+                }
             }
         }, this);
     },
     init: function (user) {
 
-        //this.removeAll();
-        user = 'first';
-      
+        //this.removeAll();      
         callapi("SYSTEM_TMODULEQuery/GetWindowMenus", { type: user }, function (result) {
             this.funGroup = result;
             this.setAuth(result);
@@ -143,17 +145,18 @@ Ext.define("TCSYS.maincontent.MenuWindow", {
                 else {
                     child.icon = "resources/themes/images/treeIcons/" + funGroup[i].M_ICON;
                 }
-                for (var j in funGroup) {
-                    if (funGroup[j].FSUPERID == child.id) {
-                        child.leaf = false;
-                        child.checked = null;
-                        this.buildFunGroup(child.id, funGroup, child);
-                        break;
-                    }
-                    else {
-                       // child.checked = false;
-                    }
-                }
+                //如果是父节点不添加checkbox 
+                //for (var j in funGroup) {
+                //    if (funGroup[j].FSUPERID == child.id) {
+                //        child.leaf = false;
+                //        child.checked = null;
+                //        this.buildFunGroup(child.id, funGroup, child);
+                //        break;
+                //    }
+                //    else {
+                //       // child.checked = false;
+                //    }
+                //}
                 data.children.push(child);
             }
         }

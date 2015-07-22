@@ -52,7 +52,7 @@ namespace TCEPORT.TC.Business
       }
 
       /// <summary>
-      /// 更新,type 为空，不修改密码。 type=‘1’，重置密码为123456
+      /// 更新,type 为空，不修改密码。 type=‘1’，重置密码为123456,修改与重置共用方法
       /// </summary>
       /// <param name="entity"></param>
       /// <returns></returns>
@@ -75,8 +75,7 @@ namespace TCEPORT.TC.Business
                   if(DBUtil.ExecuteNonQuery(sql)>0)
                   {
                       returnValue = "true";
-                  }
-                 
+                  }                 
               }
           }
           catch (Exception ex)

@@ -40,7 +40,8 @@ namespace TCEPORT.TC.Business
                 return dt;
             }
             else
-            {
+            {   
+               
               //  string strSql = string.Format(@"select * from system_tmodule where m_isshow=1 and m_level='{0}' or fsuperid='0' order by forderindex", type);//a start with fsuperid=1200 connect by prior  id=fsuperid order by forderindex ";
                 string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where   M_TARGET='{0}' and M_LEVEL=1  order by forderindex", SysFlag);
                 DataTable dt = DBUtil.Fill(strSql);
@@ -50,25 +51,22 @@ namespace TCEPORT.TC.Business
         }
 
         /// <summary>
-        /// 获取cookie菜单值
+        /// 获取已有权限菜单
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public string getIdarr(dynamic type)
+        public string getIdarr(dynamic data)
         {
+            string user = data.type;
             string idarr = "";
-            string SysFlag = HttpContext.Current.Session["SysFlag"].ToString();
-            HttpCookie cookie = HttpContext.Current.Request.Cookies[SysFlag];
-            if (cookie != null)
+            string sql = @" SELECT Rolelist FROM SysUser WHERE UserCode='" + user + "' ";
+            DataTable dt = DBUtil.Fill(sql);
+            if(dt.Rows.Count>0)
             {
-                if (cookie["IdArray"].ToString() != "")
-                {
-                    //string[] array = cookie["IdArray"].ToString().Split(',');
-                    idarr = cookie["IdArray"].ToString();
-                    //  idarr= ToArrayString(array);
-
-                }
+                idarr = dt.Rows[0][0].ToString();
             }
+           // string SysFlag = HttpContext.Current.Session["SysFlag"].ToString();
+           // HttpCookie cookie = HttpContext.Current.Request.Cookies[SysFlag];
             return idarr;
         }
 
@@ -150,241 +148,126 @@ namespace TCEPORT.TC.Business
 
 
         /// <summary>
-        ///  获取窗口菜单
+        ///  获取菜单权限菜单
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
         public DataTable GetWindowMenus(string type)
         {
-            string strXml = "";
+            string SysFlag = "";
             string rolelist = "";
-            if (HttpContext.Current.Session["XML"] != null)
+            string sql = @" SELECT Rolelist FROM SysUser WHERE UserCode='" + type + "' ";
+            DataTable dtRol = DBUtil.Fill(sql);
+            if (dtRol.Rows.Count > 0)
             {
-                System.Data.DataSet ds = new System.Data.DataSet();
-                string SysFlag = HttpContext.Current.Session["SysFlag"].ToString();
-                if (SysFlag.Equals("transport"))
+                rolelist = dtRol.Rows[0][0].ToString();
+            }
+            //if (string.IsNullOrEmpty(type))
+            //{
+            //  //  type = "first";
+            //}
+            // SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString(); //系统标识
+            System.Data.DataSet ds = new System.Data.DataSet();
+            SysFlag = HttpContext.Current.Session["SysFlag"].ToString();
+            string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where   M_TARGET='{0}' and M_LEVEL=1  order by forderindex", SysFlag);
+            DataTable MY_MODULE = DBUtil.Fill(strSql);
+            MY_MODULE.TableName = "MY_MODULE";
+            ds.Tables.Add(MY_MODULE);
+
+            if (ds.Tables.Count > 0)
+            {
+                #region 菜单数据构造
+                DataTable dt = new DataTable();
+                DataColumn dc1 = new DataColumn();
+                dc1.ColumnName = "ID";
+                dc1.DataType = typeof(string);
+
+                DataColumn dc2 = new DataColumn();
+                dc2.ColumnName = "FMAINALIAS";
+                dc2.DataType = typeof(string);
+
+                DataColumn dc3 = new DataColumn();
+                dc3.ColumnName = "FSUPERID";
+                dc3.DataType = typeof(string);
+
+                DataColumn dc4 = new DataColumn();
+                dc4.ColumnName = "CHECK";
+                dc4.DataType = typeof(string);
+
+                DataColumn dc5 = new DataColumn();
+                dc5.ColumnName = "M_ICON";
+                dc5.DataType = typeof(string);
+
+                DataColumn dc6 = new DataColumn();
+                dc6.ColumnName = "M_SHOWINDEX";
+                dc6.DataType = typeof(string);
+
+                dt.Columns.Add(dc1);
+                dt.Columns.Add(dc2);
+                dt.Columns.Add(dc3);
+                dt.Columns.Add(dc4);
+                dt.Columns.Add(dc5);
+                dt.Columns.Add(dc6);
+                #endregion
+
+                DataRow dr;
+                if (ds.Tables["MY_MODULE"] != null)
                 {
-                  
-                    if (System.Web.HttpContext.Current.Session["rolelist"] != null)
+                    foreach (System.Data.DataRow row in ds.Tables["MY_MODULE"].Rows)
                     {
-                        rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();
-                        string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from system_tmodule t where id in ({0}) and m_isshow=1 or fsuperid='0' order by forderindex ", rolelist);
-                        DataTable MY_MODULE = DBUtil.Fill(strSql);
-                        MY_MODULE.TableName = "MY_MODULE";
-                        ds.Tables.Add(MY_MODULE);
-                    }
-                    else
-                    {
-                        //rolelist = rolelist = "1206,120601";
-                        string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1 and M_TARGET='cust'  order by forderindex");
-                        DataTable MY_MODULE = DBUtil.Fill(strSql);
-                        MY_MODULE.TableName = "MY_MODULE";
-                        ds.Tables.Add(MY_MODULE);
-                    }
-                }
-                else if (SysFlag.Equals("TGSB"))
-                {
-                    string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from SYSTEM_TMODULE where m_isshow=1  and M_TARGET='tgsb'   order by forderindex");
-                    DataTable MY_MODULE = DBUtil.Fill(strSql);
-                    MY_MODULE.TableName = "MY_MODULE";
-                    ds.Tables.Add(MY_MODULE);
-                 }
-                else
-                {
-                    strXml = HttpContext.Current.Session["XML"].ToString();
-                    System.Xml.XmlDocument xmldoc = new System.Xml.XmlDocument();
-                    xmldoc.Load(new System.IO.MemoryStream(System.Text.Encoding.GetEncoding("utf-8").GetBytes(strXml)));
-                    System.Xml.XmlNodeReader reader = new System.Xml.XmlNodeReader(xmldoc);
-                    ds.ReadXml(reader);
-                    reader.Close();
-                    if(SysFlag.Equals("HDPT")&&ds.Tables.Count>2)
-                    {
-                        foreach (System.Data.DataRow row in ds.Tables[2].Rows)
+                        //ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX
+                        dr = dt.NewRow();
+                        dr[0] = row["ID"].ToString();
+                        dr[1] = row["FMAINALIAS"].ToString();
+                        int ilen = row["ID"].ToString().Length;
+                        if (ilen > 4)
                         {
-                            rolelist += row["M_URL"].ToString() + ",";
+                            dr[2] = row["ID"].ToString().Substring(0, ilen - 4);
                         }
-                        rolelist = rolelist.TrimEnd(new char[] { ',' });
-
-                        string strSql = string.Format(@"select ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX from system_tmodule t 
-                        where id in ({0}) and m_isshow=1 and m_level='4' or fsuperid='0' order by forderindex ", rolelist);
-
-                        DataTable nedt = oracleDB(strSql, "ora8Cargo");
-                        DataTable MY_MODULE = new DataTable();
-                        MY_MODULE = nedt.Copy();
-                        ds.Tables[2].TableName="OLD_MY_MODULE";
-                        MY_MODULE.TableName = "MY_MODULE";
-                        ds.Tables.Add(MY_MODULE);                        
-                    }
-                }
-                if (ds.Tables.Count > 0)
-                {
-
-                    DataTable dt = new DataTable();
-                    DataColumn dc1 = new DataColumn();
-                    dc1.ColumnName = "ID";
-                    dc1.DataType = typeof(string);
-
-                    DataColumn dc2 = new DataColumn();
-                    dc2.ColumnName = "FMAINALIAS";
-                    dc2.DataType = typeof(string);
-
-                    DataColumn dc3 = new DataColumn();
-                    dc3.ColumnName = "FSUPERID";
-                    dc3.DataType = typeof(string);
-
-                    DataColumn dc4 = new DataColumn();
-                    dc4.ColumnName = "CHECK";
-                    dc4.DataType = typeof(string);
-
-                    DataColumn dc5 = new DataColumn();
-                    dc5.ColumnName = "M_ICON";
-                    dc5.DataType = typeof(string);
-
-                    DataColumn dc6 = new DataColumn();
-                    dc6.ColumnName = "M_SHOWINDEX";
-                    dc6.DataType = typeof(string);
-
-                    dt.Columns.Add(dc1);
-                    dt.Columns.Add(dc2);
-                    dt.Columns.Add(dc3);
-                    dt.Columns.Add(dc4);
-                    dt.Columns.Add(dc5);
-                    dt.Columns.Add(dc6);
-
-                    DataRow dr;
-
-
-                    if (ds.Tables.Count > 2 || ds.Tables["MY_MODULE"]!=null)
-                    {
-                        Random num = new Random();
-                        HttpCookie cookie = HttpContext.Current.Request.Cookies[SysFlag];
-                        if (cookie == null)
+                        else
                         {
-                            cookie = new HttpCookie(SysFlag);
-                            cookie.Values.Set("IdArray", "");
-                            cookie.Expires = System.DateTime.Now.AddYears(100);
-                            HttpContext.Current.Response.Cookies.Add(cookie);
+                            dr[2] = "0";
+                        }
+                        if (rolelist != "")
+                        {
+                            string[] array = rolelist.Split(',');
+                            foreach (string item in array)
+                            {
+                                if (item.Equals(row["ID"].ToString()))
+                                {
+                                    dr[3] = "true";
+                                    break;
+                                }
+                            }
                         }
 
-
-                        foreach (System.Data.DataRow row in ds.Tables["MY_MODULE"].Rows)
-                        {
-                            if (SysFlag.Equals("transport") || SysFlag.Equals("TGSB"))
-                            {
-                                //ID,FMAINALIAS,FSUPERID,M_LINK,M_ICON,M_SHOWINDEX
-                                dr = dt.NewRow();
-                                dr[0] = row["ID"].ToString();
-                                dr[1] = row["FMAINALIAS"].ToString();
-                                int ilen = row["ID"].ToString().Length;
-                                if (ilen > 4)
-                                {
-                                    dr[2] = row["ID"].ToString().Substring(0, ilen - 4);
-                                }
-                                else
-                                {
-                                    dr[2] = "0";
-                                }
-                                if (cookie["IdArray"].ToString() != "")
-                                {
-                                    string[] array = cookie["IdArray"].ToString().Split(',');
-                                    foreach (string item in array)
-                                    {
-                                        if (item.Equals(row["ID"].ToString()))
-                                        {
-                                            dr[3] = "true";
-                                            break;
-                                        }
-                                    }
-                                }
-                                int a = num.Next(1, 43);
-                                string png = a.ToString() + @".png";
-                                dr[4] = png;
-                                dr[5] = "";
-                                dt.Rows.Add(dr);
-                            }
-                            else if (SysFlag.Equals("HDPT"))
-                            {
-                                dr = dt.NewRow();
-                                dr[0] = row["ID"].ToString();
-                                dr[1] = row["FMAINALIAS"].ToString();
-                                dr[2] = row["FSUPERID"].ToString();
-                                if (cookie["IdArray"].ToString() != "")
-                                {
-                                    string[] array = cookie["IdArray"].ToString().Split(',');
-                                    foreach (string item in array)
-                                    {
-                                        if (item.Equals(row["ID"].ToString()))
-                                        {
-                                            dr[3] = "true";
-                                            break;
-                                        }
-                                    }
-                                }
-                                int a = num.Next(1, 43);
-                                string png = a.ToString() + @".png";
-                                dr[4] = png;
-                                dr[5] = "";
-                                dt.Rows.Add(dr);
-
-                            }
-                            else
-                            {
-                                dr = dt.NewRow();
-                                dr[0] = row["M_CODE"].ToString();
-                                dr[1] = row["M_NAME"].ToString();
-                                int ilen = row["M_CODE"].ToString().Length;
-                                if (ilen > 4)
-                                {
-                                    dr[2] = row["M_CODE"].ToString().Substring(0, ilen - 4);
-                                }
-                                else
-                                {
-                                    dr[2] = "0";
-                                }
-                                if (cookie["IdArray"].ToString() != "")
-                                {
-                                    string[] array = cookie["IdArray"].ToString().Split(',');
-                                    foreach (string item in array)
-                                    {
-                                        if (item.Equals(row["M_CODE"].ToString()))
-                                        {
-                                            dr[3] = "true";
-                                            break;
-                                        }
-                                    }
-                                }
-                                int a = num.Next(1, 43);
-                                string png = a.ToString() + @".png";
-                                dr[4] = png;
-                                dr[5] = "";
-                                dt.Rows.Add(dr);
-                            }
-
-                        }
+                        dr[4] = row["M_ICON"].ToString();
+                        dr[5] = "";
+                        dt.Rows.Add(dr);
                     }
-                    return dt;
                 }
-                else
-                {
-                    return null;
-                }
+                return dt;
             }
             else
             {
                 return null;
             }
-
         }
 
-        public string saveCookie(dynamic type)
+        /// <summary>
+        /// 保存个人菜单权限
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public string saveCookie(dynamic data)
         {
             string str = "";
-            string strIds = "";
-            if (type.Count > 0)
+            string strIds = "";//rolist
+            if (data.rolist.Count > 0)
             {
-                for (int i = 0; i < type.Count; i++)
+                for (int i = 0; i < data.rolist.Count; i++)
                 {
-                    string strid = type[i];
+                    string strid = data.rolist[i];
                     // strid=strid.Replace("{","").Replace("}","");
                     if (strid != "")
                     {
@@ -393,26 +276,24 @@ namespace TCEPORT.TC.Business
                 }
                 strIds = strIds.Remove(strIds.Length - 1);
             }
-
-            if (HttpContext.Current.Session["SysFlag"] != null)
+            try
             {
-                string SysFlag = HttpContext.Current.Session["SysFlag"].ToString();
-                str = SysFlag;
-                HttpCookie cookie = HttpContext.Current.Request.Cookies[SysFlag];
-                if (cookie == null)
+                string sql = @" UPDATE SysUser SET  Rolelist='" + strIds + "' WHERE UserCode='" + data.ucode + "' ";
+                int k = DBUtil.ExecuteNonQuery(sql);
+                if (k > 0)
                 {
-                    cookie = new HttpCookie(SysFlag);
-                    cookie.Values.Set("IdArray", strIds);
-                    cookie.Expires = System.DateTime.Now.AddYears(100);
-                    HttpContext.Current.Response.Cookies.Add(cookie);
+                    str = "true";
                 }
                 else
                 {
-                    cookie["IdArray"] = strIds;
-                    cookie.Expires = System.DateTime.Now.AddYears(100);
-                    HttpContext.Current.Response.SetCookie(cookie);
+                    str = "操作失败！";
                 }
             }
+            catch (Exception ex)
+            {
+                str="出错信息："+ex.ToString();
+            }
+
             return str;
         }
 

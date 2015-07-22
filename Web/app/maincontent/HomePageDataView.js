@@ -63,7 +63,8 @@ Ext.define('TCSYS.maincontent.HomePageDataView', {
                 //
                 if (alias == "more") {
                     var window = Ext.create('TCSYS.maincontent.MoreMenu', {
-                        title: '功能菜单'
+                        title: '功能菜单',
+                        usercode:'需要传入选择的用户的UserCode'
                     });                   
                     window.show();
                     //var homePage = Ext.ComponentQuery.query("homepagedataview")[0];

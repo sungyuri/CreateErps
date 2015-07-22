@@ -125,7 +125,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                                           }
                                       }
                        },
-                       store: 'ViewCustomerStore'
+                       store: 'ViewSupplierStore'
                    }, {
                        name: 'SupplierName',
                        margin: '10 0 5 0',
@@ -621,8 +621,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 items: [{
                     xtype: 'textfield',
                     name: 'SupplierName',
-                    fieldLabel: '供应商名称',
-                    lablewidth:
+                    fieldLabel: '供应商名称'
                 }]
             }]
         });

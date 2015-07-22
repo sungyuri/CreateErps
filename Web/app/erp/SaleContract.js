@@ -697,7 +697,7 @@ Ext.define('TCSYS.erp.SaleContract', {
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
-             //   width: 100,
+                width: 50,
                 itemId: 'lc',
                 items: [{
                     linkText: '查看',
@@ -725,9 +725,11 @@ Ext.define('TCSYS.erp.SaleContract', {
                 hidden:true
             }, {
                 dataIndex: 'ContractCode',
+                width: 100,
                 text: '合同编号'
             }, {
                 dataIndex: 'CustomerName',
+                width: 150,
                 text: '客户名称'
             }, {
                 text: '签订时间',

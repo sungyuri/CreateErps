@@ -239,6 +239,23 @@ namespace TCEPORT.TC.Business
            return PageUtil.WrapByPage(dtTmp, count);
        }
 
+       public dynamic GetViewSupplier(int start, int limit, dynamic data)
+       {
+
+           string strSql = " SELECT SupplierNo, SupplierName, ADRESS,Remarks FROM SysSupplier  where 1=1 ";
+           if (data != null)
+           {
+               if (data.name != null && data.name != "")
+                   strSql += string.Format(@" and (SupplierName like '%{0}%' OR Remarks like '%{0}%' OR ADRESS like '%{0}%' )", data.name.Value.Trim());
+
+           }
+           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.SupplierNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+           string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+           DataTable dtTmp = DBUtil.Fill(pagedSql);
+           int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+           return PageUtil.WrapByPage(dtTmp, count);
+       }
+
 
        public void backMethod()
        {

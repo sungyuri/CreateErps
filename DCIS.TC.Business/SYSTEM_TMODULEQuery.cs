@@ -496,6 +496,11 @@ namespace TCEPORT.TC.Business
                 HttpContext.Current.Session["Rolelist"] = dt.Rows[0]["Rolelist"].ToString();
                 HttpContext.Current.Session["UserPhone"] = dt.Rows[0]["UserPhone"].ToString();
                 HttpContext.Current.Session["PositionDesc"] = dt.Rows[0]["PositionDesc"].ToString();
+
+
+
+
+
                 return true;
             }
             else

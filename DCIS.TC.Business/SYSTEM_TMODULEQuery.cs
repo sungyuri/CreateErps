@@ -30,6 +30,7 @@ namespace TCEPORT.TC.Business
                 type = "first";
             }
             SysFlag = System.Web.Configuration.WebConfigurationManager.AppSettings[type].ToString(); //系统标识
+            HttpContext.Current.Session["SysFlag"] = SysFlag;
             if (System.Web.HttpContext.Current.Session["rolelist"].ToString() != "")
             {
                 rolelist = System.Web.HttpContext.Current.Session["rolelist"].ToString();

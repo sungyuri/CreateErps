@@ -45,29 +45,29 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
-        public dynamic GetSaleContractDetail(int start, int limit, string strOrderBy, dynamic data)
+        public dynamic GetPurchaseContractDetail(int start, int limit, string strOrderBy, dynamic data)
         {
             //ViewSaleContractDetail
-            string strSql = @" SELECT [SaleBillNo]
+            string strSql = @" SELECT [PurBillNo]
                               ,[GoodsCode]
                               ,[GoodsVersion]
-                              ,[GoodsName]
                               ,[GoodsNo]
+                              ,[GoodsName]
                               ,[GoodsCount]
                               ,[GoodsUnit]
-                              ,[OutGoodsCount]
-                              ,[STATE]
                               ,[Manufacturer]
-                          FROM [ViewSaleContractDetail]
+                              ,[InGoodsCount]
+                              ,[STATE]
+                          FROM [CreateErp].[dbo].[ViewPurchaseContractDetail]
                           WHERE 1=1  ";
             if (data != null)
             {
-                if (data.SaleBillNo != null && data.SaleBillNo != "")
+                if (data.PurBillNo != null && data.PurBillNo != "")
                 {
-                    strSql += string.Format(@" and SaleBillNo like '%{0}%'", data.SaleBillNo);
+                    strSql += string.Format(@" and PurBillNo like '%{0}%'", data.PurBillNo);
                 }
             }
-            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.SaleBillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.PurBillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
             string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
             DataTable dtTmp = DBUtil.Fill(pagedSql);
             int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
@@ -81,7 +81,7 @@ namespace TCEPORT.TC.Business
         /// <param name="type"></param>
         /// <param name="detailList"></param>
         /// <returns></returns>
-        public string Update(SysSaleContract_Entity entity, string type, List<dynamic> detailList)
+        public string Update(SysPurchaseContract_Entity entity, string type, List<dynamic> detailList)
         {
             string returnValue = "";
             try
@@ -109,11 +109,11 @@ namespace TCEPORT.TC.Business
                 PublicRule.Update(entity);
 
                 #region 采购合同明细表
-
-                string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
+                //PurBillNo, GoodsCode, GoodsCount, InGoodsCount, STATE
+                string deleteSql = string.Format(@" DELETE FROM SysPurchaseContractDetail WHERE PurBillNo ='{0}' ;", billNo);
                 DBUtil.ExecuteNonQuery(deleteSql);
 
-                string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount, InGoodsCount)
                                     VALUES 
                                       ";
 
@@ -151,17 +151,17 @@ namespace TCEPORT.TC.Business
         /// <param name="detailList"></param>
         /// <returns></returns>
 
-        public string Insert(SysSaleContract_Entity entity, string type, List<dynamic> detailList)
+        public string Insert(SysPurchaseContract_Entity entity, string type, List<dynamic> detailList)
         {
             string returnValue = "";
             try
             {
                 DBUtil.BeginTrans();
-                string billNo = new SqlHelper().getTableNo("SysSaleContract", "BillNo", "SC");
+                string billNo = new SqlHelper().getTableNo("SysPurchaseContract", "BillNo", "PC");
                 entity.BillNo = billNo;
 
                 #region 生成合同审批步骤
-                string flowQuery = "   SELECT * FROM  SysFlowMany WHERE FlowCdode='SC' ";
+                string flowQuery = "   SELECT * FROM  SysFlowMany WHERE FlowCdode='PC' ";
                 DataTable flowDt = DBUtil.Fill(flowQuery);
                 string flowStep = @"   INSERT INTO  SysFlowManyStep
                                        (BillNo, StepNo, StepName, FlowId, AppUserCode)
@@ -207,11 +207,11 @@ namespace TCEPORT.TC.Business
                 }
 
                 #region 采购合同明细表
-
-                string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
+                //PurBillNo, GoodsCode, GoodsCount, InGoodsCount, STATE
+                string deleteSql = string.Format(@" DELETE FROM SysPurchaseContractDetail WHERE PurBillNo ='{0}' ;", billNo);
                 DBUtil.ExecuteNonQuery(deleteSql);
 
-                string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount, InGoodsCount)
                                     VALUES 
                                       ";
 

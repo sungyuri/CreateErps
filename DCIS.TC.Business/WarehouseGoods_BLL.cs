@@ -38,7 +38,6 @@ namespace TCEPORT.TC.Business
                               ,[WarehouseName]
                               ,[GoodsNote]
                           FROM [CreateErp].[dbo].[ViewGoods]
-
                                 WHERE 1=1  ";
             if (data != null)
             {

@@ -53,8 +53,8 @@ Ext.define('TCSYS.erp.SaleContract', {
             fields: ['SaleBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'OutGoodsCount', 'STATE', 'Manufacturer']
         });
 
-        var flag = '';
-        var updaterecord = null;
+      //  var flag = '';
+      //  var updaterecord = null;
         //新增窗口
         var goodsRow = null;
         var SaleContractMgrWindow = {
@@ -647,7 +647,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 text: '新增',
                 xtype: 'addbutton',
                 handler: function (sender) {
-                    flag = 'add';
+                  //  flag = 'add';
                     var addWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                     addWindow.record = null;
                     addWindow.setOperationType('add');
@@ -662,11 +662,11 @@ Ext.define('TCSYS.erp.SaleContract', {
                 text: '修改',
                 xtype: 'updatebutton',
                 handler: function (sender) {
-                    flag = 'update';
+                   // flag = 'update';
                     var record = this.up('grid').getSelectionModel().getSelection()[0];
                     //alert(record);
                     if (record != null) {
-                        updaterecord = record;
+                       // updaterecord = record;
                         var updateWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         updateWindow.setOperationType('update');
                         updateWindow.callerComp = sender;
@@ -703,7 +703,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                     linkText: '查看',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
-                        updaterecord = record;
+                      //  updaterecord = record;
                         var viewWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         viewWindow.setOperationType('view');
                         viewWindow.callerComp = sender;

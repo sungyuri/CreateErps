@@ -14,24 +14,128 @@ namespace TCEPORT.TC.Business
 {
   public  class UserManage_BLL
     {
+      /// <summary>
+      /// 所有用户名单
+      /// </summary>
+      /// <param name="start"></param>
+      /// <param name="limit"></param>
+      /// <param name="strOrderBy"></param>
+      /// <param name="data"></param>
+      /// <returns></returns>
+      public dynamic Get_AllUserInfo(int start, int limit, string strOrderBy, dynamic data)
+      {
+
+          string strSql = @" SELECT UserCode, UserName, UserPassword, DepartCode, PositionCode,
+                        PositionDesc, Rolelist, CreateTime, CreateUserNo, LastUpdateTime,
+                      UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo, DepartName, PositionName  FROM ViewAllUser   ";
+
+          if (data != null)
+          {
+              if (data.UserCode != null && data.UserCode != "")
+              {
+                  strSql += string.Format(@" and UserCode like '%{0}%'", data.UserCode);
+              }
+              if (data.UserName != null && data.UserName != "")
+              {
+                  strSql += string.Format(@" and UserName like '%{0}%'", data.UserName);
+              }
+              if (data.DepartName != null && data.DepartName != "")
+              {
+                  strSql += string.Format(@" and DepartName like '%{0}%'", data.DepartName);
+              }
+          }
+          strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.UserCode asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+          string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+          DataTable dtTmp = DBUtil.Fill(strSql);
+          int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+          return PageUtil.WrapByPage(dtTmp, count);
+      }
+
+      /// <summary>
+      /// 更新,type 为空，不修改密码。 type=‘1’，重置密码为123456
+      /// </summary>
+      /// <param name="entity"></param>
+      /// <returns></returns>
+      public string Update(SysUser_Entity entity, string type)
+      {
+          string returnValue = "";
+          try
+          {
+              if (string.IsNullOrEmpty(type))
+              {
+                  entity.LastUpdateTime = DateTime.Now;
+                  entity.UpdateUserNo = HttpContext.Current.Session["UserCode"].ToString();
+                  PublicRule.Update(entity);
+                  returnValue = "true";
+              }
+              else
+              {
+                  string strPwd = Tools.MD5.Lower32("123456");
+                  string sql = @" UPDATE SysUser SET UserPassword='" + strPwd + "' where  UserCode='"+entity.UserCode+"' ";
+                  if(DBUtil.ExecuteNonQuery(sql)>0)
+                  {
+                      returnValue = "true";
+                  }
+                 
+              }
+          }
+          catch (Exception ex)
+          {
+
+              returnValue = ex.ToString();
+
+          }
+          finally
+          {
+
+          }
+          return returnValue;
+      }
+
+      /// <summary>
+      /// 新增
+      /// </summary>
+      /// <param name="entity"></param>
+      /// <returns></returns>
+      public string Insert(SysUser_Entity entity)
+      {
+          string returnValue = "";
+          try
+          {
+              string sql = @" SELECT COUNT(1) FROM SysUser WHERE UserCode='"+entity.UserCode+"' ";
+              if(DBUtil.Fill(sql).Rows.Count>0)
+              {
+                  return "exist";
+              }
+              else
+              {
+                  entity.UserPassword = Tools.MD5.Lower32("123456");
+                  entity.CreateTime = DateTime.Now;
+                  entity.CreateUserNo = HttpContext.Current.Session["UserCode"].ToString();
+                  entity.IsUse = "1";
+                  entity.Rolelist = "";
+                  if (PublicRule.Insert(entity) > 0)
+                  {
+                      returnValue = "true";
+                  }
+              }         
+          }
+          catch (Exception ex)
+          {
+              returnValue = "出错信息：" + ex.ToString();
+          }
+          return returnValue;
+
+      } 
+
+
+
+
+
       public dynamic Get_UserInfo(int start, int limit, string strOrderBy, dynamic data)
       {
           string UserCode = HttpContext.Current.Session["UserCode"].ToString();
           string strSql = @" SELECT UserCode,UserName,UserPassword,UserEmail,UserPhone FROM SysUser WHERE UserCode= '"+UserCode+"'";
-          //int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
-          //if (PositionCode == 1)
-          //{
-          //    strSql += string.Format(@" and PurUserCode='{0}' ", UserCode);
-          //}
-          //if (data != null)
-          //{
-          //    if (data.CustomerName != null && data.CustomerName != "")
-          //    {
-          //        strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
-          //    }
-          //}
-          //strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
-          //string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
           DataTable dtTmp = DBUtil.Fill(strSql);
           int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
           return PageUtil.WrapByPage(dtTmp, count);

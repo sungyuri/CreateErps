@@ -72,7 +72,7 @@ Ext.define('TCSYS.erp.SaleContract', {
             items: [
                 {
                 xtype: 'label',
-                margin: '10 0 5 0',
+                margin: '5 0 5 300',
                 text: "工 矿 产 品 购 销 合 同",
                 baseCls: 'y-plain',
                 border: false
@@ -96,7 +96,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 items: [
                    {
                     name: 'CustomerNo',
-                    margin: '10 0 5 0',
+                    margin: '0 0 5 0',
                     allowBlank: false,
                     xtype: 'searchfield',
                     fieldStyle: 'background-color:#FFFFB9; background-image: none;',
@@ -122,7 +122,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                     store: 'ViewCustomerStore'
                    }, {
                        name: 'CustomerName',
-                       margin: '10 0 5 0',
+                       margin: '0 0 5 0',
                        fieldLabel: '客户名',
                        hidden:true
                    }, {
@@ -131,7 +131,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                        name: 'ContractCode',
                        allowBlank: false,
                        blankText: '该输入项为必输项',
-                       margin: '10 0 5 0',
+                       margin: '0 0 5 0',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        fieldLabel: '合同编号'
                    },  {
@@ -246,7 +246,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 200,
+                height: 170,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -257,7 +257,9 @@ Ext.define('TCSYS.erp.SaleContract', {
                 })],
                 tbar: [{
                     text: '新增',
+                    itemId: 'goodsAdd',
                     xtype: 'addbutton',
+                    hidden:false,
                     handler: function (sender) {
                         var rec = new Object({
                             SaleBillNo: '',
@@ -277,7 +279,9 @@ Ext.define('TCSYS.erp.SaleContract', {
                     }
                 }, {
                     xtype: "button",
+                    itemId: "goodsClear",
                     text: "清空",
+                    hidden: false,
                     iconCls: "icon-cancel",
                     handler: this.onRemoveAllClick
                 }],
@@ -349,6 +353,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                     dataIndex: 'Manufacturer'
                 },  {
                     xtype: 'actioncolumn',
+                    itemId: 'myActionColumn',
                     width: 30,
                     sortable: false,
                     menuDisabled: true,
@@ -406,11 +411,12 @@ Ext.define('TCSYS.erp.SaleContract', {
                 }
             }
             ],
-            buttons: [{
+            tbar: [{
                 xtype: 'tbfill'
             }, {
                 text: '保存',
                 name: 'btnSave',
+                iconCls: "icon-save",
                 id: 'btnSave',
                 handler: function (sender) {
                     //参数：合同明细
@@ -501,6 +507,7 @@ Ext.define('TCSYS.erp.SaleContract', {
             }, {
                 text: '提交审批',
                 name: 'btnApp',
+                iconCls: "icon-ok",
                 id: 'btnApp',
                 handler: function (sender) {
                     //参数：合同明细
@@ -590,6 +597,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 }
             }, {
                 text: '取消',
+                iconCls: "icon-cancel",
                 handler: function () {
                     this.up('window').close();
                 }
@@ -713,6 +721,9 @@ Ext.define('TCSYS.erp.SaleContract', {
                         me.BasicInfoPK = record.get('BillNo');
                         Ext.getCmp('btnSave').hidden = true;//btnApp
                         Ext.getCmp('btnApp').hidden = true;
+                      //  Ext.getCmp('goodsAdd').hidden = true;
+                      //  Ext.getCmp('goodsClear').hidden = true;
+                     //   viewWindow.down('grid').down('#myActionColumn').hide();
                         viewWindow.show(this);
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }

@@ -112,23 +112,25 @@ namespace TCEPORT.TC.Business
 
                 string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
                 DBUtil.ExecuteNonQuery(deleteSql);
-
-                string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                if (detailList != null && detailList.Count > 0)
+                {
+                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
                                     VALUES 
                                       ";
 
-                #region 货物列表
-                if (detailList != null && detailList.Count > 0)
-                {
-                    for (int i = 0; i < detailList.Count; i++)
+                    #region 货物列表
+                    if (detailList != null && detailList.Count > 0)
                     {
-                        delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                        for (int i = 0; i < detailList.Count; i++)
+                        {
+                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                        }
                     }
-                }
-                #endregion
+                    #endregion
 
-                delSql = delSql.Trim().TrimEnd(',');
-                DBUtil.ExecuteNonQuery(delSql);
+                    delSql = delSql.Trim().TrimEnd(',');
+                    DBUtil.ExecuteNonQuery(delSql);
+                }
                 DBUtil.Commit();
                 returnValue = billNo;
                 #endregion
@@ -207,26 +209,28 @@ namespace TCEPORT.TC.Business
                 }
 
                 #region 销售合同明细表
+                if (detailList != null && detailList.Count > 0)
+                {
+                    string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
+                    DBUtil.ExecuteNonQuery(deleteSql);
 
-                string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
-                DBUtil.ExecuteNonQuery(deleteSql);
-
-                string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
                                     VALUES 
                                       ";
 
-                #region 货物列表
-                if (detailList != null && detailList.Count > 0)
-                {
-                    for (int i = 0; i < detailList.Count; i++)
+                    #region 货物列表
+                    if (detailList != null && detailList.Count > 0)
                     {
-                        delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                        for (int i = 0; i < detailList.Count; i++)
+                        {
+                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                        }
                     }
-                }
-                #endregion
+                    #endregion
 
-                delSql = delSql.TrimEnd().TrimEnd(',')+";";
-                DBUtil.ExecuteNonQuery(delSql);
+                    delSql = delSql.TrimEnd().TrimEnd(',') + ";";
+                    DBUtil.ExecuteNonQuery(delSql);
+                }
                 DBUtil.Commit();
                 returnValue = billNo;
                 #endregion

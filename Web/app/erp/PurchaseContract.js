@@ -450,7 +450,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 })],
                 tbar: [{
                     text: '新增',
-                    id: 'goodsAdd',
+                 //   id: 'goodsAdd',
                     xtype: 'addbutton',
                     handler: function (sender) {
                         var rec = new Object({
@@ -472,7 +472,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 }, {
                     xtype: "button",
                     text: "清空",
-                    id:'goodsClear',
+                   // id:'goodsClear',
                     iconCls: "icon-cancel",
                     handler: this.onRemoveAllClick
                 }],
@@ -544,7 +544,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                     dataIndex: 'Manufacturer'
                 }, {
                     xtype: 'actioncolumn',
-                    itemId: 'myActionColumn',
+                  //  itemId: 'myActionColumn',
                     width: 30,
                     sortable: false,
                     menuDisabled: true,
@@ -721,9 +721,9 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                         me.BasicInfoPK = record.get('BillNo');
                         Ext.getCmp('btnSave').hidden = true;//btnApp
                         Ext.getCmp('btnApp').hidden = true;
-                        Ext.getCmp('goodsAdd').hidden = true;
-                        Ext.getCmp('goodsClear').hidden = true;
-                        viewWindow.down('grid').down('#myActionColumn').hide();
+                     //   Ext.getCmp('goodsAdd').hidden = true;
+                       // Ext.getCmp('goodsClear').hidden = true;
+                   //     viewWindow.down('grid').down('#myActionColumn').hide();
                         //grid.columns[i].hide()/show()
                         //grid.columns[i].setVisible(false/true);
                         viewWindow.show(this);

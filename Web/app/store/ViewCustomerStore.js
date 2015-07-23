@@ -6,10 +6,10 @@ Ext.define("TCSYS.store.ViewCustomerStore", {
     autoLoad: false,
     storeId: 'ViewCustomerStore',
     fields: [
-        { name: 'CustomerNo', type: 'string', displayInGrid: '代码', show: true },
-        { name: 'CustomerName', type: 'string', displayInGrid: '名称' },
-        { name: 'AreaName', type: 'string', displayInGrid: '区域' },
-         { name: 'ADRESS', type: 'string', displayInGrid: '地址' },
-          { name: 'Remarks', type: 'string', displayInGrid: '备注' }
+        { name: 'CustomerNo', type: 'string', displayInGrid: '代码', show: true,flex:1 },
+        { name: 'CustomerName', type: 'string', displayInGrid: '名称', flex: 3 },
+        { name: 'AreaName', type: 'string', displayInGrid: '区域', flex: 1 },
+         { name: 'ADRESS', type: 'string', displayInGrid: '地址', hidden: false, flex: 2 },
+          { name: 'Remarks', type: 'string', displayInGrid: '备注', hidden: true }
     ]
 });

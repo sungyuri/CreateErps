@@ -4,7 +4,7 @@
     title: '',
     autoScroll: true,
     width: 790,
-    height: 135,
+    height: 100,
     layout: 'fit',
     margin: '0 0 5 65',
     initComponent: function () {

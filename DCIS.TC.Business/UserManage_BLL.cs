@@ -27,7 +27,7 @@ namespace TCEPORT.TC.Business
 
           string strSql = @" SELECT UserCode, UserName, UserPassword, DepartCode, PositionCode,
                         PositionDesc, Rolelist, CreateTime, CreateUserNo, LastUpdateTime,
-                      UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo, DepartName, PositionName  FROM ViewAllUser   ";
+                      UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo, DepartName, PositionName  FROM ViewAllUser where 1=1  ";
 
           if (data != null)
           {
@@ -102,7 +102,7 @@ namespace TCEPORT.TC.Business
           try
           {
               string sql = @" SELECT COUNT(1) FROM SysUser WHERE UserCode='"+entity.UserCode+"' ";
-              if(DBUtil.Fill(sql).Rows.Count>0)
+              if(DBUtil.Fill(sql).Rows[0][0].ToString()=="1")
               {
                   return "exist";
               }

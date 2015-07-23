@@ -23,8 +23,10 @@ Ext.define('TCSYS.erp.UserManage', {
                 'UserCode',
                 'UserName',
                 'UserPassword',
-                'DepartCode',
+                'DepartCode', 
+                'DepartName',
                 'PositionCode',
+                'PositionName',
                 'PositionDesc',
                 'Uipaddress',
                 'Rolelist',
@@ -58,6 +60,7 @@ Ext.define('TCSYS.erp.UserManage', {
             store: storeUserManage,
             wrecord:null,
             resizeable: false,
+            id:'mW',
             items: [{
                 xtype: 'toolbar',
                 border: false,
@@ -71,22 +74,22 @@ Ext.define('TCSYS.erp.UserManage', {
                         var userInfoWindow = Ext.getCmp('formId').getForm();
                         if (!userInfoWindow.isValid) { return; } else {
                             var formValues = userInfoWindow.getValues();
-                            if (userInfoWindow.operationType = 'add') {
+                            if (userInfoWindow.operationType == 'add') {
                                 storeUserManage[userInfoWindow.operationType + 'Data']({ entity: formValues }, function (value) {
                                     if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
                                         storeUserManage.load();
-                                        userInfoWindow.close();
+                                        Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');
                                     }
                                 });
                             } else {
-                                storeUserManage['updateDate']({ entity: userInfoWindow, type: null }, function (value) {
+                                storeUserManage['updateData']({ entity: formValues, type: null }, function (value) {
                                     if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
                                         storeUserManage.load();
-                                        userInfoWindow.close();
+                                        Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');
                                     }
@@ -140,10 +143,11 @@ Ext.define('TCSYS.erp.UserManage', {
                             listeners: {
                                 beforerender:
                                     function (tigger, opt) {
-                                        var record = this.up('window').wrecord
+                                        var record = this.up('window').wrecord;                                     
                                         if (record) {
+                                            alert(record.get('DepartName'));
                                             tigger.setHiddenValue(record.get('DepartCode'));
-                                            tigger.setValue(record.get('DepartCode_TEXT'));
+                                            tigger.setValue(record.get('DepartName'));
                                         }
                                     }
                             }
@@ -169,7 +173,7 @@ Ext.define('TCSYS.erp.UserManage', {
                                         var record=this.up('window').wrecord
                                         if (record) {
                                             tigger.setHiddenValue(record.get('PositionCode'));
-                                            tigger.setValue(record.get('PositionCode_TEXT'));
+                                            tigger.setValue(record.get('PositionName'));
                                         }
                                     }
                             }
@@ -222,20 +226,21 @@ Ext.define('TCSYS.erp.UserManage', {
                             fieldLabel: '权限'
                         }]
                     },
-                    //{
-                    //    columnWidth: .5,
-                    //    layout: 'form',
-                    //    baseCls: 'x-plain',
-                    //    border: false,
-                    //    items: [{
-                    //        xtype: 'datefield',
-                    //        name: 'CreateTime',
-                    //        margin: '5 0 5 0',
-                    //        fieldLabel: '注册时间',
-                    //        readOnly: true,
-                    //        format:'Ymd His'
-                    //    }]
-                    //},
+                    {
+                        columnWidth: .5,
+                        layout: 'form',
+                        baseCls: 'x-plain',
+                        border: false,
+                        items: [{
+                            xtype: 'datefield',
+                            name: 'CreateTime',
+                            margin: '5 0 5 0',
+                            fieldLabel: '注册时间',
+                            readOnly: true,
+                            submitValue:false,
+                            format:'Ymd His'
+                        }]
+                    },
                     {
                         columnWidth: .5,
                         layout: 'form',
@@ -253,11 +258,13 @@ Ext.define('TCSYS.erp.UserManage', {
                         baseCls: 'x-plain',
                         border: false,
                         items: [{
-                            xtype: 'textfield',
+                            xtype: 'datefield',
                             name: 'LastUpdateTime',
                             margin: '5 0 5 0',
                             fieldLabel: '最后更新时间',
-                            readOnly:true
+                            readOnly: true,
+                            submitValue: false,
+                            format: 'Ymd His'
                         }]
                     }, {
                         columnWidth: .5,
@@ -348,9 +355,12 @@ Ext.define('TCSYS.erp.UserManage', {
                 }, {
                     linkText: '修改',
                     handler: function (grid, rowIndex, colIndex, sender) {
-                        var rec = grid.getStore().getAt(rowIndex);
+                        alert(rowIndex);
+                        rec = grid.getStore().getAt(rowIndex);
                         var MWindow = Ext.ComponentMgr.create(modifyWindow);
+                        modifyWindow.wrecord = null;
                         modifyWindow.wrecord = rec;
+                        alert(rec.get('DepartName'));
                         MWindow.setOperationType('update');
                         MWindow.down('form').loadRecord(rec);
                         MWindow.show(this);

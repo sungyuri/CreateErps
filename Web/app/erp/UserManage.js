@@ -1,4 +1,5 @@
 ﻿//用户管理
+var dateNow = new Date();//新增用户创建时间字段取当前时间
 Ext.define('TCSYS.erp.UserManage', {
     extend: 'Ext.panel.Panel',
     title: '客户资料',
@@ -12,7 +13,7 @@ Ext.define('TCSYS.erp.UserManage', {
     initComponent: function () {
         this.callParent(arguments);
         var me = this;
-        var rec = "";
+        var rec = null;
 
         var storeUserManage = Ext.create('TCEPORT.Store', {
             autoLoad: true,
@@ -53,7 +54,6 @@ Ext.define('TCSYS.erp.UserManage', {
         });
 
 
-
         var modifyWindow = {
             xtype: 'datawindow',
             title: '修改人员信息',
@@ -71,11 +71,12 @@ Ext.define('TCSYS.erp.UserManage', {
                     iconCls: 'icon-Save',
                     xtype: 'button',
                     handler: function () {
+                        var currentWindow = this.up('window');
                         var userInfoWindow = Ext.getCmp('formId').getForm();
                         if (!userInfoWindow.isValid) { return; } else {
                             var formValues = userInfoWindow.getValues();
-                            if (userInfoWindow.operationType == 'add') {
-                                storeUserManage[userInfoWindow.operationType + 'Data']({ entity: formValues }, function (value) {
+                            if (currentWindow.operationType == 'add') {
+                                storeUserManage[currentWindow.operationType + 'Data']({ entity: formValues }, function (value) {
                                     if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
                                         storeUserManage.load();
@@ -103,6 +104,7 @@ Ext.define('TCSYS.erp.UserManage', {
                 baseCls: 'x-plain',
                 border: false,
                 width: 600,
+                height:160,
                 autoScroll: true,
                 id: 'formId',
                 items: [{
@@ -112,7 +114,20 @@ Ext.define('TCSYS.erp.UserManage', {
                     columnWidth: 1,
                     title: '用户信息',
                     items: [{
-                        columnWidth: .5,
+                        columnWidth: 1,
+                        layout: 'form',
+                        baseCls: 'x-plain',
+                        border: false,
+                        items: [{
+                            xtype: 'textfield',
+                            name: 'UserCode',
+                            margin: '5 0 5 0',
+                            fieldLabel: 'UserCode',
+                            id: 'userC',
+                            hidden: true
+                        }]
+                    }, {
+                        columnWidth: .3,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -122,10 +137,12 @@ Ext.define('TCSYS.erp.UserManage', {
                             itemId: 'ship_no_textfield',
                             margin: '5 0 5 0',
                             fieldLabel: '用户名称',
-                            labelWidth: 80
+                            readOnly: true,
+                            id:'userN'
+                            //labelWidth: 80
                         }]
                     }, {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -138,22 +155,24 @@ Ext.define('TCSYS.erp.UserManage', {
                             name: 'DepartCode',
                             margin: '5 0 5 0',
                             fieldLabel: '部门',
+                            allowBlank: false,
+                            fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                            blankText: '该输入项为必输项',
                             editable: false,
-                            labelWidth: 85,
+                            //labelWidth: 85,
                             listeners: {
                                 beforerender:
                                     function (tigger, opt) {
-                                        var record = this.up('window').wrecord;                                     
-                                        if (record) {
-                                            alert(record.get('DepartName'));
-                                            tigger.setHiddenValue(record.get('DepartCode'));
-                                            tigger.setValue(record.get('DepartName'));
+                                        //var record = this.up('window').wrecord;
+                                        if (rec) {
+                                            tigger.setHiddenValue(rec.get('DepartCode'));
+                                            tigger.setValue(rec.get('DepartName'));
                                         }
                                     }
                             }
                         }]
                     }, {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -165,33 +184,24 @@ Ext.define('TCSYS.erp.UserManage', {
                             name: 'PositionCode',
                             margin: '5 0 5 0',
                             fieldLabel: '岗位代码',
+                            allowBlank: false,
+                            fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                            blankText: '该输入项为必输项',
                             editable: false,
                             labelWidth: 80,
                             listeners: {
                                 beforerender:
                                     function (tigger, opt) {
-                                        var record=this.up('window').wrecord
-                                        if (record) {
-                                            tigger.setHiddenValue(record.get('PositionCode'));
-                                            tigger.setValue(record.get('PositionName'));
+                                        //var record=this.up('window').wrecord
+                                        if (rec) {
+                                            tigger.setHiddenValue(rec.get('PositionCode'));
+                                            tigger.setValue(rec.get('PositionName'));
                                         }
                                     }
                             }
                         }]
-                    }, {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'UserCode',
-                            margin: '5 0 5 0',
-                            fieldLabel: 'UserCode',
-                            hidden: true
-                        }]
-                    }, {
-                        columnWidth: .5,
+                    },  {
+                        columnWidth: .3,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -199,35 +209,11 @@ Ext.define('TCSYS.erp.UserManage', {
                             xtype: 'textfield',
                             name: 'PositionDesc',
                             margin: '5 0 5 0',
-                            fieldLabel: '岗位描述',
-                            hidden: true
-                        }]
-                    }, {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'Uipaddress',
-                            margin: '5 0 5 0',
-                            fieldLabel: 'Uipaddress',
-                            hidden: true
-                        }]
-                    }, {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'Rolelist',
-                            margin: '5 0 5 0',
-                            fieldLabel: '权限'
+                            fieldLabel: '岗位描述'
                         }]
                     },
                     {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -237,23 +223,11 @@ Ext.define('TCSYS.erp.UserManage', {
                             margin: '5 0 5 0',
                             fieldLabel: '注册时间',
                             readOnly: true,
-                            submitValue:false,
-                            format:'Ymd His'
-                        }]
-                    },
-                    {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'CreateUserNo',
-                            margin: '5 0 5 0',
-                            fieldLabel: '注册使用人编号'
+                            submitValue:false,//不提交,就看看
+                            format: 'Y-m-d H:i'
                         }]
                     }, {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -264,21 +238,11 @@ Ext.define('TCSYS.erp.UserManage', {
                             fieldLabel: '最后更新时间',
                             readOnly: true,
                             submitValue: false,
-                            format: 'Ymd His'
+                            labelWidth: 80,
+                            format: 'Y-m-d H:i'
                         }]
                     }, {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'UpdateUserNo',
-                            margin: '5 0 5 0',
-                            fieldLabel: '更新使用人编号'
-                        }]
-                    }, {
-                        columnWidth: .5,
+                        columnWidth: .3,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -290,7 +254,7 @@ Ext.define('TCSYS.erp.UserManage', {
                             vtype:'email'
                         }]
                     }, {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -302,7 +266,7 @@ Ext.define('TCSYS.erp.UserManage', {
                             maxLength:11
                         }]
                     }, {
-                        columnWidth: .5,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -314,18 +278,8 @@ Ext.define('TCSYS.erp.UserManage', {
                             valueField: 'value',
                             editable:false,
                             margin: '5 0 5 0',
+                            labelWidth: 80,
                             fieldLabel: '是否启用'
-                        }]
-                    }, {
-                        columnWidth: .5,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'TentNo',
-                            margin: '5 0 5 0',
-                            fieldLabel: 'TentNo'
                         }]
                     }]
                 }]}]
@@ -334,9 +288,63 @@ Ext.define('TCSYS.erp.UserManage', {
 
 
         this.add({
+            border: false,
+            store: storeUserManage,
+            xtype: 'form',
+            itemId: 'searchPerson',
+            //title: '查询条件',
+            //collapsible: true,
+            layout: {
+                type: 'vbox'
+            },
+            defaults: {
+                width: '100%'
+            },
+            items: [{
+                xtype: 'panel',
+                border: false,
+                margin: "5 0 5 0",
+                layout: {
+                    type: 'hbox'
+                },
+                defaults: {
+                    width: '20%'
+                },
+                items: [{
+                    xtype: 'textfield',
+                    name: 'UserCode',
+                    fieldLabel: '人员代码'
+                }]
+            }]
+        });
+
+        this.add({
             xtype: 'datagrid',
             store:storeUserManage,
             forceFit: false,
+            tbar: [{
+                text: '查询',
+                xtype: 'button',
+                iconCls: 'icon-Search',
+                handler: function (sender) {
+                    var object = Ext.ComponentQuery.query('[itemId="searchPerson"]')[0];
+                    var form = object.getForm();
+                    var obj = form.getValues();
+                    storeUserManage.load({ params: obj });
+                }
+            }, {
+                text: '新增',
+                xtype: 'button',
+                iconCls: 'icon-Add',
+                handler: function (sender) {
+                    var addWindow = Ext.ComponentMgr.create(modifyWindow);
+                    addWindow.setOperationType('add');
+                    Ext.getCmp('userC').hidden = false;
+                    Ext.getCmp('userN').readOnly = false;
+                    addWindow.show(this);
+                    storeUserManage.load();
+                }
+            }],
             columns: [{
                 xtype: 'linkColumn',
                 text: '操作',
@@ -355,12 +363,10 @@ Ext.define('TCSYS.erp.UserManage', {
                 }, {
                     linkText: '修改',
                     handler: function (grid, rowIndex, colIndex, sender) {
-                        alert(rowIndex);
                         rec = grid.getStore().getAt(rowIndex);
                         var MWindow = Ext.ComponentMgr.create(modifyWindow);
-                        modifyWindow.wrecord = null;
+                        //modifyWindow.wrecord = null;
                         modifyWindow.wrecord = rec;
-                        alert(rec.get('DepartName'));
                         MWindow.setOperationType('update');
                         MWindow.down('form').loadRecord(rec);
                         MWindow.show(this);
@@ -393,18 +399,20 @@ Ext.define('TCSYS.erp.UserManage', {
                 align: 'center'
             }, {
                 dataIndex: 'PositionDesc',
-                text: '身份',
+                text: '职位描述',
                 align: 'center'
             }, {
                 dataIndex: 'CreateTime',
                 text: '创建时间',
                 align: 'center',
+                width:150,
                 renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'),
             }, {
                 dataIndex: 'LastUpdateTime',
                 text: '最后更新时间',
                 align: 'center',
-                renderer: Ext.util.Format.dateRenderer('Ymd'),
+                width: 150,
+                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i:s'),
             }, {
                 dataIndex: 'UserEmail',
                 text: '邮箱',

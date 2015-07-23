@@ -102,7 +102,7 @@ namespace TCEPORT.TC.Business
           try
           {
               string sql = @" SELECT COUNT(1) FROM SysUser WHERE UserCode='"+entity.UserCode+"' ";
-              if(DBUtil.Fill(sql).Rows.Count>0)
+              if(DBUtil.Fill(sql).Rows[0][0].ToString()=="1")
               {
                   return "exist";
               }

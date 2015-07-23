@@ -74,7 +74,7 @@
     },
     initUserEnvironment: function (user) {
         var MenuWindow = this.query("maincontent_MenuWindow")[0];
-        MenuWindow.addid();
+        MenuWindow.addid(user);
         MenuWindow.init(user); 
         
     }

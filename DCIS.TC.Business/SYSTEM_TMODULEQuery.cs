@@ -56,9 +56,9 @@ namespace TCEPORT.TC.Business
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public string getIdarr(dynamic data)
+        public string getIdarr(string type)
         {
-            string user = data.type;
+            string user = type;
             string idarr = "";
             string sql = @" SELECT Rolelist FROM SysUser WHERE UserCode='" + user + "' ";
             DataTable dt = DBUtil.Fill(sql);
@@ -260,15 +260,15 @@ namespace TCEPORT.TC.Business
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public string saveCookie(dynamic data)
+        public string saveCookie(dynamic rolist, string ucode)
         {
             string str = "";
             string strIds = "";//rolist
-            if (data.rolist.Count > 0)
+            if (rolist.Count > 0)
             {
-                for (int i = 0; i < data.rolist.Count; i++)
+                for (int i = 0; i < rolist.Count; i++)
                 {
-                    string strid = data.rolist[i];
+                    string strid = rolist[i];
                     // strid=strid.Replace("{","").Replace("}","");
                     if (strid != "")
                     {
@@ -279,7 +279,7 @@ namespace TCEPORT.TC.Business
             }
             try
             {
-                string sql = @" UPDATE SysUser SET  Rolelist='" + strIds + "' WHERE UserCode='" + data.ucode + "' ";
+                string sql = @" UPDATE SysUser SET  Rolelist='" + strIds + "' WHERE UserCode='" + ucode + "' ";
                 int k = DBUtil.ExecuteNonQuery(sql);
                 if (k > 0)
                 {

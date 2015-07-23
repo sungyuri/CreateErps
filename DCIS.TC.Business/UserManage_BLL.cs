@@ -27,7 +27,7 @@ namespace TCEPORT.TC.Business
 
           string strSql = @" SELECT UserCode, UserName, UserPassword, DepartCode, PositionCode,
                         PositionDesc, Rolelist, CreateTime, CreateUserNo, LastUpdateTime,
-                      UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo, DepartName, PositionName  FROM ViewAllUser   ";
+                      UpdateUserNo, UserEmail, UserPhone, IsUse, TentNo, DepartName, PositionName  FROM ViewAllUser where 1=1  ";
 
           if (data != null)
           {

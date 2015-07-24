@@ -1,7 +1,7 @@
 ﻿//库存
 Ext.define('TCSYS.erp.WarehouseGoods', {
     extend: 'Ext.panel.Panel',
-    title: '客户资料',
+    title: '库存',
     name: 'WarehouseGoods',
     alias: "widget.WarehouseGoods",
     closable: true,
@@ -68,8 +68,9 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                                     }
                                 });
                             } else {
-                                storeWarehouseGoods['updateData']({ entity: formValues, type: null }, function (value) {
-                                    if (value == 'true') {
+                                storeWarehouseGoods['updateData']({ entity: formValues }, function (value) {
+                                    var pk = rec.get('GoodsCode');
+                                    if (value == pk) {
                                         Ext.shortAlert('操作成功！');
                                         storeWarehouseGoods.load();
                                         Ext.getCmp('mW').close();
@@ -104,9 +105,36 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                             xtype: 'textfield',
                             name: 'GoodsCode',
                             margin: '5 0 5 0',
-                            fieldLabel: 'GoodsCode',
+                            labelWidth: 80,
+                            fieldLabel: '货物代码',
                             id: 'goodsC',
+                            regex: /^\d+$/,
+                            regexText:'只能是数字',
                             hidden: true
+                        }]
+                    }, {
+                        columnWidth: .35,
+                        layout: 'form',
+                        baseCls: 'x-plain',
+                        border: false,
+                        items: [{
+                            xtype: 'textfield',
+                            name: 'GoodsName',
+                            margin: '5 0 5 0',
+                            labelWidth: 80,
+                            fieldLabel: '货物名称'
+                        }]
+                    }, {
+                        columnWidth: .35,
+                        layout: 'form',
+                        baseCls: 'x-plain',
+                        border: false,
+                        items: [{
+                            xtype: 'textfield',
+                            name: 'GoodsNo',
+                            margin: '5 0 5 0',
+                            labelWidth: 80,
+                            fieldLabel: '货物编号'
                         }]
                     }, {
                         columnWidth: .3,
@@ -118,9 +146,7 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                             name: 'GoodsVersion',
                             margin: '5 0 5 0',
                             fieldLabel: '货物型号',
-                            readOnly: true,
-                            id:'goodsV'
-                            //labelWidth: 80
+                            labelWidth: 80
                         }]
                     }, {
                         columnWidth: .35,
@@ -129,25 +155,21 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                         border: false,
                         items: [{
                             xtype: 'searchfield',
-                            store: '',
-                            displayField: '',
-                            valueField: '',
-                            //xtype: 'textfield',
+                            store: 'GoodsTypeStore',
+                            displayField: 'GoodsTypeName',
+                            valueField: 'GoodsTypeCode',
                             name: 'GoodsTypeCode',
                             margin: '5 0 5 0',
                             fieldLabel: '货物类型代码',
-//                            allowBlank: false,
-//                            fieldStyle: 'background-color:#FFFFB9; background-image: none;',
-//                            blankText: '该输入项为必输项',
                             editable: false,
-                            //labelWidth: 85,
+                            labelWidth: 80,
                             listeners: {
                                 beforerender:
                                     function (tigger, opt) {
                                         //var record = this.up('window').wrecord;
                                         if (rec) {
-                                            tigger.setHiddenValue(rec.get(''));
-                                            tigger.setValue(rec.get(''));
+                                            tigger.setHiddenValue(rec.get('GoodsTypeCode'));
+                                            tigger.setValue(rec.get('GoodsTypeName'));
                                         }
                                     }
                             }
@@ -159,15 +181,12 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                         border: false,
                         items: [{
                             xtype: 'searchfield',
-                            store: '',
-                            displayField: '',
-                            valueField: '',
+                            store: 'WarehouseTypeStore',
+                            displayField: 'WarehouseName',
+                            valueField: 'WarehouseCode',
                             name: 'WarehouseCode',
                             margin: '5 0 5 0',
                             fieldLabel: '仓库代码',
-//                            allowBlank: false,
-//                            fieldStyle: 'background-color:#FFFFB9; background-image: none;',
-//                            blankText: '该输入项为必输项',
                             editable: false,
                             labelWidth: 80,
                             listeners: {
@@ -175,37 +194,15 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                                     function (tigger, opt) {
                                         //var record=this.up('window').wrecord
                                         if (rec) {
-                                            tigger.setHiddenValue(rec.get(''));
-                                            tigger.setValue(rec.get(''));
+                                            tigger.setHiddenValue(rec.get('WarehouseCode'));
+                                            tigger.setValue(rec.get('WarehouseName'));
                                         }
                                     }
                             }
                         }]
-                    },  {
+                    }, 
+                     {
                         columnWidth: .3,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'textfield',
-                            name: 'GoodsNo',
-                            margin: '5 0 5 0',
-                            fieldLabel: '货物编号'
-                        }]
-                    },
-                    {
-                        columnWidth: .35,
-                        layout: 'form',
-                        baseCls: 'x-plain',
-                        border: false,
-                        items: [{
-                            xtype: 'datefield',
-                            name: 'GoodsName',
-                            margin: '5 0 5 0',
-                            fieldLabel: '货物名称'
-                        }]
-                    }, {
-                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -217,7 +214,7 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                             labelWidth: 80
                         }]
                     }, {
-                        columnWidth: .3,
+                        columnWidth: .35,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
@@ -226,7 +223,7 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                             name: 'GoodsUnit',
                             margin: '5 0 5 0',
                             fieldLabel: '货物单位',
-                            vtype:'email'
+                            labelWidth: 80
                         }]
                     }, {
                         columnWidth: .35,
@@ -238,15 +235,16 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                             name: 'Manufacturer',
                             margin: '5 0 5 0',
                             fieldLabel: '生产厂家',
+                            labelWidth: 80,
                             maxLength:11
                         }]
                     }, {
-                        columnWidth: .35,
+                        columnWidth: 1,
                         layout: 'form',
                         baseCls: 'x-plain',
                         border: false,
                         items: [{
-                            xtype: 'textarea',
+                            xtype: 'textfield',
                             name: 'GoodsNote',
                             editable:false,
                             margin: '5 0 5 0',
@@ -311,6 +309,8 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                 handler: function (sender) {
                     var addWindow = Ext.ComponentMgr.create(modifyWindow);
                     addWindow.setOperationType('add');
+                    Ext.getCmp('goodsC').hidden = false;
+                    Ext.getCmp('formId').height = 185;
                     addWindow.show(this);
                     storeWarehouseGoods.load();
                 }
@@ -343,7 +343,33 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                         MWindow.down('form').loadRecord(rec);
                         MWindow.show(this);
                     }
-                }]
+                 }, {
+                     linkText: '删除',
+                     disabled: true,
+                     handler: function (grid, rowIndex, colIndex) {
+                         var records = grid.getStore().getAt(rowIndex);
+                         if (records != null) {
+                             Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                                 if (check == "yes") {
+                                     var array = [];
+                                     Ext.Array.each(records, function (item) {
+                                         array.push("'" + item.get('GoodsCode') + "'");
+                                     });
+                                     storeWarehouseGoods.deleteData({ strID: array.join(',') }, function (value) {
+                                         if (value == 'true') {
+                                             Ext.shortAlert('操作成功');
+                                             storeWarehouseGoods.load();
+                                         } else {
+                                             Ext.shortAlert('操作失败');
+                                         }
+                                     });
+                                 }
+                             });
+                         } else {
+                             Ext.Msg.alert('提示', '请先选中一条信息！');
+                         }
+                     }
+                 }]
             }, {
                 dataIndex: 'GoodsCode',
                 text: 'GoodsCode',

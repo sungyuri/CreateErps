@@ -117,10 +117,21 @@ namespace TCEPORT.TC.Business
         /// </summary>
         /// <param name="clienId"></param>
         /// <returns></returns>
-        public void Delete(string strID)
+        public string Delete(string strID)
         {
-            string sql = string.Format(@"delete from SysGoods where GoodsCode={0} ", strID);
-            DBUtil.Fill(sql);
+            string returnInfo = "";
+            try
+            {
+                string sql = string.Format(@"delete from SysGoods where GoodsCode={0} ", strID);
+                DBUtil.Fill(sql);
+                returnInfo = "true";
+            }
+            catch (Exception ex)
+            {
+
+                returnInfo = ex.Message.ToString();
+            }
+            return returnInfo;
         }
 
 

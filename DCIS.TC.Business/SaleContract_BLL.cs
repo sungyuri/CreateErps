@@ -45,6 +45,45 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
+
+        /// <summary>
+        /// 销售合同
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public dynamic GetAppRecord(int start, int limit, string strOrderBy, dynamic data)
+        {
+            string UserCode = HttpContext.Current.Session["UserCode"].ToString();
+            string strSql = @" SELECT * FROM SysSaleContract WHERE AppUserCode='" + UserCode + "' ";
+          //  int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
+            
+            //if (PositionCode == 1)
+            //{
+            //    strSql += string.Format(@" and PurUserCode='{0}' ", UserCode);
+            //}
+            if (data != null)
+            {
+                if (data.CustomerName != null && data.CustomerName != "")
+                {
+                    strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
+                }
+            }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+            DataTable dtTmp = DBUtil.Fill(pagedSql);
+            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+            return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+        public string UpdateAppRecord(SysSaleContract_Entity entity, string type)
+        {
+
+            return "";
+        }
+
         public dynamic GetSaleContractDetail(int start, int limit, string strOrderBy, dynamic data)
         {
             //ViewSaleContractDetail

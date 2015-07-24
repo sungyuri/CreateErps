@@ -146,17 +146,17 @@ Ext.define("TCSYS.maincontent.MenuWindow", {
                     child.icon = "resources/themes/images/treeIcons/" + funGroup[i].M_ICON;
                 }
                 //如果是父节点不添加checkbox 
-                for (var j in funGroup) {
-                    if (funGroup[j].FSUPERID == child.id) {
-                        child.leaf = false;
-                        child.checked = false;
-                        this.buildFunGroup(child.id, funGroup, child);
-                        break;
-                    }
-                    else {
-                        child.checked = false;
-                    }
-                }
+                //for (var j in funGroup) {
+                //    if (funGroup[j].FSUPERID == child.id) {
+                //        child.leaf = false;
+                //        child.checked = false;
+                //        this.buildFunGroup(child.id, funGroup, child);
+                //        break;
+                //    }
+                //    else {
+                //        child.checked = false;
+                //    }
+                //}
                 data.children.push(child);
             }
         }

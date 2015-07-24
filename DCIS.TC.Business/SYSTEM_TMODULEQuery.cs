@@ -264,6 +264,7 @@ namespace TCEPORT.TC.Business
         {
             string str = "";
             string strIds = "";//rolist
+            string lastFid = "";
             if (rolist.Count > 0)
             {
                 for (int i = 0; i < rolist.Count; i++)
@@ -273,9 +274,21 @@ namespace TCEPORT.TC.Business
                     if (strid != "")
                     {
                         strIds += strid + ",";
+                        if (strid.Length > 8)
+                        {
+                            string fid = strid.Substring(0, 8);
+                            if(fid!=lastFid)
+                            {
+                                strIds += fid + ",";
+                                lastFid = fid;
+                            }
+
+                        }
                     }
                 }
+                strIds += "1101" + ",";
                 strIds = strIds.Remove(strIds.Length - 1);
+
             }
             try
             {

@@ -235,8 +235,8 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
             store: storeWarehouseGoods,
             xtype: 'form',
             itemId: 'searchGoods',
-            //title: '查询条件',
-            //collapsible: true,
+            title: '查询条件',
+            collapsible: true,
             layout: {
                 type: 'vbox'
             },

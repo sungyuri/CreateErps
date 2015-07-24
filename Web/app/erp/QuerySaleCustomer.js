@@ -240,6 +240,9 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
             store: store,
             xtype: 'form',
             itemId: 'saleCustomerSelect',
+            title: '查询条件',
+            collapsible: true,
+            forceFit: false,
             layout: {
                 type: 'vbox'
             },
@@ -270,7 +273,6 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
         this.add({
             xtype: 'datagrid',
             store: store,
-            forceFit: false,
             tbar: [{
                 text: '查询',
                 xtype: 'button',

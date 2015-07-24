@@ -282,8 +282,8 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                 },
                 items: [{
                     xtype: 'textfield',
-                    name: 'GoodsCode',
-                    fieldLabel: '货物代码'
+                    name: 'GoodsName',
+                    fieldLabel: '货物名称'
                 }]
             }]
         });

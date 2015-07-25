@@ -39,6 +39,18 @@
             this.operationType = "updateDetail";
         }
 
+        if (type == "approval") {
+            this.setTitle(this.title);
+            this.operationType = "approval";
+            var forms = me.query('form');
+            for (var i = 0; i < forms.length; i++) {
+                var fields = forms[i].getForm().getFields();
+                for (var i in fields.items) {
+                    fields.items[i].setReadOnly(true);
+                }
+            }
+        }
+
         if (type == "view") {
             this.setTitle("查看" + this.title);
             this.operationType = "view";

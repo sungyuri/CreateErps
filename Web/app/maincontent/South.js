@@ -4,7 +4,7 @@
     region: 'south',
     height: 20,
     bodyCls: "south",
-    html: '<div class="footer">Copyright © 神州数码      技术支持 . Technical Support</div>',
+    html: '<div class="footer">Copyright © 太仓创造电子有限公司      技术支持 . Technical Support</div>',
     border: false,
     initComponent: function () {
         var me = this;

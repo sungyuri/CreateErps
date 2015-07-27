@@ -1,7 +1,7 @@
 ﻿//个人信息维护
 Ext.define('TCSYS.erp.UserOwnInfo', {
     extend: 'Ext.panel.Panel',
-    title: '客户资料',
+    title: '个人资料',
     name: 'UserOwnInfo',
     alias: "widget.UserOwnInfo",
     closable: true,

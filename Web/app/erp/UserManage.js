@@ -2,7 +2,7 @@
 var dateNow = new Date();//新增用户创建时间字段取当前时间
 Ext.define('TCSYS.erp.UserManage', {
     extend: 'Ext.panel.Panel',
-    title: '客户资料',
+    title: '用户资料管理',
     name: 'UserManage',
     alias: "widget.UserManage",
     closable: true,

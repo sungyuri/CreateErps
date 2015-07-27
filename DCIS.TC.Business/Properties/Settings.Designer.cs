@@ -22,15 +22,5 @@ namespace TCEPORT.TC.Business.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://www.tceport.com.cn:8001/webservice/TokenService.asmx")]
-        public string TCEPORT_TC_Business_cn_com_tceport_www_TokenService {
-            get {
-                return ((string)(this["TCEPORT_TC_Business_cn_com_tceport_www_TokenService"]));
-            }
-        }
     }
 }

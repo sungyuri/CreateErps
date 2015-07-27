@@ -394,13 +394,13 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                     store["updateData"]({
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "back"
                     }, function (value) {
-                        if (value != '') {
-                            me.BasicInfoPK = value;
+                        if (value != 'true') {
+                          //  me.BasicInfoPK = value;
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
                             store.load();
                         } else {
-                            Ext.shortAlert('操作失败');
+                            Ext.shortAlert(value);
                         }
                     });
                 }
@@ -431,7 +431,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "agree"
                     }, function (value) {
                         if (value == 'true') {
-                            me.BasicInfoPK = value;
+                          //  me.BasicInfoPK = value;
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
                             store.load();

@@ -14,9 +14,9 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
         var me = this;
         var store = Ext.create('TCEPORT.Store', {
             autoLoad: true,
-            url: 'PurchaseContract_BLL/Get',
-            addUrl: 'PurchaseContract_BLL/Insert',
-            updateUrl: 'PurchaseContract_BLL/Update',
+            url: 'PurchaseContract_BLL/GetAppRecord',
+          //  addUrl: 'PurchaseContract_BLL/Insert',
+            updateUrl: 'PurchaseContract_BLL/UpdateAppRecord',
             //  deleteUrl: 'SaleContract_BLL/Delete',
             //  BillNo, ContractCode, SupplierNo, SupplierName, SignPlace, SignDate, ContractAmount,
             // ContractAmountBig, DeliveryTime, QA, DeliveryWay, PayWay, OtherNote, Remarks, 

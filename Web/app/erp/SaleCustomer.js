@@ -239,7 +239,7 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                             fieldLabel: '备注',
                             xtype: 'textarea',
                             maxLength: 100,
-                            labelWidth: 90
+                            labelWidth: 50
                         }]
                     }]
                 }//‘基本信息’fieldset结束

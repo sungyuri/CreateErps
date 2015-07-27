@@ -397,7 +397,7 @@ Ext.define('TCSYS.erp.PurchaseSupplier', {
                 text: '传真',
                 dataIndex: 'CFAX'
             }, {
-                text: '伊妹儿',
+                text: '电子邮件',
                 dataIndex: 'Email'
             }, {
                 text: '税号',

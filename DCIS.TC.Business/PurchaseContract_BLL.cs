@@ -45,6 +45,220 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
+       /// <summary>
+       /// 获取采购合同审批记录
+       /// </summary>
+       /// <param name="start"></param>
+       /// <param name="limit"></param>
+       /// <param name="strOrderBy"></param>
+       /// <param name="data"></param>
+       /// <returns></returns>
+        public dynamic GetPurchaseAppLog(int start, int limit, string strOrderBy, dynamic data)
+        {
+            string strSql = @" SELECT [BillNo]
+                                      ,[StepNo]
+                                      ,[StepName]
+                                      ,[FlowId]
+                                      ,[AppUserCode]
+                                      ,[AppUserName]
+                                      ,[AppStep]
+                                      ,[AppState]
+                                      ,[AppNote1]
+                                      ,[AppNote2]
+                                      ,[AppNote3]
+                                      ,[AppNote4]
+                                      ,[AppNote5]
+                                      ,[AppDataFirst]
+                                      ,[AppDataLast]
+                                      ,[AppPrescription]
+                                      ,[UserName]
+                                 FROM [ViewSaleContractAppLog] where 1=1  ";
+            if (data != null)
+            {
+                if (data.BillNo != null && data.BillNo != "")
+                {
+                    strSql += string.Format(@" and BillNo ='{0}'", data.BillNo);
+                }
+            }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+            DataTable dtTmp = DBUtil.Fill(pagedSql);
+            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+            return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+       /// <summary>
+       /// 采购合同审批列表
+       /// </summary>
+       /// <param name="start"></param>
+       /// <param name="limit"></param>
+       /// <param name="strOrderBy"></param>
+       /// <param name="data"></param>
+       /// <returns></returns>
+        public dynamic GetAppRecord(int start, int limit, string strOrderBy, dynamic data)
+        {
+            string UserCode = HttpContext.Current.Session["UserCode"].ToString();
+            string strSql = @" SELECT * FROM SysPurchaseContract WHERE AppUserCode like '%" + UserCode + "%' AND IsAppEnd='N' ";
+            if (data != null)
+            {
+                if (data.CustomerName != null && data.CustomerName != "")
+                {
+                    strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
+                }
+            }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+            DataTable dtTmp = DBUtil.Fill(pagedSql);
+            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+            return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+       /// <summary>
+       /// 采购合同审批提交
+       /// </summary>
+       /// <param name="billNo"></param>
+       /// <param name="stepNo"></param>
+       /// <param name="appnote"></param>
+       /// <param name="type"></param>
+       /// <returns></returns>
+        public string UpdateAppRecord(string billNo, string stepNo, string appnote, string type)
+        {
+            string returnValue = "";
+            string loginUserCode = HttpContext.Current.Session["UserCode"].ToString();
+            string updateLogSql = "";
+            string updateLogSqlBack = "";
+            string updateContractSql = "";
+            try
+            {
+                DBUtil.BeginTrans();
+                string strAppStep = DBUtil.Fill(@" SELECT AppStep FROM SysFlowManyStep WHERE BillNo='" + billNo + "' ").Rows[0][0].ToString();
+                string colNoteName = "AppNote" + strAppStep;//审核意见当前存储字段
+                if (type == "back")//退回
+                {
+                    updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE() WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
+                    updateLogSqlBack = @" UPDATE SysFlowManyStep SET AppState='N',AppStep=AppStep+1  WHERE BillNo='" + billNo + "' ";
+                    updateContractSql = @" UPDATE SysPurchaseContract SET StepNo=0,AppUserCode='',StepName='制单'  WHERE BillNo='" + billNo + "' ";
+                }
+                else//通过审批
+                {
+                    if (stepNo == "1")
+                    {
+                        DataTable dtAppUser = DBUtil.Fill(@" SELECT  AppUserCode FROM SysFlowManyStep WHERE BillNo='" + billNo + "' AND StepNo=2  ");
+                        string strAppUser = "";
+                        if (dtAppUser.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < dtAppUser.Rows.Count; i++)
+                            {
+                                strAppUser += dtAppUser.Rows[i][0].ToString() + ",";
+                            }
+                            strAppUser = strAppUser.Remove(strAppUser.Length - 1);
+                        }
+                        updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y' WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
+                        updateContractSql = @" UPDATE SysPurchaseContract SET StepNo=2,AppUserCode='" + strAppUser + "',StepName='会审'  WHERE BillNo='" + billNo + "' ";
+                    }
+                    else if (stepNo == "2")
+                    {
+                        bool isManyEnd = true;//会审是否结束
+                        string strCheckManyApp = @" SELECT AppState FROM SysFlowManyStep WHERE BillNo='" + billNo + "' AND StepNo=2 AND AppUserCode NOT IN('" + loginUserCode + "') ";
+                        DataTable dtCheckManyApp = DBUtil.Fill(strCheckManyApp);
+                        if (dtCheckManyApp.Rows.Count > 0)
+                        {
+                            for (int i = 0; i < dtCheckManyApp.Rows.Count; i++)
+                            {
+                                if (dtCheckManyApp.Rows[i][0].ToString() == "N")
+                                {
+                                    isManyEnd = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if (isManyEnd)//会审结束 步骤到3
+                        {
+                            DataTable dtAppUser = DBUtil.Fill(@" SELECT  AppUserCode FROM SysFlowManyStep WHERE BillNo='" + billNo + "' AND StepNo=3  ");
+                            string strAppUser = "";
+                            if (dtAppUser.Rows.Count > 0)
+                            {
+                                strAppUser = dtAppUser.Rows[0][0].ToString();
+                            }
+                            updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
+                            updateContractSql = @" UPDATE SysPurchaseContract SET StepNo=3,StepName='审定',AppUserCode='" + strAppUser + "'  WHERE BillNo='" + billNo + "' ";
+                        }
+                        else//会审没结束
+                        {
+                            DataTable dtAppUser = DBUtil.Fill(@" SELECT AppUserCode  FROM SysPurchaseContract WHERE BillNo='" + billNo + "' ");
+                            string strAppUser = "";
+                            if (dtAppUser.Rows.Count > 0)
+                            {
+                                strAppUser = dtAppUser.Rows[0][0].ToString();
+                            }
+                            int iStar = strAppUser.IndexOf(loginUserCode);
+                            if ((iStar + loginUserCode.Length) < strAppUser.Length)
+                            {
+                                strAppUser = strAppUser.Remove(iStar, loginUserCode.Length + 1);
+                            }
+                            else
+                            {
+                                strAppUser = strAppUser.Remove(iStar - 1, loginUserCode.Length + 1);
+                            }
+                            updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
+                            updateContractSql = @" UPDATE SysPurchaseContract SET AppUserCode='" + strAppUser + "'  WHERE BillNo='" + billNo + "' ";
+                        }
+                    }
+                    else//审定，结束审批流程
+                    {
+                        updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
+                        updateContractSql = @" UPDATE SysPurchaseContract SET AppUserCode='',IsAppEnd='Y',StepNo=99,StepName='审核完成'  WHERE BillNo='" + billNo + "' ";
+                    }
+                }
+
+                //执行SQL
+                if (DBUtil.ExecuteNonQuery(updateLogSql) > 0)
+                {
+                    returnValue = "true";
+                }
+                else
+                {
+                    returnValue = "操作失败";
+                    DBUtil.Rollback();
+                    return returnValue;
+                }
+                if (updateLogSqlBack != "")
+                {
+                    if (DBUtil.ExecuteNonQuery(updateLogSqlBack) > 0)
+                    {
+                        returnValue = "true";
+                    }
+                    else
+                    {
+                        returnValue = "操作失败";
+                        DBUtil.Rollback();
+                        return returnValue;
+                    }
+                }
+                if (DBUtil.ExecuteNonQuery(updateContractSql) > 0)
+                {
+                    returnValue = "true";
+                }
+                else
+                {
+                    returnValue = "操作失败";
+                    DBUtil.Rollback();
+                    return returnValue;
+                }
+                if (returnValue == "true")
+                {
+                    DBUtil.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                DBUtil.Rollback();
+                returnValue = "出错信息：" + ex.ToString();
+            }
+
+            return returnValue;
+        }
+
         public dynamic GetPurchaseContractDetail(int start, int limit, string strOrderBy, dynamic data)
         {
             //ViewSaleContractDetail

@@ -15,13 +15,7 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
         var store = Ext.create('TCEPORT.Store', {
             autoLoad: true,
             url: 'PurchaseContract_BLL/GetAppRecord',
-          //  addUrl: 'PurchaseContract_BLL/Insert',
             updateUrl: 'PurchaseContract_BLL/UpdateAppRecord',
-            //  deleteUrl: 'SaleContract_BLL/Delete',
-            //  BillNo, ContractCode, SupplierNo, SupplierName, SignPlace, SignDate, ContractAmount,
-            // ContractAmountBig, DeliveryTime, QA, DeliveryWay, PayWay, OtherNote, Remarks, 
-            // PurUserCode, PurUserName, StepNo, StepName, AppUserCode, AppUserName, IsPayoff,
-            //IsAppEnd, PaidAmount, IsStorage, CreateTime
             fields: [
                 'BillNo',
                 'ContractCode',
@@ -51,21 +45,23 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             ]
         });
 
-        //PurBillNo, GoodsCode, GoodsVersion, GoodsNo, GoodsName, GoodsCount, GoodsUnit,
-        //Manufacturer, InGoodsCount, STATE
-
         var gridstore = Ext.create('TCEPORT.Store', {
             url: 'PurchaseContract_BLL/GetPurchaseContractDetail',
             fields: ['PurBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'InGoodsCount', 'STATE', 'Manufacturer']
+        });
+
+        var applogstore = Ext.create('TCEPORT.Store', {
+            url: 'PurchaseContract_BLL/GetPurchaseAppLog',
+            fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'UserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirs', 'AppDataLast']
         });
 
         // var flag = '';
         //  var updaterecord = null;
         //新增窗口
         var goodsRow = null;
-        var SaleContractMgrWindow = {
+        var PurchaseContractMgrAppWindow = {
             xtype: 'datawindow',
-            title: '采购合同',
+            title: '采购合同审批',
             store: store,
             record: null,
             width: 800,
@@ -78,186 +74,74 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
-                text: '保存',
+                text: '退回',
                 name: 'btnSave',
-                iconCls: "icon-save",
+                iconCls: "icon-remove",
                 id: 'btnSave',
                 handler: function (sender) {
-                    //参数：合同明细
-                    var btn = '';
-                    if (sender.name == 'btnSave') {
-                        btn = 'save';
-                    }
-                    else {
-                        btn = 'app';
-                    }
-
-                    var grid = Ext.ComponentQuery.query('[itemId="SaleContractDetailGrid"]')[0];
-                    var contractDetail = grid.getStore();
-                    //  var contractDetail = Ext.ComponentQuery.query('grid[itemId="SaleContractDetailGrid"]')[0].getStore();
-                    //  var contractDetail = this.up('window').down('grid').getStore();
-                    var contractDetailArr = [];
-                    for (var i = 0; i < contractDetail.getCount() ; i++) {
-                        var recordDetail = contractDetail.getAt(i);
-
-                        contractDetailArr[i] = {
-                            PurBillNo: recordDetail.get('PurBillNo'),
-                            GoodsCode: recordDetail.get('GoodsCode'),
-                            GoodsVersion: recordDetail.get('GoodsVersion'),
-                            GoodsName: recordDetail.get('GoodsName'),
-                            GoodsNo: recordDetail.get('GoodsNo'),
-                            GoodsCount: recordDetail.get('GoodsCount'),
-                            GoodsUnit: recordDetail.get('GoodsUnit'),
-                            InGoodsCount: recordDetail.get('InGoodsCount'),
-                            STATE: recordDetail.get('STATE'),
-                            Manufacturer: recordDetail.get('Manufacturer')
-
-                        };
-                    }
-                    var currentWindow = this.up('window');
-                    var form = currentWindow.down('form').getForm();
-                    var formValues = form.getValues();
-                    if (!this.up('window').down('form').isValid()) {
+                    var appnote = Ext.getCmp('appnote');
+                    if (appnote.value == null || appnote.value == "") {
+                        Ext.Msg.show({
+                            title: '提示',
+                            width: 75,
+                            msg: '请填写审核意见！',
+                            width: 150,
+                            buttons: Ext.Msg.OK,
+                            icon: Ext.MessageBox.INFO
+                        });
+                        appnote.focus();
                         return;
                     }
-                    if (this.up('window').operationType == "add") {
-                        if (me.BasicInfoPK == null) {
-                            store[currentWindow.operationType + "Data"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
-                            }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
-                                    Ext.shortAlert('操作成功');
-                                    currentWindow.close();
-                                    store.load();
-                                } else {
-                                    Ext.shortAlert('操作失败');
-                                }
-                            });
+                    var currentWindow = this.up('window');
+                    var stepNo = currentWindow.record.get("StepNo");
+                    var billNo = currentWindow.record.get('BillNo');
+                    store["updateData"]({
+                        billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "back"
+                    }, function (value) {
+                        if (value == 'true') {
+                            //  me.BasicInfoPK = value;
+                            Ext.shortAlert('操作成功');
+                            currentWindow.close();
+                            store.load();
+                        } else {
+                            Ext.shortAlert(value);
                         }
-                        else {
-                            store["updateData"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
-                            }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
-                                    Ext.shortAlert('操作成功');
-                                    currentWindow.close();
-                                    store.load();
-                                } else {
-                                    Ext.shortAlert('操作失败');
-                                }
-                            });
-                        }
-                    }
-                    else {
-                        store["updateData"]({
-                            entity: formValues, type: btn,
-                            detailList: contractDetailArr
-                        }, function (value) {
-                            if (value != '') {
-                                me.BasicInfoPK = value;
-                                Ext.shortAlert('操作成功');
-                                currentWindow.close();
-                                store.load();
-                            } else {
-                                Ext.shortAlert('操作失败');
-                            }
-                        });
-                    }
+                    });
                 }
             }, {
-                text: '提交审批',
+                text: '通过审核',
                 name: 'btnApp',
                 iconCls: "icon-ok",
                 id: 'btnApp',
                 handler: function (sender) {
-                    //参数：合同明细
-                    var btn = '';
-                    if (sender.name == 'btnSave') {
-                        btn = 'save';
-                    }
-                    else {
-                        btn = 'app';
-                    }
-
-                    var grid = Ext.ComponentQuery.query('[itemId="SaleContractDetailGrid"]')[0];
-                    var contractDetail = grid.getStore();
-                    //  var contractDetail = Ext.ComponentQuery.query('grid[itemId="SaleContractDetailGrid"]')[0].getStore();
-                    //  var contractDetail = this.up('window').down('grid').getStore();
-                    var contractDetailArr = [];
-                    for (var i = 0; i < contractDetail.getCount() ; i++) {
-                        var recordDetail = contractDetail.getAt(i);
-
-                        contractDetailArr[i] = {
-                            PurBillNo: recordDetail.get('PurBillNo'),
-                            GoodsCode: recordDetail.get('GoodsCode'),
-                            GoodsVersion: recordDetail.get('GoodsVersion'),
-                            GoodsName: recordDetail.get('GoodsName'),
-                            GoodsNo: recordDetail.get('GoodsNo'),
-                            GoodsCount: recordDetail.get('GoodsCount'),
-                            GoodsUnit: recordDetail.get('GoodsUnit'),
-                            InGoodsCount: recordDetail.get('InGoodsCount'),
-                            STATE: recordDetail.get('STATE'),
-                            Manufacturer: recordDetail.get('Manufacturer')
-
-                        };
-                    }
-                    var currentWindow = this.up('window');
-                    var form = currentWindow.down('form').getForm();
-                    var formValues = form.getValues();
-                    if (!this.up('window').down('form').isValid()) {
+                    var appnote = Ext.getCmp('appnote');
+                    if (appnote.value == null || appnote.value == "") {
+                        Ext.Msg.show({
+                            title: '提示',
+                            width: 75,
+                            msg: '请填写审核意见！',
+                            width: 150,
+                            buttons: Ext.Msg.OK,
+                            icon: Ext.MessageBox.INFO
+                        });
+                        appnote.focus();
                         return;
                     }
-                    if (this.up('window').operationType == "add") {
-                        if (me.BasicInfoPK == null) {
-                            store[currentWindow.operationType + "Data"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
-                            }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
-                                    Ext.shortAlert('操作成功');
-                                    currentWindow.close();
-                                    store.load();
-                                } else {
-                                    Ext.shortAlert('操作失败');
-                                }
-                            });
+                    var currentWindow = this.up('window');
+                    var stepNo = currentWindow.record.get("StepNo");
+                    var billNo = currentWindow.record.get('BillNo');
+                    store["updateData"]({
+                        billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "agree"
+                    }, function (value) {
+                        if (value == 'true') {
+                            //  me.BasicInfoPK = value;
+                            Ext.shortAlert('操作成功');
+                            currentWindow.close();
+                            store.load();
+                        } else {
+                            Ext.shortAlert(value);
                         }
-                        else {
-                            store["updateData"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
-                            }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
-                                    Ext.shortAlert('操作成功');
-                                    currentWindow.close();
-                                    store.load();
-                                } else {
-                                    Ext.shortAlert('操作失败');
-                                }
-                            });
-                        }
-                    }
-                    else {
-                        store["updateData"]({
-                            entity: formValues, type: btn,
-                            detailList: contractDetailArr
-                        }, function (value) {
-                            if (value != '') {
-                                me.BasicInfoPK = value;
-                                Ext.shortAlert('操作成功');
-                                currentWindow.close();
-                                store.load();
-                            } else {
-                                Ext.shortAlert('操作失败');
-                            }
-                        });
-                    }
+                    });
                 }
             }, {
                 text: '取消',
@@ -266,7 +150,82 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                     this.up('window').close();
                 }
             }],
-            items: [
+            items: [{
+                xtype: 'textfield',
+                allowBlank: false,
+                margin: '5 50 0 0',
+                id: 'appnote',
+                name: 'appnote',
+                fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                blankText: '该输入项为必输项',
+                fieldLabel: '审核意见'
+            }, {
+                xtype: 'datagrid',
+                itemId: 'PurchaseContractAppLog',
+                width: 795,
+                height: 128,
+                border: false,
+                renderTo: Ext.getBody(),
+                margin: '0,0,0,0',
+                store: applogstore,
+                forceFit: true,
+                bbar: null,
+                columns: [{
+                    dataIndex: 'BillNo',
+                    hidden: true
+                }, {
+                    text: '序号',
+                    dataIndex: 'StepNo',
+                    width: 30
+                }, {
+                    text: '步骤',
+                    dataIndex: 'StepName',
+                    width: 50
+                }, {
+                    text: '审核人',
+                    dataIndex: 'UserName',
+                    width: 60
+                }, {
+                    dataIndex: 'AppState',
+                    text: '状态',
+                    width: 60,
+                    renderer: function (value) {
+                        if (value == 'N') {
+                            // return '<span style="color:red">未通过</span>';
+                        }
+                        else {
+                            return '<span style="color:red">已通过</span>';
+                        }
+                    }
+
+                }, {
+                    text: '意见一',
+                    dataIndex: 'AppNote1'
+                }, {
+                    text: '意见二',
+                    dataIndex: 'AppNote2'
+                }, {
+                    text: '意见三',
+                    dataIndex: 'AppNote3'
+                }, {
+                    text: '意见四',
+                    hidden: true,
+                    dataIndex: 'AppNote4'
+                }, {
+                    text: '意见五',
+                    dataIndex: 'AppNote5',
+                    hidden: true
+                }, {
+                    dataIndex: 'AppDataLast',
+                    text: '审核时间',
+                    width: 85,
+                    renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+                }, {
+                    hidden: true,
+                    dataIndex: 'AppStep'
+                }]
+
+            },
                 {
                     xtype: 'label',
                     margin: '5 0 5 300',
@@ -437,99 +396,37 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             },
             {
                 xtype: 'datagrid',
-                itemId: 'SaleContractDetailGrid',
+                itemId: 'PurchaseContractDetailGrid',
                 width: 795,
-                height: 170,
+                height: 108,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
                 store: gridstore,
+                bbar: null,
                 forceFit: true,
                 plugins: [new Ext.grid.plugin.CellEditing({
                     clicksToEdit: 1
-                })],
-                tbar: [{
-                    text: '新增',
-                    //   id: 'goodsAdd',
-                    xtype: 'addbutton',
-                    handler: function (sender) {
-                        var rec = new Object({
-                            PurBillNo: '',
-                            GoodsCode: '',
-                            GoodsVersion: '',
-                            GoodsName: '',
-                            GoodsNo: '',
-                            GoodsCount: '0',
-                            GoodsUnit: '',
-                            InGoodsCount: '0',
-                            STATE: 'N',
-                            Manufacturer: ''
-                        });
-                        //var grid = Ext.ComponentQuery.query('[itemId="SaleContractDetailGrid"]')[0];
-                        this.up('grid').getStore().insert(0, rec);
-                        // grid.getStore().insert(0, rec);
-                    }
-                }, {
-                    xtype: "button",
-                    text: "清空",
-                    // id:'goodsClear',
-                    iconCls: "icon-cancel",
-                    handler: this.onRemoveAllClick
-                }],
+                })],             
                 columns: [{
                     dataIndex: 'PurBillNo',
                     hidden: true
                 }, {
                     text: '序列',
                     dataIndex: 'GoodsCode',
-                    width: 50,
-                    editor: {
-                        xtype: 'searchfield',
-                        queryMode: 'local',
-                        store: 'SysGoodsStore',
-                        valueField: 'GoodsCode',
-                        displayField: 'GoodsCode',
-                        hideTrigger: true,
-                        selectOnFocus: false,
-                        allowBlank: false,
-                        listeners: {
-                            'gridItemClick': function (record, e) {
-                                goodsRow = record;
-                                //this.up('grid').down('textfield[name="Manufacturer"]').setValue(record.get('Manufacturer'));
-                            },
-                            beforerender:
-                                       function (tigger, opt) {
-                                           //var recd = goodsRow;
-                                           //if (recd) {
-                                           //    tigger.setHiddenValue(recd.get('GoodsCode'));
-                                           //    tigger.setValue(recd.get('GoodsName'));
-                                           //}
-                                       }
-                        }
-                    }
-                    // renderer: this.rendererData
+                    width: 50
                 }, {
                     text: '型号',
                     dataIndex: 'GoodsVersion'
                 }, {
                     text: '产品名称',
                     dataIndex: 'GoodsName'
-                    // hidden: true
                 }, {
                     text: '编号',
                     dataIndex: 'GoodsNo'
-                    //editor: {
-                    //    allowBlank: false,
-                    //    regex: /^(\-)?\d+(\.\d+)?$/
-                    //}
                 }, {
                     text: '数量',
-                    dataIndex: 'GoodsCount',
-                    editor: {
-                        allowBlank: false,
-                        selectOnFocus: true,
-                        regex: /^(\-)?\d+(\.\d+)?$/
-                    }
+                    dataIndex: 'GoodsCount'
                 }, {
                     text: '单位',
                     dataIndex: 'GoodsUnit'
@@ -542,66 +439,8 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                 }, {
                     text: '制造商',
                     dataIndex: 'Manufacturer'
-                }, {
-                    xtype: 'actioncolumn',
-                    //  itemId: 'myActionColumn',
-                    width: 30,
-                    sortable: false,
-                    menuDisabled: true,
-                    items: [{
-                        iconCls: 'icon-cancel',
-                        tooltip: '删除',
-                        scope: this,
-                        handler: this.onRemoveClick
-                    }]
-                }],
-                listeners: {
-                    edit: function (editor, e) {
-                        //   e.record.commit();
-                        //if (e.colIdx == 0) {
-                        // //   alert(e.value); 编辑框输入值
-                        //    e.record.set('GoodsCode', e.value);
-                        //} else { }
-                        //if (e.colIdx == 1) {
-                        //    e.record.set('GoodsVersion', e.value);
-                        //} else { }
-                        //if (e.colIdx == 2) {
-                        //    e.record.set('GoodsNo', e.value);
-                        //} else { }
-                        //if (e.colIdx == 3) {
-                        //    e.record.set('GoodsCount', e.value);
-                        //} else { }
-                        //if (e.colIdx == 4) {
-                        //    e.record.set('GoodsUnit', e.value);
-                        //} else { }
-                        //if (e.colIdx == 5) {
-                        //    e.record.set('Manufacturer', e.value);
-                        //} else { }
-                        if (e.colIdx == 0) {
-                            if (goodsRow != null) {
-                                e.record.set('GoodsVersion', goodsRow.get('GoodsVersion'));
-                                e.record.set('GoodsNo', goodsRow.get('GoodsNo'));
-                                e.record.set('GoodsUnit', goodsRow.get('GoodsUnit'));
-                                e.record.set('GoodsName', goodsRow.get('GoodsName'));
-                                e.record.set('Manufacturer', goodsRow.get('Manufacturer'));
-                                goodsRow = null;
-                            }
-                        }
-
-                        //    var findRecord = editor.store.findRecord("GoodsName", e.value);
-
-                        //    if (findRecord == undefined) {
-
-                        //        e.record.set('GoodsCode', '');
-                        //    } else {
-                        //        e.record.set('GoodsCode', findRecord.data.GoodsCode);
-                        //    }
-                        //}
-                    }
-                }
-            }
-            ]
-
+                }]
+            }]
         };
 
         this.add({
@@ -651,54 +490,12 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                     });
 
                 }
-            }, {
-                text: '新增',
-                xtype: 'addbutton',
-                handler: function (sender) {
-                    //  flag = 'add';
-                    var addWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
-                    addWindow.record = null;
-                    addWindow.setOperationType('add');
-                    addWindow.callerComp = sender;
-                    Ext.getCmp('btnApp').hidden = true;
-                    addWindow.show(this);
-                    me.BasicInfoPK = null;
-                    gridstore.removeAll();
-                }
-            }
-            , {
-                text: '修改',
-                xtype: 'updatebutton',
-                handler: function (sender) {
-                    // flag = 'update';
-                    var record = this.up('grid').getSelectionModel().getSelection()[0];
-                    //alert(record);
-                    if (record != null) {
-                        // updaterecord = record;
-                        var updateWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
-                        updateWindow.setOperationType('update');
-                        updateWindow.callerComp = sender;
-                        updateWindow.record = record;
-                        updateWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
-                        updateWindow.down('form').loadRecord(record);
-                        me.BasicInfoPK = record.get('BillNo');
-                        updateWindow.show(this);
-                        gridstore.load({
-                            params: { PurBillNo: record.get('BillNo') }
-                        });
-                    }
-                    else {
-                        Ext.Msg.alert('提示', '请先选中一条信息！');
-                    }
-
-
-                }
             }
             ],
             multiSelect: false,
             selModel: {
                 mode: 'SINGLE',  //多选multi,simple,单选single;
-                selType: 'checkboxmodel',
+               // selType: 'checkboxmodel',
                 showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
                 allowDeselect: true  //允许取消选中状态
             },
@@ -708,27 +505,23 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                 width: 50,
                 itemId: 'lc',
                 items: [{
-                    linkText: '查看',
+                    linkText: '审 核',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
-                        var viewWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
-                        viewWindow.setOperationType('view');
+                        var viewWindow = Ext.ComponentMgr.create(PurchaseContractMgrAppWindow);
+                        viewWindow.setOperationType('approval');
                         viewWindow.callerComp = sender;
                         viewWindow.record = record;
                         viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         viewWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
-                        Ext.getCmp('btnSave').hidden = true;//btnApp
-                        Ext.getCmp('btnApp').hidden = true;
-                        //   Ext.getCmp('goodsAdd').hidden = true;
-                        // Ext.getCmp('goodsClear').hidden = true;
-                        //     viewWindow.down('grid').down('#myActionColumn').hide();
-                        //grid.columns[i].hide()/show()
-                        //grid.columns[i].setVisible(false/true);
                         viewWindow.show(this);
                         gridstore.load({
-                            params: { PurBillNo: record.get('BillNo') }
+                            params: { SaleBillNo: record.get('BillNo') }
+                        });
+                        applogstore.load({
+                            params: { BillNo: record.get('BillNo') }
                         });
                     }
                 }
@@ -760,11 +553,14 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                 text: '状态',
                 dataIndex: 'StepNo',
                 renderer: function (value) {
-                    if (value == 0) {
-                        return '<span style="color:red">未提交审批</span>';
+                    if (value == 1) {
+                        return '<span style="color:red">初审</span>';
+                    }
+                    else if (value == 2) {
+                        return '<span style="color:red">会审</span>';
                     }
                     else {
-                        return value;
+                        return '<span style="color:red">审定</span>';
                     }
                 }
             }, {
@@ -787,13 +583,6 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
         else {
             return value;
         }
-    },//移除当前行
-    onRemoveClick: function (grid, rowIndex) {
-        grid.store.removeAt(rowIndex);
-    },
-    //清除grid
-    onRemoveAllClick: function (grid, rowIndex) {
-        this.up('grid').store.removeAll();
     }
 
 })

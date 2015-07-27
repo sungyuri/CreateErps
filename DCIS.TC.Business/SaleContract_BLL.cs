@@ -211,7 +211,7 @@ namespace TCEPORT.TC.Business
                 }
                 else
                 {
-                    returnValue = "false";
+                    returnValue = "操作失败";
                     DBUtil.Rollback();
                     return returnValue;
                 }
@@ -223,7 +223,7 @@ namespace TCEPORT.TC.Business
                     }
                     else
                     {
-                        returnValue = "false";
+                        returnValue = "操作失败";
                         DBUtil.Rollback();
                         return returnValue;
                     }
@@ -234,7 +234,7 @@ namespace TCEPORT.TC.Business
                 }
                 else
                 {
-                    returnValue = "false";
+                    returnValue = "操作失败";
                     DBUtil.Rollback();
                     return returnValue;
                 }

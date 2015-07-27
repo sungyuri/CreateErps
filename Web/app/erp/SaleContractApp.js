@@ -86,7 +86,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractAppLog',
                 width: 795,
-                height: 120,
+                height: 128,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -326,7 +326,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 100,
+                height: 108,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -501,7 +501,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
             multiSelect: false,
             selModel: {
                 mode: 'SINGLE',  //多选multi,simple,单选single;
-                selType: 'checkboxmodel',
+              //  selType: 'checkboxmodel',
                 showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
                 allowDeselect: true  //允许取消选中状态
             },

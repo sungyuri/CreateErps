@@ -446,7 +446,8 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                 dataIndex: 'CFAX'
             }, {
                 text: '区域',
-                dataIndex: 'AreaName'
+                dataIndex: 'AreaName',
+                align: 'center'
             }, {
                 text: '税号',
                 width: 120,

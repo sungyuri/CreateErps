@@ -185,8 +185,8 @@ Ext.define('TCSYS.erp.PurchaseSupplier', {
                             margin: '5 0 5 0',
                             fieldLabel: '银行账号',
                             xtype: 'textfield',
-                            regex: /^\d{19}?$/,
-                            regwxText: '请输入19位银行账号',
+                          //  regex: /^\d{19}?$/,
+                          //  regwxText: '请输入19位银行账号',
                             maxLength: 30,
                             labelWidth: 50
                         }]
@@ -397,7 +397,7 @@ Ext.define('TCSYS.erp.PurchaseSupplier', {
                 text: '传真',
                 dataIndex: 'CFAX'
             }, {
-                text: '伊妹儿',
+                text: '电子邮件',
                 dataIndex: 'Email'
             }, {
                 text: '税号',

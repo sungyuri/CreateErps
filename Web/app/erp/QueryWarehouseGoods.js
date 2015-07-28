@@ -326,10 +326,20 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
             }, {
                 dataIndex: 'GoodsTypeCode',
                 text: '货物类型代码',
+                hidden:true,
+                align: 'center'
+            }, {
+                dataIndex: 'GoodsTypeName',
+                text: '货物类型',
                 align: 'center'
             }, {
                 dataIndex: 'WarehouseCode',
                 text: '仓库类型代码',
+                hidden: true,
+                align: 'center'
+            }, {
+                dataIndex: 'WarehouseName',
+                text: '仓库类型',
                 align: 'center'
             }, {
                 dataIndex: 'GoodsNote',

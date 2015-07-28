@@ -1,7 +1,7 @@
 ﻿//库存
 Ext.define('TCSYS.erp.WarehouseGoods', {
     extend: 'Ext.panel.Panel',
-    title: '库存',
+    title: '库存管理',
     name: 'WarehouseGoods',
     alias: "widget.WarehouseGoods",
     closable: true,
@@ -403,11 +403,21 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
             }, {
                 dataIndex: 'GoodsTypeCode',
                 text: '货物类型代码',
-                align:'center'
+                align: 'center',
+                hidden:true
+            }, {
+                dataIndex: 'GoodsTypeName',
+                text: '货物类型',
+                align: 'center'
             }, {
                 dataIndex: 'WarehouseCode',
                 text: '仓库类型代码',
+                hidden:true,
                 align:'center'
+            }, {
+                dataIndex: 'WarehouseName',
+                text: '仓库类型',
+                align: 'center'
             }, {
                 dataIndex: 'GoodsNote',
                 text: '备注',

@@ -181,8 +181,8 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                             margin: '5 0 5 0',
                             fieldLabel: '银行账号',
                             xtype: 'textfield',
-                            regex: /^\d{19}?$/,
-                            regwxText: '请输入19位银行账号',
+                         //   regex: /^\d{19}?$/,
+                           // regwxText: '请输入19位银行账号',
                             maxLength: 30,
                             labelWidth: 50
                         }]
@@ -249,7 +249,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
         this.add({
             xtype: 'datagrid',
             store: store,
-            forceFit: false,
+            forceFit: true,
             tbar: [{
                 text: '查询',
                 xtype: 'button',
@@ -267,7 +267,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
-                width: 120,
+                width: 60,
                 itemId: 'lc',
                 items: [{
                     linkText: '查看',
@@ -284,7 +284,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                 }]
             }, {
                 dataIndex: 'SupplierName',
-                width: 180,
+                width: 200,
                 text: '客户名称'
             }, {
                 dataIndex: 'CPerson',
@@ -296,7 +296,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                 text: '传真',
                 dataIndex: 'CFAX'
             }, {
-                text: '伊妹儿',
+                text: '电子邮件',
                 dataIndex: 'Email'
             }, {
                 text: '税号',
@@ -311,7 +311,6 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                 dataIndex: 'BANKNO'
             }, {
                 text: '地址',
-                width: 200,
                 dataIndex: 'ADRESS'
             }]
         });

@@ -122,7 +122,7 @@ Ext.define('TCSYS.erp.UserManage', {
                             xtype: 'textfield',
                             name: 'UserCode',
                             margin: '5 0 5 0',
-                            fieldLabel: 'UserCode',
+                            fieldLabel: '账号',
                             id: 'userC',
                             hidden: true
                         }]
@@ -136,7 +136,7 @@ Ext.define('TCSYS.erp.UserManage', {
                             name: 'UserName',
                             itemId: 'ship_no_textfield',
                             margin: '5 0 5 0',
-                            fieldLabel: '用户名称',
+                            fieldLabel: '用户姓名',
                             readOnly: true,
                             id:'userN'
                             //labelWidth: 80
@@ -391,8 +391,9 @@ Ext.define('TCSYS.erp.UserManage', {
                 }]
             }, {
                 dataIndex: 'UserCode',
-                text: 'UserCode',
-                hidden:true
+                text: '账号',
+                hidden: false,
+                align: 'center'
             }, {
                 dataIndex: 'UserName',
                 text: '姓名',

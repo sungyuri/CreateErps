@@ -114,7 +114,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                             }
                         }]
                     }, , {
-                        columnWidth: .45,
+                        columnWidth: .3,
                         layout: 'form',
                         border: false,
                         baseCls: 'x-plain',
@@ -138,7 +138,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                             labelWidth: 50
                         }]
                     }, {
-                        columnWidth: .2,
+                        columnWidth: .35,
                         layout: 'form',
                         border: false,
                         baseCls: 'x-plain',
@@ -241,8 +241,8 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
             xtype: 'form',
             itemId: 'saleCustomerSelect',
             title: '查询条件',
-            collapsible: true,
-            forceFit: false,
+           // collapsible: true,
+            forceFit: true,
             layout: {
                 type: 'vbox'
             },
@@ -290,7 +290,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
-                width: 120,
+                width: 60,
                 itemId: 'lc',
                 items: [{
                     linkText: '查看',
@@ -306,7 +306,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                 }]
             }, {
                 dataIndex: 'CustomerName',
-                width: 180,
+                width: 200,
                 text: '客户名称'
             }, {
                 dataIndex: 'CPerson',
@@ -319,6 +319,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                 dataIndex: 'CFAX'
             }, {
                 text: '区域',
+                align: 'center',
                 dataIndex: 'AreaName'
             }, {
                 text: '税号',

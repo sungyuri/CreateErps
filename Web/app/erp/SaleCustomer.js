@@ -239,7 +239,7 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                             fieldLabel: '备注',
                             xtype: 'textarea',
                             maxLength: 100,
-                            labelWidth: 90
+                            labelWidth: 50
                         }]
                     }]
                 }//‘基本信息’fieldset结束
@@ -446,7 +446,8 @@ Ext.define('TCSYS.erp.SaleCustomer', {
                 dataIndex: 'CFAX'
             }, {
                 text: '区域',
-                dataIndex: 'AreaName'
+                dataIndex: 'AreaName',
+                align: 'center'
             }, {
                 text: '税号',
                 width: 120,

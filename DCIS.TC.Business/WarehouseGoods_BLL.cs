@@ -71,6 +71,8 @@ namespace TCEPORT.TC.Business
             string tableName = "";
             if (data.selectedItem == "SysGoodsType") { tableName = data.selectedItem; colName = "[GoodsTypeCode] as Code,[GoodsTypeName] as Name"; }
             else if (data.selectedItem == "SysArea") { tableName = data.selectedItem; colName = "[AreaCode] as Code,[AreaName] as Name"; }
+            else if (data.selectedItem == "SysDepart") { tableName = data.selectedItem; colName = "[DepartCode] as Code,[DepartName] as Name"; }
+            else if (data.selectedItem == "SysPosition") { tableName = data.selectedItem; colName = "[PositionCode] as Code,[PositionName] as Name"; }
             string strSql = @" SELECT "+colName+" FROM [CreateErp].[dbo]."+tableName+" WHERE 1=1  ";
             if (data != null)
             {
@@ -94,6 +96,28 @@ namespace TCEPORT.TC.Business
                     if (data.Name != null && data.Name != "")
                     {
                         strSql += string.Format(@" and AreaName like '%{0}%'", data.Name);
+                    }
+                }
+                if (tableName == "SysDepart")
+                {
+                    if (data.Code != null && data.Code != "")
+                    {
+                        strSql += string.Format(@" and DepartCode like '%{0}%'", data.Code);
+                    }
+                    if (data.Name != null && data.Name != "")
+                    {
+                        strSql += string.Format(@" and DepartName like '%{0}%'", data.Name);
+                    }
+                }
+                if (tableName == "SysPosition")
+                {
+                    if (data.Code != null && data.Code != "")
+                    {
+                        strSql += string.Format(@" and PositionCode like '%{0}%'", data.Code);
+                    }
+                    if (data.Name != null && data.Name != "")
+                    {
+                        strSql += string.Format(@" and PositionName like '%{0}%'", data.Name);
                     }
                 }
                 
@@ -136,6 +160,14 @@ namespace TCEPORT.TC.Business
                 else if (type == "SysArea")
                 {
                     sqlStr = string.Format(@" update [CreateErp].[dbo].[SysArea] set [AreaName]='" + entity.Name + "' where [AreaCode]=" + entity.Code + " ");
+                }
+                else if (type == "SysDepart")
+                {
+                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysDepart] set [DepartName]='" + entity.Name + "' where [DepartCode]=" + entity.Code + " ");
+                }
+                else if (type == "SysPosition")
+                {
+                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysPosition] set [PositionName]='" + entity.Name + "' where [PositionCode]=" + entity.Code + " ");
                 }
 
 
@@ -213,6 +245,14 @@ namespace TCEPORT.TC.Business
                 {
                     sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysArea]([AreaName]) VALUES('{0}') ", entity.Name);
                 }
+                else if (type == "SysDepart")
+                {
+                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysDepart]([DepartName]) VALUES('{0}') ", entity.Name);
+                }
+                else if (type == "SysPosition")
+                {
+                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysPosition]([PositionName]) VALUES('{0}') ", entity.Name);
+                }
 
 
                 if (DBUtil.ExecuteNonQuery(sqlStr) > 0)
@@ -270,6 +310,8 @@ namespace TCEPORT.TC.Business
             {
                 if (type == "SysGoodsType") { sql = string.Format(@"delete from SysGoodsType where GoodsTypeCode={0}", strCode); }
                 else if (type == "SysArea") { sql = string.Format(@"delete from SysArea where AreaCode={0}", strCode); }
+                else if (type == "SysDepart") { sql = string.Format(@"delete from SysDepart where DepartCode={0}", strCode); }
+                else if (type == "SysPosition") { sql = string.Format(@"delete from SysPosition where PositionCode={0}", strCode); }
                 DBUtil.Fill(sql);
                 returnInfo = "true";
             }

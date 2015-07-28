@@ -316,8 +316,8 @@ Ext.define('TCSYS.erp.SaleCustomer', {
             store: store,
             xtype: 'form',
             itemId: 'saleCustomerSelect',
-            //title: '查询条件',
-            //collapsible: true,
+            title: '查询条件',
+            collapsible: true,
             layout: {
                 type: 'vbox'
             },

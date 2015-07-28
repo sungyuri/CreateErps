@@ -239,7 +239,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
             border: false,
             store: store,
             xtype: 'form',
-            itemId: 'saleCustomerSelect',
+            itemId: 'QuerySaleCustomerSelect',
             title: '查询条件',
            // collapsible: true,
             forceFit: true,
@@ -278,7 +278,7 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="saleCustomerSelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="QuerySaleCustomerSelect"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
                     //alert(obj);

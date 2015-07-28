@@ -202,6 +202,285 @@ namespace TCEPORT.TC.Business.Common
             return reStr;
         }
 
+        public  string GetChinaMoney(decimal money)
+        {
+
+            string[] strArray;
+
+            string str = "";
+
+            string str2 = "";
+
+            string str3 = money.ToString("0.00");
+
+            switch (str3.Trim().Length)
+            {
+
+                case 4:
+
+                    strArray = new string[] { str3[0].ToString(), "y", str3[2].ToString(), "j", str3[3].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 5:
+
+                    strArray = new string[] { str3[0].ToString(), "s", str3[1].ToString(), "y", str3[3].ToString(), "j", str3[4].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 6:
+
+                    strArray = new string[] { str3[0].ToString(), "b", str3[1].ToString(), "s", str3[2].ToString(), "y", str3[4].ToString(), "j", str3[5].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 7:
+
+                    strArray = new string[] { str3[0].ToString(), "q", str3[1].ToString(), "b", str3[2].ToString(), "s", str3[3].ToString(), "y", str3[5].ToString(), "j", str3[6].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 8:
+
+                    strArray = new string[] { str3[0].ToString(), "w", str3[1].ToString(), "q", str3[2].ToString(), "b", str3[3].ToString(), "s", str3[4].ToString(), "y", str3[6].ToString(), "j", str3[7].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 9:
+
+                    strArray = new string[] { str3[0].ToString(), "s", str3[1].ToString(), "w", str3[2].ToString(), "q", str3[3].ToString(), "b", str3[4].ToString(), "s", str3[5].ToString(), "y", str3[7].ToString(), "j", str3[8].ToString(), "f" };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 10:
+
+                    strArray = new string[] {  
+
+                        str3[0].ToString(), "b", str3[1].ToString(), "s", str3[2].ToString(), "w", str3[3].ToString(), "q", str3[4].ToString(), "b", str3[5].ToString(), "s", str3[6].ToString(), "y", str3[8].ToString(), "j",  
+
+                        str3[9].ToString(), "f" 
+
+                     };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 11:
+
+                    strArray = new string[] {  
+
+                        str3[0].ToString(), "q", str3[1].ToString(), "b", str3[2].ToString(), "s", str3[3].ToString(), "w", str3[4].ToString(), "q", str3[5].ToString(), "b", str3[6].ToString(), "s", str3[7].ToString(), "y",  
+
+                        str3[9].ToString(), "j", str3[10].ToString(), "f" 
+
+                     };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+
+
+                case 12:
+
+                    strArray = new string[] {  
+
+                        str3[0].ToString(), "m", str3[1].ToString(), "q", str3[2].ToString(), "b", str3[3].ToString(), "s", str3[4].ToString(), "w", str3[5].ToString(), "q", str3[6].ToString(), "b", str3[7].ToString(), "s",  
+
+                        str3[8].ToString(), "y", str3[10].ToString(), "j", str3[11].ToString(), "f" 
+
+                     };
+
+                    str = string.Concat(strArray);
+
+                    break;
+
+            }
+
+            for (int i = 0; i < str.Trim().Length; i++)
+            {
+
+                switch (str[i])
+                {
+
+                    case '0':
+
+                        str2 = str2 + "零";
+
+                        break;
+
+
+
+                    case '1':
+
+                        str2 = str2 + "壹";
+
+                        break;
+
+
+
+                    case '2':
+
+                        str2 = str2 + "贰";
+
+                        break;
+
+
+
+                    case '3':
+
+                        str2 = str2 + "叁";
+
+                        break;
+
+
+
+                    case '4':
+
+                        str2 = str2 + "肆";
+
+                        break;
+
+
+
+                    case '5':
+
+                        str2 = str2 + "伍";
+
+                        break;
+
+
+
+                    case '6':
+
+                        str2 = str2 + "陆";
+
+                        break;
+
+
+
+                    case '7':
+
+                        str2 = str2 + "柒";
+
+                        break;
+
+
+
+                    case '8':
+
+                        str2 = str2 + "捌";
+
+                        break;
+
+
+
+                    case '9':
+
+                        str2 = str2 + "玖";
+
+                        break;
+
+
+
+                    case 'b':
+
+                        str2 = str2 + " 佰 ";
+
+                        break;
+
+
+
+                    case 'f':
+
+                        str2 = str2 + " 分 ";
+
+                        break;
+
+
+
+                    case 'j':
+
+                        str2 = str2 + " 角 ";
+
+                        break;
+
+
+
+                    case 'm':
+
+                        str2 = str2 + " 亿 ";
+
+                        break;
+
+
+
+                    case 'q':
+
+                        str2 = str2 + " 仟 ";
+
+                        break;
+
+
+
+                    case 's':
+
+                        str2 = str2 + "拾";
+
+                        break;
+
+
+
+                    case 'w':
+
+                        str2 = str2 + " 万 ";
+
+                        break;
+
+
+
+                    case 'y':
+
+                        str2 = str2 + " 元 ";
+
+                        break;
+
+                }
+
+            }
+
+            return str2;
+
+        } 
+
+
 
     }
 }

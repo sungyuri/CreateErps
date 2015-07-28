@@ -219,7 +219,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
             border: false,
             store: store,
             xtype: 'form',
-            itemId: 'supplierSelect',
+            itemId: 'QuerySupplierSelect',
             title: '查询条件',
             collapsible: true,
             layout: {
@@ -255,7 +255,7 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="supplierSelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="QuerySupplierSelect"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
                     store.load({

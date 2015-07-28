@@ -234,7 +234,7 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
             border: false,
             store: storeWarehouseGoods,
             xtype: 'form',
-            itemId: 'searchGoods',
+            itemId: 'QuerySearchGoods',
             title: '查询条件',
             collapsible: true,
             layout: {
@@ -270,7 +270,7 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
                 xtype: 'button',
                 iconCls: 'icon-Search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="searchGoods"]')[0];
+                    var object = Ext.ComponentQuery.query('[itemId="QuerySearchGoods"]')[0];
                     var form = object.getForm();
                     var obj = form.getValues();
                     storeWarehouseGoods.load({ params: obj });

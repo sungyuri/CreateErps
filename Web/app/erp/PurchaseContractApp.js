@@ -447,7 +447,7 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             border: false,
             store: store,
             xtype: 'form',
-            itemId: 'saleContactDataRecordSelect',
+            itemId: 'purchaseContactAppSelect',
             title: '查询条件',
             collapsible: true,
             layout: {
@@ -482,7 +482,7 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="saleContactDataRecordSelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="purchaseContactAppSelect"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
                     store.load({

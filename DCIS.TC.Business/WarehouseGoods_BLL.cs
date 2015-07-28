@@ -8,6 +8,7 @@ using TCEPORT.TC.Data;
 using TCEPORT.TC.Business.Common;
 using DCIS.DbAccess;
 using System.Web;
+using System.Web.Script.Serialization;
 
 namespace TCEPORT.TC.Business
 {
@@ -57,7 +58,7 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
       /// <summary>
-      /// 获取货物类型表数据
+      /// 获取维护数据
       /// </summary>
       /// <param name="start"></param>
       /// <param name="limit"></param>
@@ -66,21 +67,36 @@ namespace TCEPORT.TC.Business
       /// <returns></returns>
         public dynamic GetGoods(int start, int limit, string strOrderBy, dynamic data)
         {
-            string strSql = @" SELECT 
-                              [GoodsTypeCode]
-                              ,[GoodsTypeName]
-                          FROM [CreateErp].[dbo].[SysGoodsType]
-                                WHERE 1=1  ";
+            string colName = "";
+            string tableName = "";
+            if (data.selectedItem == "SysGoodsType") { tableName = data.selectedItem; colName = "[GoodsTypeCode] as Code,[GoodsTypeName] as Name"; }
+            else if (data.selectedItem == "SysArea") { tableName = data.selectedItem; colName = "[AreaCode] as Code,[AreaName] as Name"; }
+            string strSql = @" SELECT "+colName+" FROM [CreateErp].[dbo]."+tableName+" WHERE 1=1  ";
             if (data != null)
             {
-                if (data.GoodsTypeCode != null && data.GoodsTypeCode != "")
+                if (tableName == "SysGoodsType")
                 {
-                    strSql += string.Format(@" and GoodsTypeCode like '%{0}%'", data.GoodsTypeCode);
+                    if (data.Code != null && data.Code != "")
+                    {
+                        strSql += string.Format(@" and GoodsTypeCode like '%{0}%'", data.Code);
+                    }
+                    if (data.Name != null && data.Name != "")
+                    {
+                        strSql += string.Format(@" and GoodsTypeName like '%{0}%'", data.Name);
+                    }
                 }
-                if (data.GoodsTypeName != null && data.GoodsTypeName != "")
+                if (tableName == "SysArea")
                 {
-                    strSql += string.Format(@" and GoodsTypeName like '%{0}%'", data.GoodsTypeName);
+                    if (data.Code != null && data.Code != "")
+                    {
+                        strSql += string.Format(@" and AreaCode like '%{0}%'", data.Code);
+                    }
+                    if (data.Name != null && data.Name != "")
+                    {
+                        strSql += string.Format(@" and AreaName like '%{0}%'", data.Name);
+                    }
                 }
+                
             }
             //strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.GoodsCode asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
             //string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
@@ -107,18 +123,37 @@ namespace TCEPORT.TC.Business
             return entity.GoodsCode.ToString();
         }
 
-        public string UpdateGoodsType(SysGoodsType_Entity entity)
+        public string UpdateGoodsType(dynamic entity,string type)
         {
+            string returnValue = "";
+            string sqlStr = "";
             try
             {
-                PublicRule.Update(entity);
+                if (type == "SysGoodsType")
+                {
+                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysGoodsType] set [GoodsTypeName]='"+entity.Name+"' where [GoodsTypeCode]="+entity.Code+" ");
+                }
+                else if (type == "SysArea")
+                {
+                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysArea] set [AreaName]='" + entity.Name + "' where [AreaCode]=" + entity.Code + " ");
+                }
+
+
+                if (DBUtil.ExecuteNonQuery(sqlStr) > 0)
+                {
+                    returnValue = "true";
+                }
             }
             catch (Exception ex)
             {
 
-                entity.GoodsTypeCode = -1;
+                returnValue = "出错信息：" + ex.Message.ToString();
             }
-            return entity.GoodsTypeCode.ToString();
+
+
+
+
+            return returnValue;
 
         }
 
@@ -162,14 +197,24 @@ namespace TCEPORT.TC.Business
       /// </summary>
       /// <param name="entity"></param>
       /// <returns></returns>
-        public string InsertGoodsType(SysGoodsType_Entity entity)
+        public string InsertGoodsType(dynamic entity,string type)
         {
             string returnValue = "";
+            string sqlStr = "";
             try
             {
-                string sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysGoodsType]
+                if (type == "SysGoodsType")
+                {
+                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysGoodsType]
                                                ([GoodsTypeName])
-             VALUES('{0}') ",  entity.GoodsTypeName);
+             VALUES('{0}') ", entity.Name);
+                }
+                else if (type == "SysArea")
+                {
+                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysArea]([AreaName]) VALUES('{0}') ", entity.Name);
+                }
+
+
                 if (DBUtil.ExecuteNonQuery(sqlStr) > 0)
                 {
                     returnValue = "true";
@@ -177,11 +222,17 @@ namespace TCEPORT.TC.Business
             }
             catch (Exception ex)
             {
-                returnValue = "出错信息：" + ex.ToString();
+
+                returnValue = "出错信息：" + ex.Message.ToString();
             }
+
+
+
+
             return returnValue;
 
         }
+        
 
 
         /// <summary>
@@ -207,16 +258,18 @@ namespace TCEPORT.TC.Business
         }
 
       /// <summary>
-      /// 删除货物类型
+      /// 删除项目类型
       /// </summary>
       /// <param name="strCode"></param>
       /// <returns></returns>
-        public string DeleteGoodsType(string strCode)
+        public string DeleteGoodsType(string strCode,string type)
         {
             string returnInfo = "";
+            string sql = "";
             try
             {
-                string sql = string.Format(@"delete from SysGoodsType where GoodsTypeCode={0}", strCode);
+                if (type == "SysGoodsType") { sql = string.Format(@"delete from SysGoodsType where GoodsTypeCode={0}", strCode); }
+                else if (type == "SysArea") { sql = string.Format(@"delete from SysArea where AreaCode={0}", strCode); }
                 DBUtil.Fill(sql);
                 returnInfo = "true";
             }

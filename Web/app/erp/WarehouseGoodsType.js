@@ -1,7 +1,7 @@
 ﻿//货物类型
 Ext.define('TCSYS.erp.WarehouseGoodsType', {
     extend: 'Ext.panel.Panel',
-    title: '货物类型管理',
+    title: '类型维护',
     name: 'WarehouseGoodsType',
     alias: "widget.WarehouseGoodsType",
     closable: true,
@@ -20,7 +20,13 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
             addUrl: 'WarehouseGoods_BLL/InsertGoodsType',
             updateUrl: 'WarehouseGoods_BLL/UpdateGoodsType',
             deleteUrl: 'WarehouseGoods_BLL/DeleteGoodsType',
-            fields: ['GoodsTypeCode','GoodsTypeName']
+            fields: ['Code', 'Name']
+        });
+
+
+        var storeUpholdItems = new Ext.data.ArrayStore({
+            fields: ['key', 'value'],
+            data: [['货物类型', 'SysGoodsType'], ['客户区域', 'SysArea']]
         });
 
         var window = {
@@ -40,23 +46,30 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                     handler: function () {
                         var currentWindow = this.up('window');
                         var userInfoWindow = Ext.getCmp('formId').getForm();
+                        var type=Ext.getCmp('selectedItem').value;
                         if (!userInfoWindow.isValid) { return; } else {
-                            var formValues = userInfoWindow.getValues();
+                            var formValues = userInfoWindow.getValues();//{Code: "", Name: ""}
                             if (currentWindow.operationType == 'add') {
-                                store[currentWindow.operationType + 'Data']({ entity: formValues }, function (value) {
+                                store[currentWindow.operationType + 'Data']({ entity: formValues,type:type }, function (value) {
                                     if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
-                                        store.load();
+                                        var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                                        var form = object.getForm();
+                                        var obj = form.getValues();
+                                        store.load({ params: obj });
                                         Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');
                                     }
                                 });
                             } else {
-                                store['updateData']({ entity: formValues }, function (value) {
-                                    if (value != '-1') {
+                                store['updateData']({ entity: formValues,type:type }, function (value) {
+                                    if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
-                                        store.load();
+                                        var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                                        var form = object.getForm();
+                                        var obj = form.getValues();
+                                        store.load({ params: obj });
                                         Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');
@@ -87,9 +100,9 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                         border: false,
                         items: [{
                             xtype: 'textfield',
-                            name: 'GoodsTypeCode',
+                            name: 'Code',
                             margin: '5 0 5 0',
-                            fieldLabel: '类型代码',
+                            fieldLabel: '代码',
                             id: 'userC',
                             readOnly: true
                         }]
@@ -100,10 +113,10 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                         border: false,
                         items: [{
                             xtype: 'textfield',
-                            name: 'GoodsTypeName',
+                            name: 'Name',
                             itemId: 'ship_no_textfield',
                             margin: '5 0 5 0',
-                            fieldLabel: '类型名称',
+                            fieldLabel: '名称',
                             id: 'userN'
                         }]
                     }]
@@ -136,13 +149,50 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                     width: '20%'
                 },
                 items: [{
-                    xtype: 'textfield',
-                    name: 'GoodsTypeCode',
-                    fieldLabel: '货物代码'
+                    xtype: 'combobox',
+                    fieldLabel: '维护项目',
+                    name:'selectedItem',
+                    forceSelection: true,
+                    store: storeUpholdItems,
+                    valueField: 'value',
+                    displayField: 'key',
+                    id:'selectedItem',
+                    //selectOnFocus: true,//文本全选
+                    listeners: {
+                        select: function (combo, records) {
+                            var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                            var form = object.getForm();
+                            //form.reset();
+                            var obj = form.getValues();
+                            store.load({ params: obj });                            
+                        }
+                    }
                 }, {
                     xtype: 'textfield',
-                    name: 'GoodsTypeName',
-                    fieldLabel: '货物名称'
+                    name: 'Code',
+                    id:'code',
+                    fieldLabel: '代码',
+                    listeners: {
+                        change: function () {
+                            var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                            var form = object.getForm();
+                            var obj = form.getValues();
+                            store.load({ params: obj });
+                        }
+                    }
+                }, {
+                    xtype: 'textfield',
+                    name: 'Name',
+                    id:'name',
+                    fieldLabel: '名称',
+                    listeners: {
+                        change: function () {
+                            var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                            var form = object.getForm();
+                            var obj = form.getValues();
+                            store.load({ params: obj });
+                        }
+                    }
                 }]
             }]
         });
@@ -201,16 +251,20 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                     linkText: '删除',
                     handler: function (grid, rowIndex, colIndex) {
                         var records = grid.getStore().getAt(rowIndex);
+                        var type = Ext.getCmp('selectedItem').value;
                         if (records != null) {
                             Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
                                 if (check == "yes") {
                                     var array = [];
                                     Ext.Array.each(records, function (item) {
-                                        array.push(item.get('GoodsTypeCode'));
+                                        array.push(item.get('Code'));
                                     });
-                                    store.deleteData({ strCode: array.join(',') }, function () {
+                                    store.deleteData({ strCode: array.join(','),type:type }, function () {
                                         Ext.shortAlert('操作成功');
-                                        store.load();
+                                        var object = Ext.ComponentQuery.query('[itemId="searchGoodsType"]')[0];
+                                        var form = object.getForm();
+                                        var obj = form.getValues();
+                                        store.load({ params: obj });
                                     });
                                 }
                             });
@@ -220,12 +274,12 @@ Ext.define('TCSYS.erp.WarehouseGoodsType', {
                     }
                 }]
             }, {
-                dataIndex: 'GoodsTypeCode',
+                dataIndex: 'Code',
                 text: '类型代码',
                 readOnly: true,
                 align:'center'
             }, {
-                dataIndex: 'GoodsTypeName',
+                dataIndex: 'Name',
                 text: '类型名称',
                 align: 'center'
             }]

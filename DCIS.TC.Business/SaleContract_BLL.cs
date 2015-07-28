@@ -46,6 +46,42 @@ namespace TCEPORT.TC.Business
         }
 
         /// <summary>
+        /// 销售合同查询
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public dynamic QuerySaleContract(int start, int limit, string strOrderBy, dynamic data)
+        {
+
+            string strSql = @" SELECT * FROM SysSaleContract WHERE 1=1 ";
+            //int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
+          //  string UserCode = HttpContext.Current.Session["UserCode"].ToString();          
+            if (data != null)
+            {
+                if (data.CustomerName != null && data.CustomerName != "")
+                {
+                    strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
+                }
+                if (data.IsAppEnd != null && data.IsAppEnd != "")
+                {
+                    strSql += string.Format(@" and IsAppEnd ='{0}'", data.IsAppEnd);
+                }
+                if (data.PurUserName != null && data.PurUserName != "")
+                {
+                    strSql += string.Format(@" and PurUserName like '%{0}%'", data.PurUserName);
+                }
+            }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+            DataTable dtTmp = DBUtil.Fill(pagedSql);
+            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+            return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+        /// <summary>
         /// 获取销售审批记录
         /// </summary>
         /// <param name="start"></param>

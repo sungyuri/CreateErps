@@ -56,6 +56,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
 
         var purchasePayStore = Ext.create('TCEPORT.Store', {
             url: 'PurchasePay_BLL/GetPurchasePayInfo',
+            autoLoad: true,
             addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'PurchasePay_BLL/UpdatePurchasePayInfo',
             fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
@@ -99,7 +100,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     columns: 3
                 },
                 defaults: {
-                    xtype: 'textfield'
+                    xtype: 'textfield',
+                    labelWidth :100
                 },
                 items: [{
                     name: 'BillNo',
@@ -107,10 +109,12 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     fieldLabel: '付款单主键',
                     hidden: true
                 }, {
-                    xtype: 'splitter'
-                }, {
-                    xtype: 'splitter'
-                }, {
+                    name: 'ReceiveName',
+                    margin: '0 0 5 0',
+                    readOnly: true,
+                    fieldLabel: '收款方',
+                    width:300
+                },{
                     name: 'CreateDate',
                     fieldLabel: '制单时间',
                     format: 'Y-m-d',
@@ -119,33 +123,29 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     blankText: '该输入项为必输项',
                     xtype: 'datefield'
                 }, {
+                    xtype: 'splitter'
+                }, {
+                    name: 'ContractCode',
+                    margin: '0 0 5 0',
+                    readOnly: true,
+                    fieldLabel: '合同编号'
+                },  {
                     name: 'PurBillNo',
                     margin: '0 0 5 0',
                     fieldLabel: '关联合同主键',
                     hidden: true
                 }, {
-                    name: 'ContractCode',                  
-                    margin: '0 0 5 0',
-                    readonly:true,
-                    fieldLabel: '合同编号'
-                }, {
-                    xtype: 'splitter'
-                }, {
                     name: 'TotalAmount',
                     margin: '0 0 5 0',
-                    readonly: true,
+                    readOnly: true,
                     fieldLabel: '合同金额'
-                }, {
-                    name: 'ReceiveName',
-                    margin: '0 0 5 0',
-                    readonly: true,
-                    fieldLabel: '收款方'
                 }, {
                     xtype: 'splitter'
                 }, {
                     name: 'PaidAmount',
                     margin: '0 0 5 0',
-                    readonly: true,
+                    readOnly: true,
+                    colspan: 3,
                     fieldLabel: '已付金额'
                 }, {
                     name: 'PayReason',
@@ -176,6 +176,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     value: 0,
                     maxValue: 99999999,
                     minValue: 0,
+                    colspan: 3,
                     allowBlank: false,
                     fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                     blankText: '请输入数字',
@@ -193,7 +194,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     margin: '0 0 5 0',
                     colspan: 3,
                     width: 780,
-                    fieldLabel: '大写金额：'
+                    readOnly: true,
+                    fieldLabel: '人民币：'
                 }, {
                     name: 'Remarks',
                     fieldLabel: '备注',
@@ -210,48 +212,39 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 iconCls: "icon-save",
                 id: 'btnSave',
                 handler: function (sender) {
-
-                    var btn = '';
-                    if (sender.name == 'btnSave') {
-                        btn = 'save';
-                    }
-                    else {
-                        btn = 'app';
-                    }
-                    var currentWindow = Ext.ComponentQuery.query('[itemId="PurchaseContractPayWd"]')[0];
-                   
-                   // var currentWindow = this.up('window');
+                
+                    var currentWindow = Ext.ComponentQuery.query('[itemId="PurchaseContractPayWd"]')[0];                   
+                  // var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (!this.up('window').down('form').isValid()) {
-                        return;
+                       return;
                     }
                     if (currentWindow.operationType == "add") {
                         if (me.BasicInfoPK == null) {
-                            store[currentWindow.operationType + "Data"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
+                            purchasePayStore[currentWindow.operationType + "Data"]({
+                                entity: formValues, type: 'save'
                             }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
+                                if (value == 'true') {
+                                    me.BasicInfoPK = null;
                                     Ext.shortAlert('操作成功');
                                     currentWindow.close();
-                                    store.load();
+                                    purchasePayStore.load();
                                 } else {
-                                    Ext.shortAlert('操作失败');
+                                   // Ext.shortAlert('操作失败');
+                                    Ext.shortAlert(value);
                                 }
                             });
                         }
                         else {
-                            store["updateData"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
+                            purchasePayStore["updateData"]({
+                                entity: formValues, type: 'app'
                             }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
+                                if (value == 'true') {
+                                    me.BasicInfoPK = null;
                                     Ext.shortAlert('操作成功');
                                     currentWindow.close();
-                                    store.load();
+                                    purchasePayStore.load();
                                 } else {
                                     Ext.shortAlert('操作失败');
                                 }
@@ -259,15 +252,14 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         }
                     }
                     else {
-                        store["updateData"]({
-                            entity: formValues, type: btn,
-                            detailList: contractDetailArr
+                        purchasePayStore["updateData"]({
+                            entity: formValues, type: 'save'
                         }, function (value) {
-                            if (value != '') {
-                                me.BasicInfoPK = value;
+                            if (value == 'true') {
+                                me.BasicInfoPK = null;
                                 Ext.shortAlert('操作成功');
                                 currentWindow.close();
-                                store.load();
+                                purchasePayStore.load();
                             } else {
                                 Ext.shortAlert('操作失败');
                             }
@@ -280,46 +272,38 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 iconCls: "icon-ok",
                 id: 'btnApp',
                 handler: function (sender) {
-
-                    var btn = '';
-                    if (sender.name == 'btnSave') {
-                        btn = 'save';
-                    }
-                    else {
-                        btn = 'app';
-                    }
-                    var currentWindow = this.up('window');
+                    var currentWindow = Ext.ComponentQuery.query('[itemId="PurchaseContractPayWd"]')[0];
+                    // var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (!this.up('window').down('form').isValid()) {
                         return;
                     }
-                    if (this.up('window').operationType == "add") {
+                    if (currentWindow.operationType == "add") {
                         if (me.BasicInfoPK == null) {
-                            store[currentWindow.operationType + "Data"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
+                            purchasePayStore[currentWindow.operationType + "Data"]({
+                                entity: formValues, type: 'app'
                             }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
+                                if (value == 'true') {
+                                    me.BasicInfoPK = null;
                                     Ext.shortAlert('操作成功');
                                     currentWindow.close();
-                                    store.load();
+                                    purchasePayStore.load();
                                 } else {
-                                    Ext.shortAlert('操作失败');
+                                    // Ext.shortAlert('操作失败');
+                                    Ext.shortAlert(value);
                                 }
                             });
                         }
                         else {
-                            store["updateData"]({
-                                entity: formValues, type: btn,
-                                detailList: contractDetailArr
+                            purchasePayStore["updateData"]({
+                                entity: formValues, type: 'app'
                             }, function (value) {
-                                if (value != '') {
-                                    me.BasicInfoPK = value;
+                                if (value == 'true') {
+                                    me.BasicInfoPK = null;
                                     Ext.shortAlert('操作成功');
                                     currentWindow.close();
-                                    store.load();
+                                    purchasePayStore.load();
                                 } else {
                                     Ext.shortAlert('操作失败');
                                 }
@@ -327,21 +311,21 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         }
                     }
                     else {
-                        store["updateData"]({
-                            entity: formValues, type: btn,
-                            detailList: contractDetailArr
+                        purchasePayStore["updateData"]({
+                            entity: formValues, type: 'app'
                         }, function (value) {
-                            if (value != '') {
-                                me.BasicInfoPK = value;
+                            if (value == 'true') {
+                                me.BasicInfoPK = null;
                                 Ext.shortAlert('操作成功');
                                 currentWindow.close();
-                                store.load();
+                                purchasePayStore.load();
                             } else {
                                 Ext.shortAlert('操作失败');
                             }
                         });
                     }
-                }
+                }                   
+                
             }, {
                 text: '取消',
                 iconCls: "icon-cancel",
@@ -371,31 +355,34 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 xtype: 'tbfill'
             }, {
                 text: '填写付款单',
-                name: 'btnApp',
+                name: 'btnWrite',
                 iconCls: "icon-add",
-                id: 'btnApp',
+                id: 'btnWrite',
                 handler: function (sender) {                   
                   
                     var object = Ext.ComponentQuery.query('[itemId="purchasePayMainData"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
-                 
-                    var objForm = this.up('window').down('form');
                     //  updaterecord = record;
                     var addPurchasePayWindow = Ext.ComponentMgr.create(PurchaseContractPayWindow);
                     addPurchasePayWindow.setOperationType('add');
                     addPurchasePayWindow.callerComp = sender;
-                   // addPurchasePayWindow.record = record;
                     purchasePayStore.load({
                         params: obj,
                         callback: function (records, operation, success) {
                             var rec = purchasePayStore.getAt(0);
-                            // Ext.getCmp('formUserInfo').loadRecord(rec);
+                            // purchasePayStore.load();
+                            purchasePayStore.removeAll();
+                            var viewWin = Ext.getCmp('PurchaseContractView');
                             addPurchasePayWindow.down('form').loadRecord(rec);
-                            // me.BasicInfoPK = record.get('BillNo');
+                            me.BasicInfoPK = null;
+                            viewWin.close();
+                            Ext.getCmp('btnApp').hidden = true;
                             addPurchasePayWindow.show(this);
+                           
                         }
-                    });                 
+                    });  
+
                 }
             }, {
                 text: '关闭',
@@ -760,9 +747,9 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         viewWindow.callerComp = sender;
                         viewWindow.record = record;
                         viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
-                        viewWindow.down('form').loadRecord(record);
-                       // me.BasicInfoPK = record.get('BillNo');
                         viewWindow.show(this);
+                        viewWindow.down('form').loadRecord(record);
+                       // me.BasicInfoPK = record.get('BillNo');                       
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }
                         });
@@ -821,22 +808,14 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     purchasePayStore.load({
                         params: null
                     });
-
                 }
             }
-            ],
-            //multiSelect: false,
-            //selModel: {
-            //    mode: 'SINGLE',  //多选multi,simple,单选single;
-            //    // selType: 'checkboxmodel',
-            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-            //    allowDeselect: true  //允许取消选中状态
-            //},
+            ],          
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
                 width: 60,
-                itemId: 'lc',
+                itemId: 'appCfm',
                 items: [{
                     linkText: '提交申请',
                     handler: function (grid, rowIndex, colIndex, sender) {
@@ -846,57 +825,59 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         payAppWindow.setOperationType('update');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
-                        payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
+                        payAppWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
                         payAppWindow.show(this);
-                        gridstore.load({
-                            params: { SaleBillNo: record.get('BillNo') }
-                        });
-                        applogstore.load({
-                            params: { BillNo: record.get('BillNo') }
-                        });
+                        //gridstore.load({
+                        //    params: { SaleBillNo: record.get('BillNo') }
+                        //});
+                        //applogstore.load({
+                        //    params: { BillNo: record.get('BillNo') }
+                        //});
                     }
                 }
                 ]
             }, {
-                dataIndex: 'BillNo',
+                dataIndex: 'BillNo',//付款单主键
                 hidden: true
             }, {
                 dataIndex: 'ContractCode',
-                width: 100,
+                width: 80,
                 text: '合同编号'
             }, {
-                dataIndex: 'SupplierName',
+                dataIndex: 'ReceiveName',
                 width: 150,
-                text: '供应商'
+                text: '收款方'
             }, {
-                text: '签订时间',
-                dataIndex: 'SignDate'
+                text: '制单日期',
+                dataIndex: 'CreateDate'
             }, {
-                text: '合同金额',
-                dataIndex: 'ContractAmount'
+                text: '付款金额',
+                dataIndex: 'PayAmount'
             }, {
                 text: '已付金额',
                 dataIndex: 'PaidAmount'
             }, {
-                text: '交货日期',
-                dataIndex: 'DeliveryTime'
+                text: '合同金额',
+                dataIndex: 'TotalAmount'
             }, {
-                text: '采购员',
-                dataIndex: 'PurUserName'
-            }, {
-                text: '审核状态',
+                text: '状态',
                 dataIndex: 'StepName'
             }, {
-                text: '创建日期',
-                dataIndex: 'CreateTime',
-                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
-                //format: 'Ymd'                
-            }]
+                text: '申请人',
+                dataIndex: 'PayUserName'
+            }
+            //{
+            //    text: '创建日期',
+            //    dataIndex: 'CreateTime',
+            //    renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+            //    //format: 'Ymd'                
+            //}
+            ]
         });
-
     },
+   // fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
     //renderer显示数据时code转name
     rendererData: function (value, metadata, record) {
         var currentStore = this.columns[metadata.cellIndex].getEditor().store;

@@ -114,15 +114,189 @@ namespace TCEPORT.TC.Business
           return PageUtil.WrapByPage(dtTmp, count);
       }
 
-
-      public void InsertPurchasePayInfo()
+      /// <summary>
+      /// 新增采购付款单
+      /// </summary>
+      /// <param name="entity"></param>
+      /// <param name="type"></param>
+      /// <returns></returns>
+      public string InsertPurchasePayInfo(SysPurchasePay_Entity entity, string type)
       {
+          string returnValue = "";
+          try
+          {
+              DBUtil.BeginTrans();
 
+              string billNo = new SqlHelper().getTableNo("SysPurchasePay", "BillNo", "PP");
+              entity.BillNo = billNo;
+
+              #region 生成付款单审批步骤
+              string flowQuery = @" SELECT [FlowId]
+                                          ,[StepNo]
+                                          ,[StepName]
+                                          ,[DepartCode]
+                                          ,[PositionCode]
+                                          ,[ApproveType]
+                                          ,[Remarks]
+                                          ,[FlowCdode]
+                                          ,[FlowName]
+                                          ,[UserCode]
+                                          ,[UserName]
+                                      FROM [CreateErp].[dbo].[ViewPurchasePayApproval]
+                                      WHERE  FlowCdode='PP' ORDER BY StepNo ";
+              DataTable flowDt = DBUtil.Fill(flowQuery);
+              string flowStep = @"   INSERT INTO  SysFlowStep
+                                       (BillNo, StepNo, StepName, FlowId, AppUserCode,AppUserName)
+                                       VALUES
+                                        ";
+
+              string strAppUserCode = "";
+              string strAppUserName = "";
+              string strAppUserCode1 = "";//第一步骤审核人
+              string strAppUserName1 = "";//第一步骤审核人
+              string strAppStepName1 = "";//第一步骤名
+              for (int j = 0; j < flowDt.Rows.Count; j++)
+              {
+                  if (flowDt.Rows[j]["DepartCode"].ToString() == "-1")
+                  {
+                      string strdeptCode = HttpContext.Current.Session["DepartCode"].ToString();
+                      string strSqlQueryCurren = @"     SELECT UserCode,UserName FROM SysUser WHERE DepartCode=" + strdeptCode + " AND PositionCode=" + flowDt.Rows[j]["PositionCode"].ToString() + " ";
+                      DataTable dtInfo = DBUtil.Fill(strSqlQueryCurren);
+                      if (dtInfo.Rows.Count > 0)
+                      {
+                          strAppUserCode = dtInfo.Rows[0]["UserCode"].ToString();
+                          strAppUserName = dtInfo.Rows[0]["UserName"].ToString();
+                          if (flowDt.Rows[j]["StepNo"].ToString() == "1")
+                          {
+                              strAppUserCode1 = strAppUserCode;
+                              strAppUserName1 = strAppUserName;
+                              strAppStepName1 = flowDt.Rows[j]["StepName"].ToString();
+                          }
+                      }
+                  }
+                  else
+                  {
+                      strAppUserCode = flowDt.Rows[j]["UserCode"].ToString();
+                      strAppUserName = flowDt.Rows[j]["UserName"].ToString();
+                      if (flowDt.Rows[j]["StepNo"].ToString() == "1")
+                      {
+                          strAppUserCode1 = strAppUserCode;
+                          strAppUserName1 = strAppUserName;
+                          strAppStepName1 = flowDt.Rows[j]["StepName"].ToString();
+                      }
+                  }
+                  flowStep += string.Format(@"  ('{0}',{1},'{2}',{3},'{4}','{5}'),  ", billNo, flowDt.Rows[j]["StepNo"].ToString(),
+                                                flowDt.Rows[j]["StepName"].ToString(), flowDt.Rows[j]["FlowId"].ToString(),
+                                              strAppUserCode, strAppUserName);
+              }
+              flowStep = flowStep.Trim().TrimEnd(',');
+              if (DBUtil.ExecuteNonQuery(flowStep) > 0)
+              {
+                  returnValue = "true";
+              }
+              else
+              {
+                  DBUtil.Rollback();
+                  return "false";
+              }
+              #endregion
+
+              entity.PayUserCode = HttpContext.Current.Session["UserCode"].ToString();
+              entity.PayUserName = HttpContext.Current.Session["UserName"].ToString();
+              if (type == "save")
+              {
+                  entity.StepNo = 0;
+                  entity.StepName = "制单";
+                  entity.AppUserCode = "";
+                  entity.AppUserName = "";
+              }
+              else
+              {
+                  entity.StepNo = 1;
+                  entity.StepName = strAppStepName1;
+                  entity.AppUserCode = strAppUserCode1;
+                  entity.AppUserName = strAppUserName1;
+              }
+              entity.IsAppEnd = "N";
+              entity.IsPayoff = "N";
+              if (PublicRule.Insert(entity) > 0)
+              {
+                  returnValue = "true";
+              }
+              else
+              {
+                  DBUtil.Rollback();
+                  return "false";
+              }             
+              if(returnValue=="true")
+              {
+                  DBUtil.Commit();
+              }
+              else
+              {
+                  DBUtil.Rollback();
+              }
+
+          }
+          catch (Exception ex)
+          {
+              // returnValue = "出错信息：" + ex.ToString();
+              returnValue = "出错信息：" + ex.ToString();
+              DBUtil.Rollback();
+          }
+          return returnValue;
       }
 
-      public void UpdatePurchasePayInfo()
+      /// <summary>
+      /// 修改采购付款单
+      /// </summary>
+      /// <param name="entity"></param>
+      /// <param name="type"></param>
+      /// <returns></returns>
+      public string UpdatePurchasePayInfo(SysPurchasePay_Entity entity, string type)
       {
+          string returnValue = "";
+          try
+          {
+              DBUtil.BeginTrans();
 
+              string billNo = entity.BillNo;
+              if (type == "save")
+              {
+                  entity.StepNo = 0;
+                  entity.StepName = "制单";
+                  entity.AppUserCode = "";
+                  entity.AppUserName = "";
+              }
+              else
+              {
+                  string flowStep = @" SELECT  StepName,AppUserCode,AppUserName   FROM SysFlowStep WHERE BillNo='" + billNo + "' AND StepNo=1  ";
+                  DataTable flowDt = DBUtil.Fill(flowStep);
+                  entity.StepNo = 1;
+                  entity.AppUserCode = flowDt.Rows[0]["AppUserCode"].ToString();
+                  entity.StepName = "初审";
+
+                  entity.StepNo = 1;
+                  entity.StepName = flowDt.Rows[0]["StepName"].ToString();
+                  entity.AppUserCode = flowDt.Rows[0]["AppUserCode"].ToString();
+                  entity.AppUserName = flowDt.Rows[0]["AppUserName"].ToString();
+              }
+
+              entity.PayUserCode = HttpContext.Current.Session["UserCode"].ToString();
+              entity.PayUserName = HttpContext.Current.Session["UserName"].ToString();
+              entity.IsAppEnd = "N";
+              entity.IsPayoff = "N";
+              PublicRule.Update(entity);
+              DBUtil.Commit();
+              returnValue = "true";
+          }
+          catch (Exception ex)
+          {
+              // returnValue = "出错信息：" + ex.ToString();
+              returnValue = "出错信息：" + ex.ToString();
+              DBUtil.Rollback();
+          }
+          return returnValue;
       }
 
       public string getBigMoney(string smallMoney)

@@ -747,8 +747,9 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         viewWindow.callerComp = sender;
                         viewWindow.record = record;
                         viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
-                        viewWindow.show(this);
                         viewWindow.down('form').loadRecord(record);
+                        viewWindow.show(this);
+                        
                        // me.BasicInfoPK = record.get('BillNo');                       
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }

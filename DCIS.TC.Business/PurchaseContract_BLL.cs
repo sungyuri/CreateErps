@@ -46,7 +46,7 @@ namespace TCEPORT.TC.Business
         }
 
         /// <summary>
-        /// 采购合同
+        /// 采购合同查询
         /// </summary>
         /// <param name="start"></param>
         /// <param name="limit"></param>

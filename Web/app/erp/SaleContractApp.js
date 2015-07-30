@@ -54,7 +54,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
         });
         var applogstore = Ext.create('TCEPORT.Store', {
             url: 'SaleContract_BLL/GetSaleAppLog',
-            fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'UserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirs', 'AppDataLast']
+            fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'UserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirst', 'AppDataLast']
         });
 
         //  var flag = '';

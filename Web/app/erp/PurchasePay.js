@@ -81,9 +81,10 @@ Ext.define('TCSYS.erp.PurchasePay', {
             items: [
                 {
                     xtype: 'label',
-                    margin: '5 0 5 300',
+                    margin: '5 0 10 260',
                     text: "太仓创造电子有限公司付款通知书",
                     baseCls: 'y-plain',
+                    style: 'font-weight: bold; font-size: 16px;',
                     border: false
                 },
             {
@@ -330,6 +331,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 text: '取消',
                 iconCls: "icon-cancel",
                 handler: function () {
+                    purchasePayStore.load();
                     this.up('window').close();
                 }
             }]
@@ -387,8 +389,9 @@ Ext.define('TCSYS.erp.PurchasePay', {
             }, {
                 text: '关闭',
                 iconCls: "icon-cancel",
-                handler: function () {
+                handler: function () {                   
                     this.up('window').close();
+                  
                 }
             }],
             items: [{
@@ -460,8 +463,9 @@ Ext.define('TCSYS.erp.PurchasePay', {
             },
                 {
                     xtype: 'label',
-                    margin: '5 0 5 300',
+                    margin: '5 0 10 260',
                     text: "工 矿 产 品 购 销 合 同",
+                    style: 'font-weight: bold; font-size: 16px;',
                     baseCls: 'y-plain',
                     style: {
                     },

@@ -31,7 +31,7 @@ namespace Web
             ViewState["Code"] = spanCode.InnerText; //获取变更之前的验证码
             //生成验证码
             Random Ro = new Random();
-            spanCode.InnerText = Ro.Next(100000, 999999).ToString();
+            spanCode.InnerText = Ro.Next(1000, 9999).ToString();
         }
 
         protected void Imagebutton1_Click(object sender, EventArgs e)

@@ -228,8 +228,9 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             },
                 {
                     xtype: 'label',
-                    margin: '5 0 5 300',
+                    margin: '5 0 10 260',
                     text: "工 矿 产 品 购 销 合 同",
+                    style: 'font-weight: bold; font-size: 16px;',
                     baseCls: 'y-plain',
                     style: {
                     },

@@ -140,7 +140,8 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             },
                 {
                     xtype: 'label',
-                    margin: '5 0 5 300',
+                    margin: '5 0 10 260',
+                    style: 'font-weight: bold; font-size: 16px;',
                     text: "工 矿 产 品 购 销 合 同",
                     baseCls: 'y-plain',
                     border: false

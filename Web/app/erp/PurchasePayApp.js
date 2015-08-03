@@ -162,8 +162,9 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
 
             },{
                     xtype: 'label',
-                    margin: '5 0 5 300',
+                    margin: '5 0 10 260',
                     text: "太仓创造电子有限公司付款通知书",
+                    style: 'font-weight: bold; font-size: 16px;',
                     baseCls: 'y-plain',
                     border: false
                 },

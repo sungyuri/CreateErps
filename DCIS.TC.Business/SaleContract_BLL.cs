@@ -298,6 +298,7 @@ namespace TCEPORT.TC.Business
                               ,[GoodsNo]
                               ,[GoodsCount]
                               ,[GoodsUnit]
+                              ,[UnitPrice]
                               ,[OutGoodsCount]
                               ,[STATE]
                               ,[Manufacturer]
@@ -357,7 +358,7 @@ namespace TCEPORT.TC.Business
                 DBUtil.ExecuteNonQuery(deleteSql);
                 if (detailList != null && detailList.Count > 0)
                 {
-                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount,UnitPrice, OutGoodsCount)
                                     VALUES 
                                       ";
 
@@ -366,7 +367,7 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
-                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                            delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion
@@ -457,7 +458,7 @@ namespace TCEPORT.TC.Business
                     string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
                     DBUtil.ExecuteNonQuery(deleteSql);
 
-                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount, OutGoodsCount)
+                    string delSql = @"  INSERT INTO  SysSaleContractDetail(SaleBillNo, GoodsCode, GoodsCount,UnitPrice, OutGoodsCount)
                                     VALUES 
                                       ";
 
@@ -466,7 +467,7 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
-                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                            delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion

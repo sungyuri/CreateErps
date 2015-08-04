@@ -26,6 +26,7 @@ body{
 	margin:20px auto;
 	width:540px;
     height: 360px;
+    background: url("../img/create.png") no-repeat center;
 }
 .sponsorListHolder_hiddenForLeft{
 	width:360px;

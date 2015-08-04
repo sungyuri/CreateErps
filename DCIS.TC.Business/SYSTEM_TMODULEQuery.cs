@@ -273,7 +273,10 @@ namespace TCEPORT.TC.Business
                     // strid=strid.Replace("{","").Replace("}","");
                     if (strid != "")
                     {
-                        strIds += strid + ",";
+                        if (strid.Length >8)
+                        {
+                            strIds += strid + ",";
+                        }
                         if (strid.Length > 8)
                         {
                             string fid = strid.Substring(0, 8);

@@ -1,6 +1,7 @@
 Ext.define('TCSYS.Main', {
     extend: 'Ext.container.Viewport',
     layout: 'border',
+    autoScroll: true,
     requires: ["TCSYS.maincontent.North",
         "TCSYS.maincontent.Center",
         "TCSYS.maincontent.West",

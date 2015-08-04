@@ -50,7 +50,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
 
         var gridstore = Ext.create('TCEPORT.Store', {
             url: 'SaleContract_BLL/GetSaleContractDetail',
-            fields: ['SaleBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'OutGoodsCount', 'STATE', 'Manufacturer']
+            fields: ['SaleBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit','UnitPrice', 'OutGoodsCount', 'STATE', 'Manufacturer']
         });
         var applogstore = Ext.create('TCEPORT.Store', {
             url: 'SaleContract_BLL/GetSaleAppLog',
@@ -352,7 +352,10 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                     dataIndex: 'GoodsNo'
                 }, {
                     text: '数量',
-                    dataIndex: 'GoodsCount'
+                    dataIndex: 'GoodsCount'  
+                }, {
+                    text: '单价',
+                    dataIndex: 'UnitPrice'  //UnitPrice
                 }, {
                     text: '单位',
                     dataIndex: 'GoodsUnit'

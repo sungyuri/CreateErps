@@ -251,8 +251,8 @@ Ext.define('TCSYS.erp.CommonPay', {
                 iconCls: "icon-ok",
                 id: 'btnApp',
                 handler: function (sender) {
-                    var currentWindow = Ext.ComponentQuery.query('[itemId="commonPayWd"]')[0];
-                    // var currentWindow = this.up('window');
+                  //  var currentWindow = Ext.ComponentQuery.query('[itemId="commonPayWd"]')[0];
+                     var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (!this.up('window').down('form').isValid()) {
@@ -339,8 +339,8 @@ Ext.define('TCSYS.erp.CommonPay', {
                 iconCls: "icon-save",
                 id: 'btnSaveItem',
                 handler: function (sender) {
-                    var currentWindow = Ext.ComponentQuery.query('[itemId="commonpPayView"]')[0];
-                    // var currentWindow = this.up('window');
+                  //  var currentWindow = Ext.ComponentQuery.query('[itemId="commonpPayView"]')[0];
+                     var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (!this.up('window').down('form').isValid()) {
@@ -399,8 +399,9 @@ Ext.define('TCSYS.erp.CommonPay', {
                 id: 'btnAddPay',
                 handler: function (sender) {
 
-                    var payItemWD = Ext.ComponentQuery.query('[itemId="commonpPayView"]')[0];
-                    var form = payItemWD.getForm();
+                    // var payItemWD = Ext.ComponentQuery.query('[itemId="commonpPayView"]')[0];
+                    var payItemWD = Ext.getCmp('commonpPayView');
+                    var form = payItemWD.down('form').getForm();
                     var obj = form.getValues();
                     var addcommonPayWindow = Ext.ComponentMgr.create(commonPayWindow);
                     addcommonPayWindow.setOperationType('add');
@@ -610,11 +611,12 @@ Ext.define('TCSYS.erp.CommonPay', {
                         viewWindow.record = record;
                         //viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('CommonPayNo') }));
                         viewWindow.down('form').loadRecord(record);
-                        viewWindow.show(this);
+                     
                         Ext.getCmp('btnSaveItem').hidden = true;
                         if (record.get('IsPayoff') == 'Y') {
                             Ext.getCmp('btnAddPay').hidden = true;
                         }
+                        viewWindow.show(this);
                     }
                 }
                 ]

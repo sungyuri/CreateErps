@@ -231,7 +231,7 @@
         <div class="bottom">
             <span style="color: #333; font-size: 12px;">太仓创造电子有限公司版权所有@2015</span>
         </div>
-<script type="text/javascript">
+<%--<script type="text/javascript">
     function randomAct() {
         var randomNum = "#" + parseInt(Math.random() * (6 - 1 + 1) + 1);
         //alert(randomNum);
@@ -258,7 +258,7 @@
     }, function () {
         sh = setInterval("randomAct();", 4000);
     });
-</script>
+</script>--%>
  
     </div>
     <script type="text/javascript">

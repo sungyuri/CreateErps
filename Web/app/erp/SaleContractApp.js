@@ -63,7 +63,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
         var goodsRow = null;
         var SaleContractMgrAppWindow = {
             xtype: 'datawindow',
-             title: '销售合同审批',
+            title: '销售合同审批',
             store: store,
             record: null,
             width: 800,
@@ -86,7 +86,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractAppLog',
                 width: 795,
-                height: 128,
+               // height: 128,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -123,20 +123,40 @@ Ext.define('TCSYS.erp.SaleContractApp', {
 
                 }, {
                     text: '意见一',
-                    dataIndex: 'AppNote1'
+                    dataIndex: 'AppNote1',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见二',
-                    dataIndex: 'AppNote2'
+                    dataIndex: 'AppNote2',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见三',
-                    dataIndex: 'AppNote3'
+                    dataIndex: 'AppNote3',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见四',
                     hidden: true,
-                    dataIndex: 'AppNote4'
+                    dataIndex: 'AppNote4',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见五',
                     dataIndex: 'AppNote5',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    },
                     hidden: true
                 }, {
                     dataIndex: 'AppDataLast',
@@ -327,7 +347,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 108,
+               // height: 108,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -502,13 +522,13 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                 }
             }  
             ],
-            multiSelect: false,
-            selModel: {
-                mode: 'SINGLE',  //多选multi,simple,单选single;
-              //  selType: 'checkboxmodel',
-                showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-                allowDeselect: true  //允许取消选中状态
-            },
+            //multiSelect: false,
+            //selModel: {
+            //    mode: 'SINGLE',  //多选multi,simple,单选single;
+            //  //  selType: 'checkboxmodel',
+            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+            //    allowDeselect: true  //允许取消选中状态
+            //},
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',

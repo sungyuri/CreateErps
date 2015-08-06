@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BusinessPay_BLL.cs" />
     <Compile Include="CommonFun.cs">
       <SubType>Code</SubType>
     </Compile>

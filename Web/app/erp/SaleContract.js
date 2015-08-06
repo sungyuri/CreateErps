@@ -188,6 +188,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                        value: 0,
                        maxValue: 99999999,
                        minValue: 0,
+                       readOnly: true,
                        allowBlank: false,
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请输入数字',
@@ -247,7 +248,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 170,
+               // height: 170,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -453,7 +454,8 @@ Ext.define('TCSYS.erp.SaleContract', {
                             GoodsName: recordDetail.get('GoodsName'),
                             GoodsNo: recordDetail.get('GoodsNo'),
                             GoodsCount: recordDetail.get('GoodsCount'),
-                            GoodsUnit: recordDetail.get('GoodsUnit'),
+                            UnitPrice: recordDetail.get('UnitPrice'),
+                            GoodsUnit: recordDetail.get('GoodsUnit'),//UnitPrice
                             OutGoodsCount: recordDetail.get('OutGoodsCount'),
                             STATE: recordDetail.get('STATE'),
                             Manufacturer: recordDetail.get('Manufacturer')
@@ -544,6 +546,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                             GoodsName: recordDetail.get('GoodsName'),
                             GoodsNo: recordDetail.get('GoodsNo'),
                             GoodsCount: recordDetail.get('GoodsCount'),
+                            UnitPrice: recordDetail.get('UnitPrice'),
                             GoodsUnit: recordDetail.get('GoodsUnit'),
                             OutGoodsCount: recordDetail.get('OutGoodsCount'),
                             STATE: recordDetail.get('STATE'),
@@ -705,23 +708,22 @@ Ext.define('TCSYS.erp.SaleContract', {
                 }
             }
             ],
-            multiSelect: false,
-            selModel: {
-                mode: 'SINGLE',  //多选multi,simple,单选single;
-                selType: 'checkboxmodel',  
-                showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-                allowDeselect:true  //允许取消选中状态
-            },
+            //multiSelect: false,
+            //selModel: {
+            //    mode: 'SINGLE',  //多选multi,simple,单选single;
+            //    selType: 'checkboxmodel',  
+            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+            //    allowDeselect:true  //允许取消选中状态
+            //},
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
                 width: 50,
                 itemId: 'lc',
                 items: [{
-                    linkText: '查看',
+                    linkText: '查 看',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
-                      //  updaterecord = record;
                         var viewWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         viewWindow.setOperationType('view');
                         viewWindow.callerComp = sender;

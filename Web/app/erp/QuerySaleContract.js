@@ -59,13 +59,12 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
         //  var updaterecord = null;
         //新增窗口
         var goodsRow = null;
-        var SaleContractMgrAppWindow = {
+        var SaleContractMgrViewWindow = {
             xtype: 'datawindow',
             title: '销售合同',
             store: store,
             record: null,
             width: 800,
-            renderTo: Ext.getBody(),
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -76,7 +75,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractAppLog',
                 width: 795,
-                height: 128,
+              //  height: 128,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -113,21 +112,41 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
 
                 }, {
                     text: '意见一',
-                    dataIndex: 'AppNote1'
+                    dataIndex: 'AppNote1',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见二',
-                    dataIndex: 'AppNote2'
+                    dataIndex: 'AppNote2',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见三',
-                    dataIndex: 'AppNote3'
+                    dataIndex: 'AppNote3',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见四',
                     hidden: true,
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    },
                     dataIndex: 'AppNote4'
                 }, {
                     text: '意见五',
                     dataIndex: 'AppNote5',
-                    hidden: true
+                    hidden: true,
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     dataIndex: 'AppDataLast',
                     text: '审核时间',
@@ -182,7 +201,10 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                            },
                            beforerender:
                                       function (tigger, opt) {
-                                          var recd = this.up('window').record;
+                                            var recd = this.up('window').record;
+                                      //    alert(this.up('window').title)
+                                       //   var recd = goodsRow;
+                                       //   alert(recd);
                                           if (recd) {
                                               tigger.setHiddenValue(recd.get('CustomerNo'));
                                               tigger.setValue(recd.get('CustomerName'));
@@ -317,7 +339,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 108,
+               // height: 108,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
@@ -429,24 +451,31 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
 
                 }
             }],
+            //multiSelect: false,
+            //selModel: {
+            //    mode: 'SINGLE',  //多选multi,simple,单选single;
+            //    selType: 'checkboxmodel',
+            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+            //    allowDeselect: true  //允许取消选中状态
+            //},
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
                 width: 50,
-                itemId: 'lc',
+                itemId: 'showSale',
                 items: [{
-                    linkText: '查看',
+                    linkText: '查 看',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
-                        //  updaterecord = record;
-                        var viewWindow = Ext.ComponentMgr.create(SaleContractMgrAppWindow);
-                        viewWindow.setOperationType('view');
-                        viewWindow.callerComp = sender;
-                        viewWindow.record = record;
-                        viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
-                        viewWindow.down('form').loadRecord(record);
+                        var viewSWindow = Ext.ComponentMgr.create(SaleContractMgrViewWindow);
+                        viewSWindow.setOperationType('view');
+                        viewSWindow.callerComp = sender;
+                        viewSWindow.record = record;
+                        goodsRow = record;
+                        viewSWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
+                        viewSWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
-                        viewWindow.show(this);
+                        viewSWindow.show(this);
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }
                         });
@@ -485,36 +514,12 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             }, {
                 text: '状态',
                 dataIndex: 'StepName'
-                //renderer: function (value) {
-                //    if (value == 1) {
-                //        return '<span style="color:red">初审</span>';
-                //    }
-                //    else if (value == 2) {
-                //        return '<span style="color:red">会审</span>';
-                //    }
-                //    else {
-                //        return '<span style="color:red">审定</span>';
-                //    }
-                //}
             }, {
                 text: '创建日期',
                 dataIndex: 'CreateTime',
-                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
-                //format: 'Ymd'                
+                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')             
             }]
         });
 
-    },
-    //renderer显示数据时code转name
-    rendererData: function (value, metadata, record) {
-        var currentStore = this.columns[metadata.cellIndex].getEditor().store;
-        var index = currentStore.find('GoodsCode', value);
-        if (index != -1) {
-            var record = currentStore.getAt(index);
-            return record.data.GoodsName;
-        }
-        else {
-            return value;
-        }
     }
 })

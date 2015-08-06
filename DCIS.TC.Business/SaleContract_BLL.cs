@@ -353,7 +353,7 @@ namespace TCEPORT.TC.Business
                 PublicRule.Update(entity);             
 
                 #region 销售合同明细表
-
+                decimal salePrice = 0;
                 string deleteSql = string.Format(@" DELETE FROM SysSaleContractDetail WHERE SaleBillNo ='{0}' ;", billNo);
                 DBUtil.ExecuteNonQuery(deleteSql);
                 if (detailList != null && detailList.Count > 0)
@@ -367,11 +367,14 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
+                            salePrice = salePrice + decimal.Parse(detailList[i].GoodsCount.ToString()) * decimal.Parse(detailList[i].UnitPrice.ToString());
                             delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion
-
+                    entity.ContractAmount = salePrice;
+                    entity.ContractAmountBig = new SqlHelper().GetChinaMoney(salePrice);
+                    PublicRule.Update(entity);
                     delSql = delSql.Trim().TrimEnd(',');
                     DBUtil.ExecuteNonQuery(delSql);
                 }
@@ -451,7 +454,7 @@ namespace TCEPORT.TC.Business
                 {
                     returnValue = billNo;
                 }
-
+                decimal salePrice = 0;
                 #region 销售合同明细表
                 if (detailList != null && detailList.Count > 0)
                 {
@@ -467,11 +470,15 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
+                            salePrice = salePrice + decimal.Parse(detailList[i].GoodsCount.ToString()) * decimal.Parse(detailList[i].UnitPrice.ToString());
                             delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion
 
+                    entity.ContractAmount = salePrice;
+                    entity.ContractAmountBig = new SqlHelper().GetChinaMoney(salePrice);
+                    PublicRule.Update(entity);
                     delSql = delSql.TrimEnd().TrimEnd(',') + ";";
                     DBUtil.ExecuteNonQuery(delSql);
                 }

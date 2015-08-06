@@ -440,7 +440,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
                 width: 795,
-                height: 170,
+               // height: 170,
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',

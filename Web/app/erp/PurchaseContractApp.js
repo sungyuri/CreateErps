@@ -200,21 +200,41 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
 
                 }, {
                     text: '意见一',
-                    dataIndex: 'AppNote1'
+                    dataIndex: 'AppNote1',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见二',
-                    dataIndex: 'AppNote2'
+                    dataIndex: 'AppNote2',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见三',
-                    dataIndex: 'AppNote3'
+                    dataIndex: 'AppNote3',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     text: '意见四',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    },
                     hidden: true,
                     dataIndex: 'AppNote4'
                 }, {
                     text: '意见五',
                     dataIndex: 'AppNote5',
-                    hidden: true
+                    hidden: true,
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
                 }, {
                     dataIndex: 'AppDataLast',
                     text: '审核时间',

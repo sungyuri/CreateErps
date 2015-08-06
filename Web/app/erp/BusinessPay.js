@@ -1,4 +1,4 @@
-﻿//运营付款申请
+﻿//运营付款
 Ext.define('TCSYS.erp.BusinessPay', {
     extend: 'Ext.panel.Panel',
     title: '运营付款',
@@ -15,8 +15,8 @@ Ext.define('TCSYS.erp.BusinessPay', {
         //CommonPayNo, ReceiveName, PayReason, TotalAmount, PaidAmount, BANK, BANKNO, Remarks, CreateUserCode, CreateUserName, IsPayoff, CreateTime, LastUpdateTime
         var storeItem = Ext.create('TCEPORT.Store', {
             autoLoad: true,
-            url: 'CommonPay_BLL/GetCommonPayItemList',
-            addUrl: 'CommonPay_BLL/InsertCommonPayItemInfo',
+            url: 'BusinessPay_BLL/GetCommonPayItemList',
+            addUrl: 'BusinessPay_BLL/InsertCommonPayItemInfo',
             fields: [
                 'CommonPayNo',
                 'ReceiveName',
@@ -40,11 +40,11 @@ Ext.define('TCSYS.erp.BusinessPay', {
         //});
         //一般付款SysCommonPay
         var commonPayStore = Ext.create('TCEPORT.Store', {
-            url: 'CommonPay_BLL/GetCommonPayInfo',
+            url: 'BusinessPay_BLL/GetCommonPayInfo',
             autoLoad: true,
-            addUrl: 'CommonPay_BLL/InsertCommonPayInfo',
-            updateUrl: 'CommonPay_BLL/UpdateCommonPayInfo',
-            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            addUrl: 'BusinessPay_BLL/InsertCommonPayInfo',
+            updateUrl: 'BusinessPay_BLL/UpdateCommonPayInfo',
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 
@@ -52,9 +52,9 @@ Ext.define('TCSYS.erp.BusinessPay', {
         //  var updaterecord = null;
         var commonPayWindow = {
             xtype: 'datawindow',
-            title: '其他付款单',
+            title: '运营付款单',
             store: commonPayStore,
-            itemId: 'commonPayWd',
+            itemId: 'businessPayWd',
             record: null,
             width: 800,
             layout: {
@@ -193,7 +193,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                 iconCls: "icon-save",
                 id: 'btnSave',
                 handler: function (sender) {
-                    var currentWindow = Ext.ComponentQuery.query('[itemId="commonPayWd"]')[0];
+                    var currentWindow = Ext.ComponentQuery.query('[itemId="businessPayWd"]')[0];
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (!this.up('window').down('form').isValid()) {
@@ -323,7 +323,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             title: '付款项目',
             store: storeItem,
             record: null,
-            id: 'commonpPayView',
+            id: 'businessPayView',
             width: 800,
             layout: {
                 type: 'vbox',
@@ -400,7 +400,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                 handler: function (sender) {
 
                     // var payItemWD = Ext.ComponentQuery.query('[itemId="commonpPayView"]')[0];
-                    var payItemWD = Ext.getCmp('commonpPayView');
+                    var payItemWD = Ext.getCmp('businessPayView');
                     var form = payItemWD.down('form').getForm();
                     var obj = form.getValues();
                     var addcommonPayWindow = Ext.ComponentMgr.create(commonPayWindow);
@@ -432,7 +432,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                   xtype: 'label',
                   margin: '5 0 10 260',
                   style: 'font-weight: bold; font-size: 16px;',
-                  text: "其他付款项目内容",
+                  text: "运营付款项目内容",
                   baseCls: 'y-plain',
                   border: false
               },
@@ -530,7 +530,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             border: false,
             store: storeItem,
             xtype: 'form',
-            itemId: 'commonPaySelect',
+            itemId: 'businessPaySelect',
             title: '查询条件',
             collapsible: true,
             layout: {
@@ -565,7 +565,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="commonPaySelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="businessPaySelect"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
                     storeItem.load({
@@ -660,7 +660,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                 dataIndex: 'Remarks'
             }]
         });
-        //其他付款制单草稿列表
+        //运营付款制单草稿列表
         this.add({
             xtype: 'datagrid',
             store: commonPayStore,

@@ -1,9 +1,9 @@
-﻿//其他付款审核
-Ext.define('TCSYS.erp.CommonPayApp', {
+﻿//运营付款审核
+Ext.define('TCSYS.erp.BusinessPayApp', {
     extend: 'Ext.panel.Panel',
-    title: '其他付款审批',
-    name: 'CommonPayApp',
-    alias: "widget.CommonPayApp",
+    title: '运营付款审批',
+    name: 'BusinessPayApp',
+    alias: "widget.BusinessPayApp",
     closable: true,
     layout: {
         type: 'vbox',
@@ -13,17 +13,17 @@ Ext.define('TCSYS.erp.CommonPayApp', {
         this.callParent(arguments);
         var me = this;
 
-        //其他付款单审核记录
-        var appCommonPayLogstore = Ext.create('TCEPORT.Store', {
-            url: 'CommonPay_BLL/GetCommonPayAppLog',
+        //运营付款单审核记录
+        var appBusinessPayLogstore = Ext.create('TCEPORT.Store', {
+            url: 'BusinessPay_BLL/GetCommonPayAppLog',
             fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'AppUserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirst', 'AppDataLast']
         });
-        //其他付款待审核单据
-        var commonPayAppStore = Ext.create('TCEPORT.Store', {
-            url: 'CommonPay_BLL/GetCommonPayAppInfo',
+        //运营付款待审核单据
+        var businessPayAppStore = Ext.create('TCEPORT.Store', {
+            url: 'BusinessPay_BLL/GetCommonPayAppInfo',
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
-            updateUrl: 'CommonPay_BLL/UpdateCommonPayAppInfo',
+            updateUrl: 'BusinessPay_BLL/UpdateCommonPayAppInfo',
             fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
@@ -32,9 +32,9 @@ Ext.define('TCSYS.erp.CommonPayApp', {
         //  var updaterecord = null;
         var CommonPayAppWindow = {
             xtype: 'datawindow',
-            title: '其他付款单',
-            store: commonPayAppStore,
-            itemId: 'CommonPayAppWd',
+            title: '运营付款单',
+            store: businessPayAppStore,
+            itemId: 'BusinessPayAppWd',
             record: null,
             width: 800,
             layout: {
@@ -60,7 +60,7 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                 border: false,
                 renderTo: Ext.getBody(),
                 margin: '0,0,0,0',
-                store: appCommonPayLogstore,//其他付款单审核记录
+                store: appBusinessPayLogstore,//运营付款单审核记录
                 forceFit: true,
                 bbar: null,
                 columns: [{
@@ -284,14 +284,14 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                     var currentWindow = this.up('window');
                     var stepNo = currentWindow.record.get("StepNo");
                     var billNo = currentWindow.record.get('BillNo');
-                    commonPayAppStore["updateData"]({
+                    businessPayAppStore["updateData"]({
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "back"
                     }, function (value) {
                         if (value == 'true') {
                             //  me.BasicInfoPK = value;
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
-                            commonPayAppStore.load();
+                            businessPayAppStore.load();
                         } else {
                             Ext.shortAlert(value);
                         }
@@ -320,14 +320,14 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                     var currentWindow = this.up('window');
                     var stepNo = currentWindow.record.get("StepNo");
                     var billNo = currentWindow.record.get('BillNo');
-                    commonPayAppStore["updateData"]({
+                    businessPayAppStore["updateData"]({
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "agree"
                     }, function (value) {
                         if (value == 'true') {
                             //  me.BasicInfoPK = value;
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
-                            commonPayAppStore.load();
+                            businessPayAppStore.load();
                         } else {
                             Ext.shortAlert(value);
                         }
@@ -341,15 +341,15 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                     this.up('window').close();
                 }
             }]
-        };     
+        };
 
-        //其他付款单列表
+        //运营付款单列表
 
         this.add({
             border: false,
-            store: commonPayAppStore,
+            store: businessPayAppStore,
             xtype: 'form',
-            itemId: 'commonPayAppSelect',
+            itemId: 'businessPayAppSelect',
             title: '查询条件',
             collapsible: true,
             layout: {
@@ -378,17 +378,17 @@ Ext.define('TCSYS.erp.CommonPayApp', {
 
         this.add({
             xtype: 'datagrid',
-            store: commonPayAppStore,
+            store: businessPayAppStore,
             forceFit: true,
             tbar: [{
                 text: '查询付款单',
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="commonPayAppSelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="businessPayAppSelect"]')[0]
                     var form = object.getForm();
                     var obj = form.getValues();
-                    commonPayAppStore.load({
+                    businessPayAppStore.load({
                         params: obj
                     });
                 }
@@ -415,7 +415,7 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                         //gridstore.load({
                         //    params: { SaleBillNo: record.get('BillNo') }
                         //});
-                        appCommonPayLogstore.load({
+                        appBusinessPayLogstore.load({
                             params: { BillNo: record.get('BillNo') }
                         });
                     }
@@ -454,7 +454,7 @@ Ext.define('TCSYS.erp.CommonPayApp', {
             //    //format: 'Ymd'                
             //}
             ]
-        });       
+        });
 
     }
 

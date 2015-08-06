@@ -52,6 +52,8 @@
     <Compile Include="SysArea_Entity.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SysBusinessPayItem_Entity.cs" />
+    <Compile Include="SysBusinessPay_Entity.cs" />
     <Compile Include="SysCommonPayItem_Entity.cs">
       <SubType>Code</SubType>
     </Compile>

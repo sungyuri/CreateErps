@@ -82,6 +82,7 @@
     <Content Include="app\combo\DepartCombo.js" />
     <Content Include="app\combo\PositionCombo.js" />
     <Content Include="app\erp\BusinessPay.js" />
+    <Content Include="app\erp\BusinessPayApp.js" />
     <Content Include="app\erp\CommonPay.js" />
     <Content Include="app\erp\CommonPayApp.js" />
     <Content Include="app\erp\PurchaseContract.js" />
@@ -3154,7 +3155,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21710</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.118.4:8903</IISUrl>
+          <IISUrl>http://192.168.31.143:8903</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

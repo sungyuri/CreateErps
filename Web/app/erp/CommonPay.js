@@ -44,7 +44,7 @@ Ext.define('TCSYS.erp.CommonPay', {
             autoLoad: true,
             addUrl: 'CommonPay_BLL/InsertCommonPayInfo',
             updateUrl: 'CommonPay_BLL/UpdateCommonPayInfo',
-            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo',  'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 

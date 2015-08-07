@@ -339,8 +339,16 @@ namespace TCEPORT.TC.Business
                 string billNo = entity.BillNo;
                 if (type == "save")
                 {
-                    entity.StepNo = 0;
-                    entity.StepName = "制单";
+                    if (entity.StepName == "退回")
+                    {
+                        entity.StepNo = 0;
+                        entity.StepName = "退回";
+                    }
+                    else
+                    {
+                        entity.StepNo = 0;
+                        entity.StepName = "制单";
+                    }
                 }
                 else
                 {

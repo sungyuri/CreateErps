@@ -315,10 +315,20 @@ namespace TCEPORT.TC.Business
                string billNo = entity.BillNo;
                if (type == "save")
                {
-                   entity.StepNo = 0;
-                   entity.StepName = "制单";
-                   entity.AppUserCode = "";
-                   entity.AppUserName = "";
+                   if (entity.StepName == "退回")
+                   {
+                       entity.StepNo = 0;
+                       entity.StepName = "退回";
+                       entity.AppUserCode = "";
+                       entity.AppUserName = "";
+                   }
+                   else
+                   {
+                       entity.StepNo = 0;
+                       entity.StepName = "制单";
+                       entity.AppUserCode = "";
+                       entity.AppUserName = "";
+                   }
                }
                else
                {
@@ -351,6 +361,53 @@ namespace TCEPORT.TC.Business
            return returnValue;
        }
 
+       /// <summary>
+       /// 其他付款单查询
+       /// </summary>
+       /// <param name="start"></param>
+       /// <param name="limit"></param>
+       /// <param name="strOrderBy"></param>
+       /// <param name="data"></param>
+       /// <returns></returns>
+       public dynamic GetCommonPayQueryInfo(int start, int limit, string strOrderBy, dynamic data)
+       {
+           string UserCode = HttpContext.Current.Session["UserCode"].ToString();
+           string strSql = @" SELECT [BillNo]
+                                      ,[CreateDate]
+                                      ,[CommonPayNo]
+                                      ,[ReceiveName]
+                                      ,[PayReason]
+                                      ,[TotalAmount]
+                                      ,[PayAmount]
+                                      ,[PayAmountBig]
+                                      ,[PaidAmount]
+                                      ,[BANK]
+                                      ,[BANKNO]
+                                      ,[Remarks]
+                                      ,[PayUserCode]
+                                      ,[PayUserName]
+                                      ,[StepNo]
+                                      ,[StepName]
+                                      ,[AppUserCode]
+                                      ,[AppUserName]
+                                      ,[IsPayoff]
+                                      ,[IsAppEnd]
+                                  FROM [CreateErp].[dbo].[SysCommonPay] WHERE PayUserCode ='" + UserCode + "'  ";
+
+           if (data != null)
+           {
+               if (data.SupplierName != null && data.SupplierName != "")
+               {
+                   strSql += string.Format(@" and ReceiveName like '%{0}%' ", data.SupplierName);
+               }
+           }
+
+           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+           string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+           DataTable dtTmp = DBUtil.Fill(strSql);
+           int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+           return PageUtil.WrapByPage(dtTmp, count);
+       }
 
        //审批函数
 

@@ -191,10 +191,10 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                     width: 60,
                     renderer: function (value) {
                         if (value == 'N') {
-                            // return '<span style="color:red">未通过</span>';
+                            return '<span style="color:gray">未通过</span>';
                         }
                         else {
-                            return '<span style="color:red">已通过</span>';
+                            return '<span style="color:green">已通过</span>';
                         }
                     }
 

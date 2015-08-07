@@ -114,10 +114,10 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                     width: 60,
                     renderer: function (value) {
                         if (value == 'N') {
-                           // return '<span style="color:red">未通过</span>';
-                        }                        
+                            return '<span style="color:gray">未通过</span>';
+                        }
                         else {
-                            return '<span style="color:red">已通过</span>';
+                            return '<span style="color:green">已通过</span>';
                         }
                     }
 
@@ -418,7 +418,7 @@ Ext.define('TCSYS.erp.SaleContractApp', {
                     store["updateData"]({
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "back"
                     }, function (value) {
-                        if (value != 'true') {
+                        if (value == 'true') {
                           //  me.BasicInfoPK = value;
                             Ext.shortAlert('操作成功');
                             currentWindow.close();

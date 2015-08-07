@@ -34,10 +34,11 @@ Ext.define('TCSYS.erp.BusinessPay', {
             ]
         });
 
-        //var applogstore = Ext.create('TCEPORT.Store', {
-        //    url: 'PurchaseContract_BLL/GetPurchaseAppLog',
-        //    fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'UserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirs', 'AppDataLast']
-        //});
+        //运营付款单审核记录
+        var appBusinessPayLogstore = Ext.create('TCEPORT.Store', {
+            url: 'BusinessPay_BLL/GetCommonPayAppLog',
+            fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'AppUserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirst', 'AppDataLast']
+        });
         //一般付款SysCommonPay
         var commonPayStore = Ext.create('TCEPORT.Store', {
             url: 'BusinessPay_BLL/GetCommonPayInfo',
@@ -63,7 +64,93 @@ Ext.define('TCSYS.erp.BusinessPay', {
             },
             border: false,
             resizable: false,
-            items: [
+            items: [{
+                xtype: 'datagrid',
+                itemId: 'CommonPayAddAppLog',
+                width: 795,
+               hidden:true,
+                border: false,
+                renderTo: Ext.getBody(),
+                margin: '0,0,0,0',
+                store: appBusinessPayLogstore,//运营付款单审核记录
+                forceFit: true,
+                bbar: null,
+                columns: [{
+                    dataIndex: 'BillNo',
+                    hidden: true
+                }, {
+                    text: '序号',
+                    dataIndex: 'StepNo',
+                    width: 30
+                }, {
+                    text: '步骤',
+                    dataIndex: 'StepName',
+                    width: 80
+                }, {
+                    text: '审核人',
+                    dataIndex: 'AppUserName',
+                    width: 60
+                }, {
+                    dataIndex: 'AppState',
+                    text: '状态',
+                    width: 60,
+                    renderer: function (value) {
+                        if (value == 'N') {
+                             return '<span style="color:gray">未通过</span>';
+                        }
+                        else {
+                            return '<span style="color:green">已通过</span>';
+                        }
+                    }
+
+                }, {
+                    text: '意见一',
+                    dataIndex: 'AppNote1',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
+                }, {
+                    text: '意见二',
+                    dataIndex: 'AppNote2',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
+                }, {
+                    text: '意见三',
+                    dataIndex: 'AppNote3',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
+                }, {
+                    text: '意见四',
+                    hidden: true,
+                    dataIndex: 'AppNote4',
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
+                }, {
+                    text: '意见五',
+                    dataIndex: 'AppNote5',
+                    hidden: true,
+                    renderer: function (value, meta, record) {
+                        meta.style = 'overflow:visible;white-space:normal;';
+                        return value;
+                    }
+                }, {
+                    dataIndex: 'AppDataLast',
+                    text: '审核时间',
+                    width: 85,
+                    renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+                }, {
+                    hidden: true,
+                    dataIndex: 'AppStep'
+                }]
+
+            },
                 {
                     xtype: 'label',
                     margin: '5 0 10 260',
@@ -163,11 +250,29 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     blankText: '请输入数字',
                     listeners: {
                         change: function (field, value) {
-                            //  value = parseInt(value, 10);
-                            //  field.setValue(value + value % 2);
-                            callapi("PurchasePay_BLL/getBigMoney", { smallMoney: value }, function (result) {
-                                this.up('form').down('textfield[name="PayAmountBig"]').setValue(result);
-                            }, this);
+                            if (value == null) {
+
+                            }
+                            else {
+                                callapi("PurchasePay_BLL/getBigMoney", { smallMoney: value }, function (result) {
+                                    this.up('form').down('textfield[name="PayAmountBig"]').setValue(result);
+                                }, this);
+                                value = parseFloat(value);
+                                var form = this.up('window').down('form').getForm();
+                                var formValues = form.getValues();
+                                var TotalAmount = parseFloat(formValues.TotalAmount);
+                                var PaidAmount = parseFloat(formValues.PaidAmount);
+                                if ((PaidAmount + value) > TotalAmount) {
+                                    field.setValue(0);
+                                    Ext.Msg.show({
+                                        title: "提示",
+                                        msg: "付款金额超出未付金额。",
+                                        buttons: Ext.Msg.OK,
+                                        icon: Ext.Msg.INFO
+                                    });
+
+                                }
+                            }
                         }
                     }
                 }, {
@@ -693,6 +798,14 @@ Ext.define('TCSYS.erp.BusinessPay', {
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
                         payAppWindow.show(this);
+                        var strStepName = record.get('StepName');
+                        if (strStepName == "退回") {
+                            var object = Ext.ComponentQuery.query('[itemId="CommonPayAddAppLog"]')[0];
+                            object.show();
+                            appCommonPayLogstore.load({
+                                params: { BillNo: record.get('BillNo') }
+                            });
+                        }
 
                     }
                 }

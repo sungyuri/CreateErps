@@ -53,6 +53,11 @@ Ext.define('TCSYS.erp.SaleContract', {
             fields: ['SaleBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'UnitPrice', 'OutGoodsCount', 'STATE', 'Manufacturer']
         });
 
+        var applogstore = Ext.create('TCEPORT.Store', {
+            url: 'SaleContract_BLL/GetSaleAppLog',
+            fields: ['BillNo', 'StepNo', 'StepName', 'FlowId', 'AppUserCode', 'UserName', 'AppStep', 'AppState', 'AppNote1', 'AppNote2', 'AppNote3', 'AppNote4', 'AppNote5', 'AppDataFirst', 'AppDataLast']
+        });
+
       //  var flag = '';
       //  var updaterecord = null;
         //新增窗口
@@ -71,6 +76,93 @@ Ext.define('TCSYS.erp.SaleContract', {
             resizable: false,
             items: [
                 {
+                    xtype: 'datagrid',
+                    itemId: 'SaleContractAddAppLog',
+                    width: 795,
+                    hidden:true,
+                    // height: 128,
+                    border: false,
+                    renderTo: Ext.getBody(),
+                    margin: '0,0,0,0',
+                    store: applogstore,
+                    forceFit: true,
+                    bbar: null,
+                    columns: [{
+                        dataIndex: 'BillNo',
+                        hidden: true
+                    }, {
+                        text: '序号',
+                        dataIndex: 'StepNo',
+                        width: 30
+                    }, {
+                        text: '步骤',
+                        dataIndex: 'StepName',
+                        width: 50
+                    }, {
+                        text: '审核人',
+                        dataIndex: 'UserName',
+                        width: 60
+                    }, {
+                        dataIndex: 'AppState',
+                        text: '状态',
+                        width: 60,
+                        renderer: function (value) {
+                            if (value == 'N') {
+                                return '<span style="color:gray">未通过</span>';
+                            }
+                            else {
+                                return '<span style="color:green">已通过</span>';
+                            }
+                        }
+
+                    }, {
+                        text: '意见一',
+                        dataIndex: 'AppNote1',
+                        renderer: function (value, meta, record) {
+                            meta.style = 'overflow:visible;white-space:normal;';
+                            return value;
+                        }
+                    }, {
+                        text: '意见二',
+                        dataIndex: 'AppNote2',
+                        renderer: function (value, meta, record) {
+                            meta.style = 'overflow:visible;white-space:normal;';
+                            return value;
+                        }
+                    }, {
+                        text: '意见三',
+                        dataIndex: 'AppNote3',
+                        renderer: function (value, meta, record) {
+                            meta.style = 'overflow:visible;white-space:normal;';
+                            return value;
+                        }
+                    }, {
+                        text: '意见四',
+                        hidden: true,
+                        dataIndex: 'AppNote4',
+                        renderer: function (value, meta, record) {
+                            meta.style = 'overflow:visible;white-space:normal;';
+                            return value;
+                        }
+                    }, {
+                        text: '意见五',
+                        dataIndex: 'AppNote5',
+                        renderer: function (value, meta, record) {
+                            meta.style = 'overflow:visible;white-space:normal;';
+                            return value;
+                        },
+                        hidden: true
+                    }, {
+                        dataIndex: 'AppDataLast',
+                        text: '审核时间',
+                        width: 85,
+                        renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+                    }, {
+                        hidden: true,
+                        dataIndex: 'AppStep'
+                    }]
+
+                }, {
                 xtype: 'label',
                 margin: '5 0 10 260',
                 style: 'font-weight: bold; font-size: 16px;',
@@ -254,6 +346,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 margin: '0,0,0,0',
                 store: gridstore,
                 forceFit: true,
+                bbar: null,
                 plugins: [new Ext.grid.plugin.CellEditing({
                     clicksToEdit: 1
                 })],
@@ -408,6 +501,10 @@ Ext.define('TCSYS.erp.SaleContract', {
                                 goodsRow = null;
                             }
                         }
+                        //if (e.colIdx == 4) {
+                        //    alert(e.value);
+                        //    alert(e.record.get('UnitPrice'));
+                        //}
                             
                         //    var findRecord = editor.store.findRecord("GoodsName", e.value);
                             
@@ -656,7 +753,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
-                    var object = Ext.ComponentQuery.query('[itemId="saleContactSelect"]')[0]
+                    var object = Ext.ComponentQuery.query('[itemId="saleContactSelect"]')[0];
                     var form = object.getForm();
                     var obj = form.getValues();
                     store.load({
@@ -699,6 +796,16 @@ Ext.define('TCSYS.erp.SaleContract', {
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }
                         });
+
+                        var strStepName = record.get('StepName');
+                        if (strStepName == "退回") {
+                            var object = Ext.ComponentQuery.query('[itemId="SaleContractAddAppLog"]')[0];
+                            object.show();
+                            applogstore.load({
+                                params: { BillNo: record.get('BillNo') }
+                            });
+                        }
+
                     }
                     else {
                         Ext.Msg.alert('提示', '请先选中一条信息！');
@@ -723,6 +830,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                 items: [{
                     linkText: '查 看',
                     handler: function (grid, rowIndex, colIndex, sender) {
+                        //SaleContractAddAppLog
                         var record = grid.getStore().getAt(rowIndex);
                         var viewWindow = Ext.ComponentMgr.create(SaleContractMgrWindow);
                         viewWindow.setOperationType('view');
@@ -736,10 +844,20 @@ Ext.define('TCSYS.erp.SaleContract', {
                       //  Ext.getCmp('goodsAdd').hidden = true;
                       //  Ext.getCmp('goodsClear').hidden = true;
                      //   viewWindow.down('grid').down('#myActionColumn').hide();
-                        viewWindow.show(this);
+
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }
                         });
+                        var strStepName = record.get('StepName');                       
+                        if (strStepName == "退回") {
+                            var object = Ext.ComponentQuery.query('[itemId="SaleContractAddAppLog"]')[0];
+                            object.show();
+                            applogstore.load({
+                                params: { BillNo: record.get('BillNo') }
+                            });
+                        }
+                        viewWindow.show(this);
+            
                     }
                 }
                ]
@@ -768,13 +886,13 @@ Ext.define('TCSYS.erp.SaleContract', {
                 dataIndex: 'PurUserName'
             }, {
                 text: '状态',
-                dataIndex: 'StepNo',
+                dataIndex: 'StepName',
                 renderer: function (value) {
-                    if (value == 0) {
+                    if (value == "制单") {
                         return '<span style="color:red">未提交审批</span>';
                     }
                     else {
-                        return value;
+                        return '<span style="color:red">退回</span>';
                     }
                 }
             }, {

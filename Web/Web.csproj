@@ -91,6 +91,7 @@
     <Content Include="app\erp\PurchasePayApp.js" />
     <Content Include="app\erp\PurchaseStorage.js" />
     <Content Include="app\erp\PurchaseSupplier.js" />
+    <Content Include="app\erp\QueryBusinessPay.js" />
     <Content Include="app\erp\QueryCommonPay.js" />
     <Content Include="app\erp\QueryPurchaseContract.js" />
     <Content Include="app\erp\QueryPurchasePay.js" />

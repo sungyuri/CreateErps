@@ -77,7 +77,7 @@ Ext.define('TCSYS.erp.UserOwnInfo', {
                     fieldLabel: '用户名称',
                     labelWidth:100,
                     layout: 'fit',
-                    readOnly:true,
+                   // readOnly:true,
                     margin:'10 0 5 0'
                 },{
                     xtype: 'textfield',

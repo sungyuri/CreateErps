@@ -166,7 +166,7 @@ namespace TCEPORT.TC.Business
                 {
                     updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE() WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
                     updateLogSqlBack = @" UPDATE SysFlowManyStep SET AppState='N',AppStep=AppStep+1  WHERE BillNo='" + billNo + "' ";
-                    updateContractSql = @" UPDATE SysSaleContract SET StepNo=0,AppUserCode='',StepName='制单'  WHERE BillNo='" + billNo + "' ";
+                    updateContractSql = @" UPDATE SysSaleContract SET StepNo=0,AppUserCode='',StepName='退回'  WHERE BillNo='" + billNo + "' ";
                 }
                 else//通过审批
                 {

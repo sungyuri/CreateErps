@@ -6,8 +6,8 @@ Ext.define("TCSYS.maincontent.MenuWindow", {
    // title: '功能菜单',
     name: 'maincontent_MenuWindow',
     split: true,
-    width: 300,
-    height: 580,
+    width: 200,
+    height: 400,
     // cls: 'my-accordion',
     defaults: {
         bodyStyle: 'padding:5px 0px 10px 0px'

@@ -160,7 +160,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                                           }
                                       }
                        },
-                       store: 'ViewUserStore'
+                       store: 'ViewSaleUserStore'
                    }, {
                        name: 'PurUserName',
                        hidden: true

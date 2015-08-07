@@ -22,7 +22,11 @@ Ext.define("TCSYS.maincontent.North", {
             document.getElementById('defaultLoading').style.display = 'none';
             var me = this;
             var userSpan = me.getEl().select('.userName>span[name="userName"]');
-            userSpan.update($USER.realName + '(' + $USER.PositionDesc + ')');
+            var curDate = new Date()
+            //格式化;
+            var time = Ext.Date.format(curDate, 'Y-m-d');
+            userSpan.update($USER.realName + ' || 今天是：' + time);
+         //  userSpan.update($USER.realName + '(' + $USER.PositionDesc + ')');
             //var timeSpan = me.getEl().select('.userName>span[name="ltime"]');
             //var time = Ext.Date.format(curDate, 'Y-m-d');
             //timeSpan.update(time);

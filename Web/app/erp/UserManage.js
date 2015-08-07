@@ -137,7 +137,7 @@ Ext.define('TCSYS.erp.UserManage', {
                             itemId: 'ship_no_textfield',
                             margin: '5 0 5 0',
                             fieldLabel: '用户姓名',
-                            readOnly: true,
+                           // readOnly: true,
                             id:'userN'
                             //labelWidth: 80
                         }]

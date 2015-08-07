@@ -1,8 +1,8 @@
 ﻿Ext.define('TCSYS.maincontent.MoreMenu', {
     extend: 'Ext.window.Window',
     alias: 'widget.MoreMenu',
-    height: 640,
-    width: 310,
+    height: 460,
+    width: 210,
     layout: {
         type: 'vbox',
         align: 'center'

@@ -233,6 +233,8 @@
     <Content Include="preview_office.aspx" />
     <Content Include="preview_pdf.aspx" />
     <Content Include="print\printData\saleContractData.aspx" />
+    <Content Include="print\printTemplate\grdes50.dll" />
+    <Content Include="print\printTemplate\gregn50.dll" />
     <Content Include="resources\appThemes\first_page\lib\1.png" />
     <Content Include="resources\appThemes\first_page\lib\10.png" />
     <Content Include="resources\appThemes\first_page\lib\11.png" />
@@ -2939,6 +2941,9 @@
     <Content Include="resources\ux\DataView\DragSelector.js" />
     <Content Include="resources\ux\DataView\LabelEditor.js" />
     <Content Include="app\ciq\getToken.ashx" />
+    <Content Include="print\printTemplate\create_xsht-bak.grf" />
+    <Content Include="print\printTemplate\create_xsht.grf" />
+    <Content Include="print\printTemplate\create_xsht_sp.grf" />
     <None Include="Properties\PublishProfiles\createapp.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -3041,7 +3046,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="print\printTemplate\" />
     <Folder Include="resources\themes\images\access\boundlist\" />
     <Folder Include="resources\themes\images\access\box\" />
     <Folder Include="resources\themes\images\access\button\" />

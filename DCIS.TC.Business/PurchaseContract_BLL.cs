@@ -307,6 +307,7 @@ namespace TCEPORT.TC.Business
                               ,[Manufacturer]
                               ,[InGoodsCount]
                               ,[STATE]
+                              ,[UnitPrice]
                           FROM [CreateErp].[dbo].[ViewPurchaseContractDetail]
                           WHERE 1=1  ";
             if (data != null)
@@ -364,14 +365,14 @@ namespace TCEPORT.TC.Business
                 entity.IsAppEnd = "N";
                 entity.IsPayoff = "N";
                 PublicRule.Update(entity);
-
+                decimal salePrice = 0;
                 #region 采购合同明细表
                 //PurBillNo, GoodsCode, GoodsCount, InGoodsCount, STATE
                 string deleteSql = string.Format(@" DELETE FROM SysPurchaseContractDetail WHERE PurBillNo ='{0}' ;", billNo);
                 DBUtil.ExecuteNonQuery(deleteSql);
                 if (detailList != null && detailList.Count > 0)
                 {
-                    string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount, InGoodsCount)
+                    string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount,UnitPrice, InGoodsCount)
                                     VALUES 
                                       ";
 
@@ -380,11 +381,14 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
-                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                            salePrice = salePrice + decimal.Parse(detailList[i].GoodsCount.ToString()) * decimal.Parse(detailList[i].UnitPrice.ToString());
+                            delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion
-
+                    entity.ContractAmount = salePrice;
+                    entity.ContractAmountBig = new SqlHelper().GetChinaMoney(salePrice);
+                    PublicRule.Update(entity);
                     delSql = delSql.Trim().TrimEnd(',');
                     DBUtil.ExecuteNonQuery(delSql);
                 }
@@ -464,7 +468,7 @@ namespace TCEPORT.TC.Business
                 {
                     returnValue = billNo;
                 }
-
+                decimal salePrice = 0;
                 #region 采购合同明细表
                 if (detailList != null && detailList.Count > 0)
                 {
@@ -472,7 +476,7 @@ namespace TCEPORT.TC.Business
                     string deleteSql = string.Format(@" DELETE FROM SysPurchaseContractDetail WHERE PurBillNo ='{0}' ;", billNo);
                     DBUtil.ExecuteNonQuery(deleteSql);
 
-                    string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount, InGoodsCount)
+                    string delSql = @"  INSERT INTO  SysPurchaseContractDetail(PurBillNo, GoodsCode, GoodsCount,UnitPrice, InGoodsCount)
                                     VALUES 
                                       ";
 
@@ -481,11 +485,14 @@ namespace TCEPORT.TC.Business
                     {
                         for (int i = 0; i < detailList.Count; i++)
                         {
-                            delSql += string.Format(@"   ('{0}',{1},{2},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount);
+                            salePrice = salePrice + decimal.Parse(detailList[i].GoodsCount.ToString()) * decimal.Parse(detailList[i].UnitPrice.ToString());
+                            delSql += string.Format(@"   ('{0}',{1},{2},{3},0), ", billNo, detailList[i].GoodsCode, detailList[i].GoodsCount, detailList[i].UnitPrice);
                         }
                     }
                     #endregion
-
+                    entity.ContractAmount = salePrice;
+                    entity.ContractAmountBig = new SqlHelper().GetChinaMoney(salePrice);
+                    PublicRule.Update(entity);
                     delSql = delSql.TrimEnd().TrimEnd(',') + ";";
                     DBUtil.ExecuteNonQuery(delSql);
                 }

@@ -17,11 +17,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
             url: 'PurchaseContract_BLL/Get',
             addUrl: 'PurchaseContract_BLL/Insert',
             updateUrl: 'PurchaseContract_BLL/Update',
-            //  deleteUrl: 'SaleContract_BLL/Delete',
-          //  BillNo, ContractCode, SupplierNo, SupplierName, SignPlace, SignDate, ContractAmount,
-           // ContractAmountBig, DeliveryTime, QA, DeliveryWay, PayWay, OtherNote, Remarks, 
-           // PurUserCode, PurUserName, StepNo, StepName, AppUserCode, AppUserName, IsPayoff,
-            //IsAppEnd, PaidAmount, IsStorage, CreateTime
+            //  deleteUrl: 'SaleContract_BLL/Delete',     
             fields: [
                 'BillNo',
                 'ContractCode',
@@ -56,7 +52,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
 
         var gridstore = Ext.create('TCEPORT.Store', {
             url: 'PurchaseContract_BLL/GetPurchaseContractDetail',
-            fields: ['PurBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'InGoodsCount', 'STATE', 'Manufacturer']
+            fields: ['PurBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'UnitPrice', 'InGoodsCount', 'STATE', 'Manufacturer']
         });
 
         var applogstore = Ext.create('TCEPORT.Store', {
@@ -113,6 +109,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                             GoodsNo: recordDetail.get('GoodsNo'),
                             GoodsCount: recordDetail.get('GoodsCount'),
                             GoodsUnit: recordDetail.get('GoodsUnit'),
+                            UnitPrice: recordDetail.get('UnitPrice'),
                             InGoodsCount: recordDetail.get('InGoodsCount'),
                             STATE: recordDetail.get('STATE'),
                             Manufacturer: recordDetail.get('Manufacturer')
@@ -203,6 +200,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                             GoodsName: recordDetail.get('GoodsName'),
                             GoodsNo: recordDetail.get('GoodsNo'),
                             GoodsCount: recordDetail.get('GoodsCount'),
+                            UnitPrice: recordDetail.get('UnitPrice'),
                             GoodsUnit: recordDetail.get('GoodsUnit'),
                             InGoodsCount: recordDetail.get('InGoodsCount'),
                             STATE: recordDetail.get('STATE'),
@@ -363,7 +361,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                     xtype: 'label',
                     margin: '5 0 10 260',
                     style: 'font-weight: bold; font-size: 16px;',
-                    text: "工 矿 产 品 购 销 合 同",
+                    text: "采 购 合 同",
                     baseCls: 'y-plain',
                     style: {
                     },
@@ -479,6 +477,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                        value: 0,
                        maxValue: 99999999,
                        minValue: 0,
+                       readOnly: true,
                        allowBlank: false,
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请输入数字',
@@ -554,6 +553,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                             GoodsNo: '',
                             GoodsCount: '0',
                             GoodsUnit: '',
+                            UnitPrice: '0',
                             InGoodsCount: '0',
                             STATE: 'N',
                             Manufacturer: ''
@@ -618,6 +618,14 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 }, {
                     text: '数量',
                     dataIndex: 'GoodsCount',
+                    editor: {
+                        allowBlank: false,
+                        selectOnFocus: true,
+                        regex: /^(\-)?\d+(\.\d+)?$/
+                    }
+                }, {
+                    text: '单价',
+                    dataIndex: 'UnitPrice',
                     editor: {
                         allowBlank: false,
                         selectOnFocus: true,

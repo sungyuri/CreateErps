@@ -28,7 +28,7 @@
            string bh = Str2Int(q("bh"), 0).ToString();
            string RecordsetQuerySQL = "  SELECT * FROM dbo.ERP_ViewHTMX WHERE HTBH='" + bh + "' AND [TYPE]=1  ";
            string ParameterQuerySQL = " SELECT * FROM dbo.ERP_ViewXSHT WHERE ID=" + id + "  ";
-           Daiv_OA.DBUtility.SqlReportData.GenEntireReportData(this, RecordsetQuerySQL, ParameterQuerySQL, false);
+           SqlReportData.GenEntireReportData(this, RecordsetQuerySQL, ParameterQuerySQL, false);
         // GenEntireReportData(this,RecordsetQuerySQL,ParameterQuerySQL,true);
     }
 </script>

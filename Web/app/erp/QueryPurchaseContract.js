@@ -46,7 +46,7 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
 
         var gridstore = Ext.create('TCEPORT.Store', {
             url: 'PurchaseContract_BLL/GetPurchaseContractDetail',
-            fields: ['PurBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'GoodsUnit', 'InGoodsCount', 'STATE', 'Manufacturer']
+            fields: ['PurBillNo', 'GoodsCode', 'GoodsVersion', 'GoodsName', 'GoodsNo', 'GoodsCount', 'UnitPrice', 'GoodsUnit', 'InGoodsCount', 'STATE', 'Manufacturer']
         });
 
         var applogstore = Ext.create('TCEPORT.Store', {
@@ -170,7 +170,7 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                     xtype: 'label',
                     margin: '5 0 10 260',
                     style: 'font-weight: bold; font-size: 16px;',
-                    text: "工 矿 产 品 购 销 合 同",
+                    text: "采 购 合 同",
                     baseCls: 'y-plain',
                     style: {
                     },
@@ -368,6 +368,9 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                 }, {
                     text: '数量',
                     dataIndex: 'GoodsCount'
+                }, {
+                    text: '单价',
+                    dataIndex: 'UnitPrice'  //UnitPrice
                 }, {
                     text: '单位',
                     dataIndex: 'GoodsUnit'

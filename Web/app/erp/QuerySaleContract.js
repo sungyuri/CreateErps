@@ -1,4 +1,6 @@
-﻿//销售合同查询
+﻿/// <reference path="../../saleContractPrintView.aspx" />
+/// <reference path="../../saleContractPrintView.aspx" />
+//销售合同查询
 Ext.define('TCSYS.erp.QuerySaleContract', {
     extend: 'Ext.panel.Panel',
     title: '销售合同查询',
@@ -367,7 +369,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                     dataIndex: 'GoodsCount'
                 }, {
                     text: '单价',
-                    dataIndex: 'UnitPrice'//UnitPrice
+                    dataIndex: 'UnitPrice'
                 }, {
                     text: '单位',
                     dataIndex: 'GoodsUnit'
@@ -385,6 +387,19 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
+                text: '打印',
+                id:'salePrintBtn',
+                iconCls: "icon-print",
+                handler: function () {
+                    // CreateReport("Report");
+                    var salebillNo = me.BasicInfoPK;;
+                    Report.LoadFromURL("print/printTemplate/createSale.grf");
+                    Report.LoadDataFromURL("print/printData/saleContractData.aspx?billNo=" + salebillNo);
+                    Report.PrintPreview(true);
+                  // var billNo = me.BasicInfoPK;
+                  // window.open("saleContractPrintView.aspx?saleBillNo=" + billNo);
+                }
+            },{
                 text: '关闭',
                 iconCls: "icon-cancel",
                 handler: function () {

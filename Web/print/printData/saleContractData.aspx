@@ -24,10 +24,10 @@
         //第三个参数为false，表示不压缩数据，在实际项目中应改为true，对数据进行压缩。这里设为false主要是为了
         //测试报表数据网页运行的正确性，以便查看浏览响应的原文件时能看到xml形式的文本数据。
        // OledbReportData.GenNodeXmlData(this, "select * from Customers order by Region,City", false);
-           string id  = Str2Int(q("id"), 0).ToString();
-           string bh = Str2Int(q("bh"), 0).ToString();
-           string RecordsetQuerySQL = "  SELECT * FROM dbo.ERP_ViewHTMX WHERE HTBH='" + bh + "' AND [TYPE]=1  ";
-           string ParameterQuerySQL = " SELECT * FROM dbo.ERP_ViewXSHT WHERE ID=" + id + "  ";
+
+           string billNo = Request.QueryString["billNo"].ToString();
+           string RecordsetQuerySQL = "  SELECT * FROM dbo.ViewSaleContractDetail WHERE SaleBillNo='"+billNo+"'  ";
+           string ParameterQuerySQL = " SELECT * FROM  SysSaleContract  WHERE BillNo='"+billNo+"'  ";
            SqlReportData.GenEntireReportData(this, RecordsetQuerySQL, ParameterQuerySQL, false);
         // GenEntireReportData(this,RecordsetQuerySQL,ParameterQuerySQL,true);
     }

@@ -219,6 +219,7 @@
     <Content Include="img\sponsors\p012.jpg" />
     <Content Include="img\sponsors\p013.jpg" />
     <Content Include="img\title_login1.png" />
+    <Content Include="js\CreateControl.js" />
     <Content Include="js\jquery-1.11.1.min.js" />
     <Content Include="js\jquery-1.8.3.js" />
     <Content Include="js\jquery-ui.min.js" />
@@ -2944,6 +2945,7 @@
     <Content Include="print\printTemplate\create_xsht-bak.grf" />
     <Content Include="print\printTemplate\create_xsht.grf" />
     <Content Include="print\printTemplate\create_xsht_sp.grf" />
+    <Content Include="print\printTemplate\createSale.grf" />
     <None Include="Properties\PublishProfiles\createapp.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -2951,6 +2953,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Content Include="saleContractPrintView.aspx" />
     <Content Include="SessionKeep.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -3007,6 +3010,13 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="saleContractPrintView.aspx.cs">
+      <DependentUpon>saleContractPrintView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="saleContractPrintView.aspx.designer.cs">
+      <DependentUpon>saleContractPrintView.aspx</DependentUpon>
     </Compile>
     <Compile Include="uploadfile.ashx.cs">
       <DependentUpon>uploadfile.ashx</DependentUpon>

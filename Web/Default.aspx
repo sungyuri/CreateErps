@@ -44,7 +44,7 @@
     <!-- App.js contains Ext.App, a simple, re-usable Application component -->
     <script src="app/app-base.js" type="text/javascript"></script>
     <script src="app/app-all.js" type="text/javascript"></script>
-
+    <script src="js/CreateControl.js"></script>
    
 </head>
 <body>
@@ -82,6 +82,7 @@
          window.setTimeout("keepsession()", 300000); //每隔5分钟调用一下本身   
      }
      keepsession();
+     CreateReport("Report");
     </script>
 
 

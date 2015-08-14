@@ -316,7 +316,7 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
             }, {
                 text: '退回',
                 name: 'btnSave',
-                iconCls: "icon-remove",
+                iconCls: "icon-cancel",//cancel
                 id: 'btnSave',
                 handler: function (sender) {
 
@@ -388,7 +388,7 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
 
             }, {
                 text: '取消',
-                iconCls: "icon-cancel",
+                iconCls: "icon-remove",
                 handler: function () {
                     this.up('window').close();
                 }

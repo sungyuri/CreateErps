@@ -76,7 +76,7 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
             }, {
                 text: '退回',
                 name: 'btnSave',
-                iconCls: "icon-remove",
+                iconCls: "icon-cancel",//cancel
                 id: 'btnSave',
                 handler: function (sender) {
                     var appnote = Ext.getCmp('appnote');
@@ -145,7 +145,7 @@ Ext.define('TCSYS.erp.PurchaseContractApp', {
                 }
             }, {
                 text: '取消',
-                iconCls: "icon-cancel",
+                iconCls: "icon-remove",
                 handler: function () {
                     this.up('window').close();
                 }

@@ -35,6 +35,8 @@ namespace TCEPORT.TC.Data
             public const string F_AppUserName = "AppUserName";
             public const string F_IsPayoff = "IsPayoff";
             public const string F_IsAppEnd = "IsAppEnd";
+            public const string F_PayWayCode = "PayWayCode";
+            public const string F_PayWayText = "PayWayText";
 
         }
 
@@ -230,6 +232,23 @@ namespace TCEPORT.TC.Data
         {
             get { return this._IsAppEnd; }
             set { this._IsAppEnd = value; this.SetValue(Consts.F_IsAppEnd, true); }
+        }
+
+
+        private int _PayWayCode;
+        [SqlColumn(Consts.F_PayWayCode)]
+        public int PayWayCode
+        {
+            get { return this._PayWayCode; }
+            set { this._PayWayCode = value; this.SetValue(Consts.F_PayWayCode, true); }
+        }
+
+        private string _PayWayText;
+        [SqlColumn(Consts.F_PayWayText)]
+        public string PayWayText
+        {
+            get { return this._PayWayText; }
+            set { this._PayWayText = value; this.SetValue(Consts.F_PayWayText, true); }
         }
 
     }

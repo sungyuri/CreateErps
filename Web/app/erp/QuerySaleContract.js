@@ -528,7 +528,20 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                 dataIndex: 'PurUserName'
             }, {
                 text: '状态',
-                dataIndex: 'StepName'
+                dataIndex: 'StepName',
+                renderer: function (value) {
+                    if (value == "审核完成") {
+                        return '<span style="color:green">审核完成</span>';
+                    }
+                    else if (value=='已付款') {
+                        return '<span style="color:blue">已付款</span>';
+                    }
+                    else
+                    {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+
+                }
             }, {
                 text: '创建日期',
                 dataIndex: 'CreateTime',

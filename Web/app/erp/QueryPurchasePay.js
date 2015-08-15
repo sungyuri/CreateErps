@@ -687,7 +687,7 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(PurchaseContractPayQueryWindow);
-                        payAppWindow.setOperationType('update');
+                        payAppWindow.setOperationType('view');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
@@ -728,7 +728,19 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                 dataIndex: 'TotalAmount'
             }, {
                 text: '状态',
-                dataIndex: 'StepName'
+                dataIndex: 'StepName',
+                renderer: function (value) {
+                    if (value == "审核完成") {
+                        return '<span style="color:green">审核完成</span>';
+                    }
+                    else if (value == '已付款') {
+                        return '<span style="color:blue">已付款</span>';
+                    }
+                    else {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+
+                }
             }, {
                 text: '申请人',
                 dataIndex: 'PayUserName'

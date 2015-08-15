@@ -301,7 +301,7 @@ namespace TCEPORT.TC.Business
         }
 
         /// <summary>
-        /// 其他付款单修改
+        /// 运营付款单修改
         /// </summary>
         /// <param name="entity"></param>
         /// <param name="type"></param>
@@ -529,7 +529,7 @@ namespace TCEPORT.TC.Business
                 {
                     updateLogSql = @" UPDATE SysFlowStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE() WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
                     updateLogSqlBack = @" UPDATE SysFlowStep SET AppState='N',AppStep=AppStep+1  WHERE BillNo='" + billNo + "' ";
-                    updateContractSql = @" UPDATE SysBusinessPay SET StepNo=0,AppUserCode='',StepName='退回'  WHERE BillNo='" + billNo + "' ";
+                    updateContractSql = @" UPDATE SysBusinessPay SET StepNo=0,AppUserCode='',CreateDate='',StepName='退回'  WHERE BillNo='" + billNo + "' ";
                 }
                 else//通过审批
                 {

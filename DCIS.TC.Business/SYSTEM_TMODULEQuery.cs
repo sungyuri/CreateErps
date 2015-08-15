@@ -111,38 +111,50 @@ namespace TCEPORT.TC.Business
             }
             foreach (DataRow dr in dt.Rows)
             {
+                string UserCode = HttpContext.Current.Session["UserCode"].ToString();
                 int count = 0;
-                if (dr["ID"].ToString() == "120701")
+                //销售合同审批
+                if (dr["ID"].ToString() == "110111030001")
                 {
-                    string strSql = "select count(1) from DEC_E_HEAD where ID_CHK='0' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    string strSql = " SELECT COUNT(1) FROM SysSaleContract WHERE AppUserCode like '%" + UserCode + "%' AND IsAppEnd='N' ";
                     count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
                     if (count > 0)
                         dr["M_SHOWINDEX"] = count;
                 }
-                if (dr["ID"].ToString() == "120702")
+                //采购合同审批
+                if (dr["ID"].ToString() == "110111030002")
                 {
-                    string strSql = "select count(1) from DEC_I_HEAD where ID_CHK='0' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    string strSql = " SELECT  COUNT(1) FROM SysPurchaseContract WHERE AppUserCode like '%" + UserCode + "%' AND IsAppEnd='N' ";
                     count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
                     if (count > 0)
                         dr["M_SHOWINDEX"] = count;
                 }
 
-                //入境报检
-                if (dr["ID"].ToString() == "121002")
+                //采购付款审批
+                if (dr["ID"].ToString() == "110111030003")
                 {
-                    string strSql = " select count(1) from DEC_I_DAIBAN where busniesstype='I' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    string strSql = "  SELECT  COUNT(1) FROM SysPurchasePay WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
                     count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
                     if (count > 0)
                         dr["M_SHOWINDEX"] = count;
                 }
-                //出境报检
-                if (dr["ID"].ToString() == "121001")
+                //其他付款审批
+                if (dr["ID"].ToString() == "110111030004")
                 {
-                    string strSql = " select count(1) from DEC_I_DAIBAN where busniesstype='E' AND COMPANYID='" + TCEPORT.TC.Business.Common.Users.CMP_GUID + "'";
+                    string strSql = "  SELECT  COUNT(1) FROM SysCommonPay WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
                     count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
                     if (count > 0)
                         dr["M_SHOWINDEX"] = count;
-                };
+                }
+                //运营付款审批
+                if (dr["ID"].ToString() == "110111030006")
+                {
+                    string strSql = "  SELECT  COUNT(1) FROM SysBusinessPay WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+                }
+
             }
             return dt;
         }

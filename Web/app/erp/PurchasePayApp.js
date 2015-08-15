@@ -769,7 +769,7 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(PurchaseContractPayAppWindow);
-                        payAppWindow.setOperationType('update');
+                        payAppWindow.setOperationType('approval');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
                         payAppWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));

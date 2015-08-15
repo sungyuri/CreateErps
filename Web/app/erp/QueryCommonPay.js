@@ -323,7 +323,7 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(CommonPayAppWindow);
-                        payAppWindow.setOperationType('update');
+                        payAppWindow.setOperationType('view');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
@@ -360,7 +360,19 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                 dataIndex: 'TotalAmount'
             }, {
                 text: '状态',
-                dataIndex: 'StepName'
+                dataIndex: 'StepName',
+                renderer: function (value) {
+                    if (value == "审批完成") {
+                        return '<span style="color:green">审批完成</span>';
+                    }
+                    else if (value == '已付款') {
+                        return '<span style="color:blue">已付款</span>';
+                    }
+                    else {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+
+                }
             }, {
                 text: '申请人',
                 dataIndex: 'PayUserName'

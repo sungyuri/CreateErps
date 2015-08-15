@@ -804,13 +804,13 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 }
             }
             ],
-            multiSelect: false,
-            selModel: {
-                mode: 'SINGLE',  //多选multi,simple,单选single;
-                selType: 'checkboxmodel',
-                showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-                allowDeselect: true  //允许取消选中状态
-            },
+            //multiSelect: false,
+            //selModel: {
+            //    mode: 'SINGLE',  //多选multi,simple,单选single;
+            //    selType: 'checkboxmodel',
+            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+            //    allowDeselect: true  //允许取消选中状态
+            //},
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',

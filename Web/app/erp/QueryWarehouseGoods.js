@@ -279,10 +279,10 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
             columns: [{
                 xtype: 'linkColumn',
                 text: '操作',
-                width: 120,
+                width: 60,
                 items: [
                  {
-                     linkText: '查看',
+                     linkText: '查 看',
                      handler: function (grid, rowIndex, colIndex, sender) {
                          rec = grid.getStore().getAt(rowIndex);
                          var MWindow = Ext.ComponentMgr.create(modifyWindow);

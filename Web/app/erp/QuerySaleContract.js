@@ -443,7 +443,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                     name: 'IsAppEnd',
                     xtype: 'TCEPORTcombo',
                     width: '15%',
-                    store: [['',''],['Y', '是'], ['N', '否']],
+                    store: [['','全部'],['Y', '是'], ['N', '否']],
                     fieldLabel: '审核完成'
                 }]
             }]

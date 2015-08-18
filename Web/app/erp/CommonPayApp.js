@@ -24,7 +24,7 @@ Ext.define('TCSYS.erp.CommonPayApp', {
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'CommonPay_BLL/UpdateCommonPayAppInfo',
-            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 
@@ -202,6 +202,15 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                     fieldLabel: '已付金额'
                 }, {
                     xtype: 'splitter'
+                }, {
+                    name: 'PayWayText',
+                    allowBlank: false,
+                    blankText: '该输入项为必输项',
+                    margin: '0 0 5 0',
+                    fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                    colspan: 3,
+                    width: 380,
+                    fieldLabel: '付款方式'
                 }, {
                     name: 'PayReason',
                     allowBlank: false,

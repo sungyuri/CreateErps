@@ -45,7 +45,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             autoLoad: true,
             addUrl: 'BusinessPay_BLL/InsertCommonPayInfo',
             updateUrl: 'BusinessPay_BLL/UpdateCommonPayInfo',
-            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 
@@ -215,6 +215,15 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     fieldLabel: '已付金额'
                 }, {
                     xtype: 'splitter'
+                }, {
+                    name: 'PayWayText',
+                    allowBlank: false,
+                    blankText: '该输入项为必输项',
+                    margin: '0 0 5 0',
+                    fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                    colspan: 3,
+                    width: 380,
+                    fieldLabel: '付款方式'
                 }, {
                     name: 'PayReason',
                     allowBlank: false,
@@ -535,7 +544,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             items: [
               {
                   xtype: 'label',
-                  margin: '5 0 10 260',
+                  margin: '5 0 10 300',
                   style: 'font-weight: bold; font-size: 16px;',
                   text: "运营付款项目内容",
                   baseCls: 'y-plain',
@@ -599,7 +608,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     value: 0,
                     fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                     blankText: '请输入数字'
-                }, {
+                },{
                     name: 'PayReason',
                     allowBlank: false,
                     blankText: '该输入项为必输项',
@@ -831,7 +840,15 @@ Ext.define('TCSYS.erp.BusinessPay', {
                 dataIndex: 'TotalAmount'
             }, {
                 text: '状态',
-                dataIndex: 'StepName'
+                dataIndex: 'StepName',
+                renderer: function (value) {
+                    if (value == "退回") {
+                        return '<span style="color:red">退回</span>';
+                    }
+                    else {
+                        return '<span style="color:green">' + value + '</span>';
+                    }
+                }
             }, {
                 text: '申请人',
                 dataIndex: 'PayUserName'

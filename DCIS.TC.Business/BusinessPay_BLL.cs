@@ -559,10 +559,10 @@ namespace TCEPORT.TC.Business
                         updateLogSql = @" UPDATE SysFlowStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y' WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
                         updateContractSql = @" UPDATE SysBusinessPay SET StepNo=" + (iNowStepNo + 1).ToString() + ",AppUserName='" + strAppUserName + "',AppUserCode='" + strAppUser + "',StepName='" + strStepName + "'  WHERE BillNo='" + billNo + "' ";
                     }
-                    else//审定，结束审批流程
+                    else//付款，结束审批流程
                     {
                         updateLogSql = @" UPDATE SysFlowStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
-                        updateContractSql = @" UPDATE SysBusinessPay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='审批完成'  WHERE BillNo='" + billNo + "' ";
+                        updateContractSql = @" UPDATE SysBusinessPay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='已付款'  WHERE BillNo='" + billNo + "' ";
                         string strSelPCNO = @" SELECT CommonPayNo,TotalAmount,PayAmount,PaidAmount FROM SysBusinessPay WHERE BillNo='" + billNo + "'   ";
                         DataTable dtIsPayOver = DBUtil.Fill(strSelPCNO);
                         if (dtIsPayOver.Rows.Count > 0)

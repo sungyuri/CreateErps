@@ -24,7 +24,7 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'BusinessPay_BLL/UpdateCommonPayAppInfo',
-            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 
@@ -202,6 +202,15 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                     fieldLabel: '已付金额'
                 }, {
                     xtype: 'splitter'
+                }, {
+                    name: 'PayWayText',
+                    allowBlank: false,
+                    blankText: '该输入项为必输项',
+                    margin: '0 0 5 0',
+                    fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                    colspan: 3,
+                    width: 380,
+                    fieldLabel: '付款方式'
                 }, {
                     name: 'PayReason',
                     allowBlank: false,
@@ -442,7 +451,19 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                 dataIndex: 'TotalAmount'
             }, {
                 text: '状态',
-                dataIndex: 'StepName'
+                dataIndex: 'StepName',
+                renderer: function (value) {
+                    if (value == "审批完成,待付款") {
+                        return '<span style="color:green">审批完成,待付款</span>';
+                    }
+                    else if (value == '已付款') {
+                        return '<span style="color:blue">已付款</span>';
+                    }
+                    else {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+
+                }
             }, {
                 text: '申请人',
                 dataIndex: 'PayUserName'

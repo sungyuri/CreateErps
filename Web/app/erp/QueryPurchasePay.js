@@ -66,7 +66,7 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'PurchasePay_BLL/UpdatePurchasePayAppInfo',
-            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
 
@@ -241,6 +241,15 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                     readOnly: true,
                     colspan: 3,
                     fieldLabel: '已付金额'
+                }, {
+                    name: 'PayWayText',
+                    allowBlank: false,
+                    blankText: '该输入项为必输项',
+                    margin: '0 0 5 0',
+                    fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                    colspan: 3,
+                    width: 380,
+                    fieldLabel: '付款方式'
                 }, {
                     name: 'PayReason',
                     allowBlank: false,
@@ -730,8 +739,8 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                 text: '状态',
                 dataIndex: 'StepName',
                 renderer: function (value) {
-                    if (value == "审核完成") {
-                        return '<span style="color:green">审核完成</span>';
+                    if (value == "审批完成,待付款") {
+                        return '<span style="color:green">审批完成,待付款</span>';
                     }
                     else if (value == '已付款') {
                         return '<span style="color:blue">已付款</span>';

@@ -164,7 +164,7 @@ namespace TCEPORT.TC.Business
                   else//审定，结束审批流程
                   {
                       updateLogSql = @" UPDATE SysFlowStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
-                      updateContractSql = @" UPDATE SysPurchasePay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='审核完成'  WHERE BillNo='" + billNo + "' ";
+                      updateContractSql = @" UPDATE SysPurchasePay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='已付款'  WHERE BillNo='" + billNo + "' ";
                       string strSelPCNO = @" SELECT PurBillNo,TotalAmount,PayAmount,PaidAmount FROM SysPurchasePay WHERE BillNo='"+billNo+"'   ";
                       DataTable dtIsPayOver = DBUtil.Fill(strSelPCNO);
                       if (dtIsPayOver.Rows.Count>0)

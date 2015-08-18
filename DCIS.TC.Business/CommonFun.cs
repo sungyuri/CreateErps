@@ -66,5 +66,98 @@ namespace TCEPORT.TC.Business
            return DBUtil.ExecuteNonQuery(strSql) > 0 ? true : false;
        }
 
+       public bool isAppUserForConstract(string loginUserCode, string strFlowCdode)
+       {
+           string strPCode = HttpContext.Current.Session["PositionCode"].ToString();
+           string strDCode = HttpContext.Current.Session["DepartCode"].ToString();
+           bool bIsAppUser = false;
+           string appUserSql = @"   SELECT FirstUser+','+ManyUser+','+LastUser  FROM SysFlowMany  WHERE FlowCdode='" + strFlowCdode + "' ";
+           string[] strAppUserArray= DBUtil.ExecuteScalar(appUserSql).ToString().Split(',');
+           for(int i=0;i<strAppUserArray.Length;i++)
+           {
+               if(strAppUserArray[i]==loginUserCode)
+               {
+                   bIsAppUser = true;
+                   break;
+               }
+           }
+           if (strFlowCdode == "SC")
+           {
+               if (strPCode == "2" && strDCode == "2")
+               {
+                   bIsAppUser = true;
+               }
+           }
+           return bIsAppUser;
+       }
+
+       public string isAppUserForPay(string loginUserCode, string strFlowCdode)
+       {
+           string bIsAppUser = "";
+           string flowQuery = @" SELECT [FlowId]
+                                          ,[StepNo]
+                                          ,[StepName]
+                                          ,[DepartCode]
+                                          ,[PositionCode]
+                                          ,[ApproveType]
+                                          ,[Remarks]
+                                          ,[FlowCdode]
+                                          ,[FlowName]
+                                          ,[UserCode]
+                                          ,[UserName]
+                                      FROM [CreateErp].[dbo].[ViewPurchasePayApproval]
+                                      WHERE  FlowCdode='" + strFlowCdode + "' ORDER BY StepNo ";
+           DataTable flowDt = DBUtil.Fill(flowQuery);
+
+           for (int j = 0; j < flowDt.Rows.Count; j++)
+           {
+               //if (flowDt.Rows[j]["DepartCode"].ToString() == "-1")
+               //{
+               //    string strdeptCode = HttpContext.Current.Session["DepartCode"].ToString();
+               //    string strSqlQueryCurren = @"     SELECT UserCode,UserName FROM SysUser WHERE DepartCode=" + strdeptCode + " AND PositionCode=" + flowDt.Rows[j]["PositionCode"].ToString() + " ";
+               //    DataTable dtInfo = DBUtil.Fill(strSqlQueryCurren);
+               //    if (dtInfo.Rows.Count > 0)
+               //    {
+               //        if (loginUserCode == dtInfo.Rows[0]["UserCode"].ToString())
+               //        {
+               //            bIsAppUser = true;
+               //            break;
+               //        }
+               //    }
+               //}
+
+               if (flowDt.Rows[j]["UserCode"].ToString() == loginUserCode)
+               {
+                   bIsAppUser = "true";
+                   break;
+               }
+
+           }
+           if (bIsAppUser == "")
+           {
+               string strdeptCode = HttpContext.Current.Session["DepartCode"].ToString();
+               string strPosCode = HttpContext.Current.Session["PositionCode"].ToString();
+               if (strPosCode == "4")
+               {
+                   string strSqlQueryCurren = @"     SELECT UserCode FROM SysUser WHERE DepartCode=" + strdeptCode ;
+                   DataTable dtInfo = DBUtil.Fill(strSqlQueryCurren);
+                   if (dtInfo.Rows.Count > 0)
+                   {
+                       for(int k=0;k<dtInfo.Rows.Count;k++)
+                       {
+                           bIsAppUser += "'" + dtInfo.Rows[k][0].ToString() + "',";
+                       }
+                       bIsAppUser = bIsAppUser.Trim().TrimEnd(',');
+                   }
+               }
+               else
+               {
+                   bIsAppUser = "'" + loginUserCode + "'";
+               }
+           }
+           return bIsAppUser;
+
+       }
+
     }
 }

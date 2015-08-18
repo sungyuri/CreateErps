@@ -58,7 +58,17 @@ namespace TCEPORT.TC.Business
 
             string strSql = @" SELECT * FROM SysSaleContract WHERE 1=1 ";
             //int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
-          //  string UserCode = HttpContext.Current.Session["UserCode"].ToString();          
+            string UserCode = HttpContext.Current.Session["UserCode"].ToString();  
+            CommonFun cf = new CommonFun();
+            bool isAppUser= cf.isAppUserForConstract(UserCode, "SC");
+            if (isAppUser)
+            {
+
+            }
+            else
+            {
+                strSql += string.Format(@" and PurUserCode like '%{0}%'", UserCode);
+            }
             if (data != null)
             {
                 if (data.CustomerName != null && data.CustomerName != "")

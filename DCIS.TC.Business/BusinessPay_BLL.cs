@@ -399,7 +399,18 @@ namespace TCEPORT.TC.Business
                                       ,[AppUserName]
                                       ,[IsPayoff]
                                       ,[IsAppEnd]
-                                  FROM [CreateErp].[dbo].[SysBusinessPay] WHERE PayUserCode ='" + UserCode + "'  ";
+                                  FROM [CreateErp].[dbo].[SysBusinessPay] WHERE 1=1  ";
+
+            CommonFun cf = new CommonFun();
+            string isAppUser = cf.isAppUserForPay(UserCode, "BP");
+            if (isAppUser == "true")
+            {
+
+            }
+            else
+            {
+                strSql += string.Format(@" and PayUserCode IN({0}) ", isAppUser);
+            }
 
             if (data != null)
             {

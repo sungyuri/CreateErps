@@ -154,6 +154,62 @@ namespace TCEPORT.TC.Business
                     if (count > 0)
                         dr["M_SHOWINDEX"] = count;
                 }
+                string strPCode = HttpContext.Current.Session["PositionCode"].ToString();
+                string strDCode = HttpContext.Current.Session["DepartCode"].ToString();
+                //销售合同-退回
+                if (dr["ID"].ToString() == "110111010001")
+                {
+                    if (strPCode == "2" && strDCode == "2")
+                    {
+                        string strSql = "  SELECT  COUNT(1) FROM SysSaleContract WHERE StepName ='退回' AND IsAppEnd='N' ";
+                        count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                        if (count > 0)
+                            dr["M_SHOWINDEX"] = count;
+                    }
+                    else
+                    {
+                        string strSql = "  SELECT  COUNT(1) FROM SysSaleContract WHERE PurUserCode ='" + UserCode + "'  AND StepName ='退回'  AND IsAppEnd='N' ";
+                        count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                        if (count > 0)
+                            dr["M_SHOWINDEX"] = count;
+                    }
+                }
+                //采购合同-退回
+                if (dr["ID"].ToString() == "110111020001")
+                {
+                    string strSql = "  SELECT  COUNT(1) FROM SysPurchaseContract WHERE PurUserCode ='" + UserCode + "'  AND StepName ='退回'  AND IsAppEnd='N' ";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+
+                }
+                //采购付款申请-退回
+                if (dr["ID"].ToString() == "110111040001")
+                {
+                    string strSql = "  SELECT  COUNT(1) FROM SysPurchasePay WHERE PayUserCode ='" + UserCode + "'  AND StepName ='退回'  AND IsAppEnd='N' ";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+
+                }
+                //运营付款申请-退回
+                if (dr["ID"].ToString() == "110111040002")
+                {
+                    string strSql = "  SELECT  COUNT(1) FROM SysBusinessPay WHERE PayUserCode ='" + UserCode + "'  AND StepName ='退回'  AND IsAppEnd='N' ";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+
+                }
+                //其他付款申请-退回
+                if (dr["ID"].ToString() == "110111040003")
+                {
+                    string strSql = "  SELECT  COUNT(1) FROM SysCommonPay WHERE PayUserCode ='" + UserCode + "'  AND StepName ='退回'  AND IsAppEnd='N' ";
+                    count = int.Parse(DBUtil.ExecuteScalar(strSql).ToString());
+                    if (count > 0)
+                        dr["M_SHOWINDEX"] = count;
+
+                }
 
             }
             return dt;
@@ -406,11 +462,6 @@ namespace TCEPORT.TC.Business
                 HttpContext.Current.Session["Rolelist"] = dt.Rows[0]["Rolelist"].ToString();
                 HttpContext.Current.Session["UserPhone"] = dt.Rows[0]["UserPhone"].ToString();
                 HttpContext.Current.Session["PositionDesc"] = dt.Rows[0]["PositionDesc"].ToString();
-
-
-
-
-
                 return true;
             }
             else

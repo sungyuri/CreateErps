@@ -1,6 +1,6 @@
 ﻿Object Report
 	Version='5.6.0.0'
-	Title='用RTF文字框实现合同打印'
+	Title='销售合同'
 	Object Font
 		Name='宋体'
 		Size=90000,0

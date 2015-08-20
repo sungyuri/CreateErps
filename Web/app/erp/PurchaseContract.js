@@ -79,7 +79,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
-                text: '保存',
+                text: '修改保存',
                 name: 'btnSave',
                 iconCls: "icon-save",
                 id: 'btnSave',

@@ -36,6 +36,7 @@ Ext.define('TCSYS.erp.CommonPayApp', {
             store: commonPayAppStore,
             itemId: 'CommonPayAppWd',
             record: null,
+            stepName:null,
             width: 800,
             layout: {
                 type: 'vbox',
@@ -333,10 +334,18 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "agree"
                     }, function (value) {
                         if (value == 'true') {
-                            //  me.BasicInfoPK = value;
+                            var cmbillNo = me.BasicInfoPK;
+                            var sName = currentWindow.stepName;
+                            if (sName == "待付款")
+                            {
+                                Report.LoadFromURL("print/printTemplate/OPPay.grf");
+                                Report.LoadDataFromURL("print/printData/OPPay.aspx?billNo=" + cmbillNo);
+                                Report.PrintPreview(true);
+                            }                         
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
-                            commonPayAppStore.load();
+                            commonPayAppStore.load();                         
+
                         } else {
                             Ext.shortAlert(value);
                         }
@@ -414,16 +423,21 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(CommonPayAppWindow);
+                        var StepName = record.get('StepName');
                         payAppWindow.setOperationType('approval');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
+                        payAppWindow.stepName = StepName;
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
-                        payAppWindow.show(this);
-                        //gridstore.load({
-                        //    params: { SaleBillNo: record.get('BillNo') }
-                        //});
+                       
+                        if (StepName == "待付款")
+                        {
+                            Ext.getCmp('btnApp').text = "提交付款";
+                        }                      
+                        payAppWindow.show(this);                  
+
                         appCommonPayLogstore.load({
                             params: { BillNo: record.get('BillNo') }
                         });

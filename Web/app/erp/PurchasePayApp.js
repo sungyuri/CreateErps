@@ -78,6 +78,7 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
             store: purchasePayAppStore,
             itemId: 'PurchaseContractPayAppWd',
             record: null,
+            stepName: null,
             width: 800,
             layout: {
                 type: 'vbox',
@@ -386,6 +387,13 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
                     }, function (value) {
                         if (value == 'true') {
                             //  me.BasicInfoPK = value;
+                            var cmbillNo = me.BasicInfoPK;
+                            var sName = currentWindow.stepName;
+                            if (sName == "待付款") {
+                                Report.LoadFromURL("print/printTemplate/PPPay.grf");
+                                Report.LoadDataFromURL("print/printData/PPPay.aspx?billNo=" + cmbillNo);
+                                Report.PrintPreview(true);
+                            }
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
                             purchasePayAppStore.load();
@@ -778,12 +786,18 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(PurchaseContractPayAppWindow);
+                        var StepName = record.get('StepName');
                         payAppWindow.setOperationType('approval');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
+                        payAppWindow.stepName = StepName;
                         payAppWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
+
+                        if (StepName == "待付款") {
+                            Ext.getCmp('btnApp').text = "提交付款";
+                        }
                         payAppWindow.show(this);
                         //gridstore.load({
                         //    params: { SaleBillNo: record.get('BillNo') }

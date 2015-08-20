@@ -36,6 +36,7 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
             store: businessPayAppStore,
             itemId: 'BusinessPayAppWd',
             record: null,
+            stepName:null,
             width: 800,
             layout: {
                 type: 'vbox',
@@ -334,6 +335,13 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                     }, function (value) {
                         if (value == 'true') {
                             //  me.BasicInfoPK = value;
+                            var cmbillNo = me.BasicInfoPK;
+                            var sName = currentWindow.stepName;
+                            if (sName == "待付款") {
+                                Report.LoadFromURL("print/printTemplate/BPPay.grf");
+                                Report.LoadDataFromURL("print/printData/BPPay.aspx?billNo=" + cmbillNo);
+                                Report.PrintPreview(true);
+                            }
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
                             businessPayAppStore.load();
@@ -414,16 +422,21 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(CommonPayAppWindow);
+                        var StepName = record.get('StepName');
                         payAppWindow.setOperationType('update');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
+                        payAppWindow.stepName = StepName;
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
+
+                        if (StepName == "待付款") {
+                            Ext.getCmp('btnApp').text = "提交付款";
+                        }
+
                         payAppWindow.show(this);
-                        //gridstore.load({
-                        //    params: { SaleBillNo: record.get('BillNo') }
-                        //});
+                
                         appBusinessPayLogstore.load({
                             params: { BillNo: record.get('BillNo') }
                         });
@@ -453,8 +466,8 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                 text: '状态',
                 dataIndex: 'StepName',
                 renderer: function (value) {
-                    if (value == "审批完成,待付款") {
-                        return '<span style="color:green">审批完成,待付款</span>';
+                    if (value == "待付款") {
+                        return '<span style="color:green">待付款</span>';
                     }
                     else if (value == '已付款') {
                         return '<span style="color:blue">已付款</span>';

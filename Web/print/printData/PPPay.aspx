@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="saleContractData.aspx.cs" Inherits="Web.print.printData.saleContractData" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PPPay.aspx.cs" Inherits="Web.print.printData.PPPay" %>
 <%@ Import Namespace="TCEPORT.TC.Business" %>
 <!DOCTYPE html>
 
@@ -15,7 +15,7 @@
     </form>
 </body>
 </html>
-    
+
 <script runat="server"> 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -25,8 +25,8 @@
        // OledbReportData.GenNodeXmlData(this, "select * from Customers order by Region,City", false);
 
            string billNo = Request.QueryString["billNo"].ToString();
-           string RecordsetQuerySQL = "  SELECT * FROM dbo.ViewSaleContractDetail WHERE SaleBillNo='"+billNo+"'  ";
-           string ParameterQuerySQL = " SELECT * FROM  SysSaleContract  WHERE BillNo='"+billNo+"'  ";
+           string RecordsetQuerySQL = "  SELECT * FROM SysFlowStep WHERE BillNo='" + billNo + "'  ";
+           string ParameterQuerySQL = " SELECT * FROM  SysPurchasePay  WHERE BillNo='" + billNo + "'  ";
            SqlReportData.GenEntireReportData(this, RecordsetQuerySQL, ParameterQuerySQL, false);
         // GenEntireReportData(this,RecordsetQuerySQL,ParameterQuerySQL,true);
     }

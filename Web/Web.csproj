@@ -233,6 +233,9 @@
     <Content Include="Logout.aspx" />
     <Content Include="preview_office.aspx" />
     <Content Include="preview_pdf.aspx" />
+    <Content Include="print\printData\BPPay.aspx" />
+    <Content Include="print\printData\OPPay.aspx" />
+    <Content Include="print\printData\PPPay.aspx" />
     <Content Include="print\printData\saleContractData.aspx" />
     <Content Include="print\printTemplate\grdes50.dll" />
     <Content Include="print\printTemplate\gregn50.dll" />
@@ -2942,10 +2945,10 @@
     <Content Include="resources\ux\DataView\DragSelector.js" />
     <Content Include="resources\ux\DataView\LabelEditor.js" />
     <Content Include="app\ciq\getToken.ashx" />
-    <Content Include="print\printTemplate\create_xsht-bak.grf" />
-    <Content Include="print\printTemplate\create_xsht.grf" />
-    <Content Include="print\printTemplate\create_xsht_sp.grf" />
     <Content Include="print\printTemplate\createSale.grf" />
+    <Content Include="print\printTemplate\OPPay.grf" />
+    <Content Include="print\printTemplate\BPPay.grf" />
+    <Content Include="print\printTemplate\PPPay.grf" />
     <None Include="Properties\PublishProfiles\createapp.pubxml">
       <SubType>Designer</SubType>
     </None>
@@ -2997,6 +3000,27 @@
     </Compile>
     <Compile Include="preview_pdf.aspx.designer.cs">
       <DependentUpon>preview_pdf.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="print\printData\BPPay.aspx.cs">
+      <DependentUpon>BPPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="print\printData\BPPay.aspx.designer.cs">
+      <DependentUpon>BPPay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="print\printData\OPPay.aspx.cs">
+      <DependentUpon>OPPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="print\printData\OPPay.aspx.designer.cs">
+      <DependentUpon>OPPay.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="print\printData\PPPay.aspx.cs">
+      <DependentUpon>PPPay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="print\printData\PPPay.aspx.designer.cs">
+      <DependentUpon>PPPay.aspx</DependentUpon>
     </Compile>
     <Compile Include="print\printData\saleContractData.aspx.cs">
       <DependentUpon>saleContractData.aspx</DependentUpon>
@@ -3182,7 +3206,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21710</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.31.143:8903</IISUrl>
+          <IISUrl>http://192.168.118.4:8903</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

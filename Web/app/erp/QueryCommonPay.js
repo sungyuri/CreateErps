@@ -262,6 +262,19 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
+                text: '打印',
+                id: 'OPPrintBtn',
+                hidden:true,
+                iconCls: "icon-print",
+                handler: function () {
+                    var salebillNo = me.BasicInfoPK;
+                    Report.LoadFromURL("print/printTemplate/OPPay.grf");
+                    Report.LoadDataFromURL("print/printData/OPPay.aspx?billNo=" + salebillNo);
+                    Report.PrintPreview(true);
+                    // var billNo = me.BasicInfoPK;
+                    // window.open("saleContractPrintView.aspx?saleBillNo=" + billNo);
+                }
+            }, {
                 text: '取消',
                 iconCls: "icon-cancel",
                 handler: function () {
@@ -332,12 +345,16 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;
                         var payAppWindow = Ext.ComponentMgr.create(CommonPayAppWindow);
+                        var StepName = record.get('StepName');
                         payAppWindow.setOperationType('view');
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
+                        if (StepName == "待付款") {
+                            Ext.getCmp('OPPrintBtn').hidden = false;
+                        }
                         payAppWindow.show(this);
                         //gridstore.load({
                         //    params: { SaleBillNo: record.get('BillNo') }
@@ -371,8 +388,8 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                 text: '状态',
                 dataIndex: 'StepName',
                 renderer: function (value) {
-                    if (value == "审批完成,待付款") {
-                        return '<span style="color:green">审批完成,待付款</span>';
+                    if (value == "待付款") {
+                        return '<span style="color:green">待付款</span>';
                     }
                     else if (value == '已付款') {
                         return '<span style="color:blue">已付款</span>';

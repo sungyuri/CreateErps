@@ -336,15 +336,18 @@ Ext.define('TCSYS.erp.CommonPayApp', {
                         if (value == 'true') {
                             var cmbillNo = me.BasicInfoPK;
                             var sName = currentWindow.stepName;
-                            if (sName == "待付款")
-                            {
-                                Report.LoadFromURL("print/printTemplate/OPPay.grf");
-                                Report.LoadDataFromURL("print/printData/OPPay.aspx?billNo=" + cmbillNo);
-                                Report.PrintPreview(true);
-                            }                         
+                            if (sName == "待付款") {
+                                Ext.Msg.confirm('提示', '是否打印付款单?', function (check) {
+                                    if (check == "yes") {
+                                        Report.LoadFromURL("print/printTemplate/OPPay.grf");
+                                        Report.LoadDataFromURL("print/printData/OPPay.aspx?billNo=" + cmbillNo);
+                                        Report.PrintPreview(true);
+                                    }
+                                });
+                            }
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
-                            commonPayAppStore.load();                         
+                            commonPayAppStore.load();
 
                         } else {
                             Ext.shortAlert(value);

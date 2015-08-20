@@ -334,17 +334,24 @@ Ext.define('TCSYS.erp.BusinessPayApp', {
                         billNo: billNo, stepNo: stepNo, appnote: appnote.value, type: "agree"
                     }, function (value) {
                         if (value == 'true') {
-                            //  me.BasicInfoPK = value;
+
+
                             var cmbillNo = me.BasicInfoPK;
                             var sName = currentWindow.stepName;
                             if (sName == "待付款") {
-                                Report.LoadFromURL("print/printTemplate/BPPay.grf");
-                                Report.LoadDataFromURL("print/printData/BPPay.aspx?billNo=" + cmbillNo);
-                                Report.PrintPreview(true);
+                                Ext.Msg.confirm('提示', '是否打印付款单?', function (check) {
+                                    if (check == "yes") {
+                                        Report.LoadFromURL("print/printTemplate/BPPay.grf");
+                                        Report.LoadDataFromURL("print/printData/BPPay.aspx?billNo=" + cmbillNo);
+                                        Report.PrintPreview(true);
+                                    }
+                                });
                             }
                             Ext.shortAlert('操作成功');
                             currentWindow.close();
                             businessPayAppStore.load();
+                          
+                            
                         } else {
                             Ext.shortAlert(value);
                         }

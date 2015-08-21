@@ -514,5 +514,53 @@ namespace TCEPORT.TC.Business
             return returnValue;
         }
 
+
+        /// <summary>
+        /// 待出库合同
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public dynamic QuerySaleContractForOut(int start, int limit, string strOrderBy, dynamic data)
+        {
+
+            string strSql = @" SELECT * FROM SysSaleContract WHERE 1=1 AND IsAppEnd='Y' ";
+            //int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
+            string UserCode = HttpContext.Current.Session["UserCode"].ToString();
+            CommonFun cf = new CommonFun();
+            bool isAppUser = cf.isAppUserForConstract(UserCode, "SC");
+            if (isAppUser)
+            {
+
+            }
+            else
+            {
+                strSql += string.Format(@" and PurUserCode like '%{0}%'", UserCode);
+            }
+            if (data != null)
+            {
+                if (data.CustomerName != null && data.CustomerName != "")
+                {
+                    strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
+                }
+                if (data.IsStorage != null && data.IsStorage != "")
+                {
+                    strSql += string.Format(@" and IsStorage ='{0}'", data.IsStorage);
+                }
+                if (data.PurUserName != null && data.PurUserName != "")
+                {
+                    strSql += string.Format(@" and PurUserName like '%{0}%'", data.PurUserName);
+                }
+            }
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+            DataTable dtTmp = DBUtil.Fill(pagedSql);
+            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+            return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+
     }
 }

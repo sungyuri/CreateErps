@@ -229,7 +229,7 @@
 </div>
 
         <div class="bottom">
-            <span style="color: #333; font-size: 12px;">太仓创造电子有限公司版权所有@2015</span>
+            <span style="color: #333; font-size: 14px; font-weight:bold;">太仓创造电子有限公司版权所有@2015  版本1.0</span>
         </div>
 <%--<script type="text/javascript">
     function randomAct() {

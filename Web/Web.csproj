@@ -219,6 +219,7 @@
     <Content Include="img\sponsors\p012.jpg" />
     <Content Include="img\sponsors\p013.jpg" />
     <Content Include="img\title_login1.png" />
+    <Content Include="img\title_login2.png" />
     <Content Include="js\CreateControl.js" />
     <Content Include="js\jquery-1.11.1.min.js" />
     <Content Include="js\jquery-1.8.3.js" />
@@ -2712,6 +2713,7 @@
     <Content Include="resources\themes\appImage\indexImage\wxp.png" />
     <Content Include="resources\themes\appImage\loading.gif" />
     <Content Include="resources\themes\appImage\logoNew.jpg" />
+    <Content Include="resources\themes\appImage\logoNew2.jpg" />
     <Content Include="resources\themes\appImage\tbg1.png" />
     <Content Include="resources\themes\appImage\top_bg.jpg" />
     <Content Include="resources\themes\homepageicons\agent.png" />
@@ -3206,7 +3208,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>21710</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.118.4:8903</IISUrl>
+          <IISUrl>http://192.168.31.143:8903</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

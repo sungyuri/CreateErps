@@ -349,7 +349,7 @@ Ext.define('TCSYS.erp.QueryBusinessPay', {
                         payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
-                        if (StepName == "待付款") {
+                        if (StepName == "已付款") {
                             Ext.getCmp('BPPrintBtn').hidden = false;
                         }
                         payAppWindow.show(this);

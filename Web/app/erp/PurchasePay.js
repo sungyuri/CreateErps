@@ -879,7 +879,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                         
                        // me.BasicInfoPK = record.get('BillNo');                       
                         gridstore.load({
-                            params: { SaleBillNo: record.get('BillNo') }
+                            params: { PurBillNo: record.get('BillNo') }
                         });
                         applogstore.load({
                             params: { BillNo: record.get('BillNo') }

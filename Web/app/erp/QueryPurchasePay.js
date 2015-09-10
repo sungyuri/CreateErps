@@ -823,7 +823,7 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                         viewWindow.show(this);
                         // me.BasicInfoPK = record.get('BillNo');                       
                         gridstore.load({
-                            params: { SaleBillNo: record.get('BillNo') }
+                            params: { PurBillNo: record.get('BillNo') }
                         });
                         applogstore.load({
                             params: { BillNo: record.get('BillNo') }

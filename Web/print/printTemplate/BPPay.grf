@@ -285,7 +285,7 @@
 		Item
 			Type=ReportHeader
 			CanGrow=T
-			Height=2
+			Height=1.19063
 			Items Control
 				Item
 					Type=StaticBox
@@ -301,21 +301,6 @@
 					Height=0.8
 					TextAlign=MiddleCenter
 					Text='太仓创造电子有限公司付款通知书'
-				End
-				Item
-					Type=StaticBox
-					Name='StaticBox9'
-					Object Font
-						Name='宋体'
-						Size=112500,0
-						Weight=400
-						Charset=134
-					End
-					Left=1
-					Top=1.40229
-					Width=2.59292
-					Height=0.5
-					Text='审核记录：'
 				End
 			End
 		End
@@ -334,7 +319,7 @@
 					Type=StaticBox
 					Name='StaticBox15'
 					Left=1
-					Top=1
+					Top=0.264583
 					Width=1.6
 					Height=0.5
 					Text='收款方：'
@@ -343,7 +328,7 @@
 					Type=StaticBox
 					Name='StaticBox16'
 					Left=2.80458
-					Top=1
+					Top=0.264583
 					Width=6.00604
 					Height=0.5
 					Parameter='ReceiveName'
@@ -352,7 +337,7 @@
 					Type=StaticBox
 					Name='StaticBox17'
 					Left=9.5
-					Top=1
+					Top=0.264583
 					Width=2.09021
 					Height=0.5
 					Text='制单时间：'
@@ -361,7 +346,7 @@
 					Type=StaticBox
 					Name='StaticBox18'
 					Left=11.5888
-					Top=1
+					Top=0.264583
 					Width=3.59833
 					Height=0.5
 					Parameter='CreateDate'
@@ -370,7 +355,7 @@
 					Type=StaticBox
 					Name='StaticBox19'
 					Left=1
-					Top=1.7
+					Top=0.9525
 					Width=1.6
 					Height=0.5
 					Text='总金额：'
@@ -379,7 +364,7 @@
 					Type=StaticBox
 					Name='StaticBox20'
 					Left=2.83104
-					Top=1.7
+					Top=0.9525
 					Width=6.00604
 					Height=0.5
 					Parameter='TotalAmount'
@@ -388,7 +373,7 @@
 					Type=StaticBox
 					Name='StaticBox21'
 					Left=9.525
-					Top=1.7
+					Top=0.9525
 					Width=2.09021
 					Height=0.5
 					Text='已付金额：'
@@ -397,7 +382,7 @@
 					Type=StaticBox
 					Name='StaticBox22'
 					Left=11.6152
-					Top=1.7
+					Top=0.9525
 					Width=3.59833
 					Height=0.5
 					Parameter='PaidAmount'
@@ -406,8 +391,8 @@
 					Type=StaticBox
 					Name='StaticBox23'
 					Left=1
-					Top=2.4
-					Width=2
+					Top=1.66688
+					Width=1.98438
 					Height=0.5
 					Text='付款方式：'
 				End
@@ -415,7 +400,7 @@
 					Type=StaticBox
 					Name='StaticBox24'
 					Left=3.20146
-					Top=2.4
+					Top=1.66688
 					Width=7.14375
 					Height=0.5
 					Parameter='PayWayText'
@@ -424,7 +409,7 @@
 					Type=StaticBox
 					Name='StaticBox25'
 					Left=1
-					Top=3.1
+					Top=2.35479
 					Width=1.98438
 					Height=0.5
 					Text='付款事由：'
@@ -433,7 +418,7 @@
 					Type=StaticBox
 					Name='StaticBox26'
 					Left=3.2
-					Top=3.1
+					Top=2.35479
 					Width=13.1763
 					Height=0.5
 					Parameter='PayReason'
@@ -442,7 +427,7 @@
 					Type=StaticBox
 					Name='StaticBox27'
 					Left=1
-					Top=3.8
+					Top=3.06917
 					Width=1.98438
 					Height=0.5
 					Text='开户行：'
@@ -451,16 +436,16 @@
 					Type=StaticBox
 					Name='StaticBox28'
 					Left=3.20146
-					Top=3.8
-					Width=13.1763
+					Top=3.06917
+					Width=4.78896
 					Height=0.5
 					Parameter='BANK'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox29'
-					Left=1
-					Top=4.5
+					Left=8.14917
+					Top=3.07
 					Width=1.98438
 					Height=0.5
 					Text='银行账号：'
@@ -468,9 +453,9 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox30'
-					Left=3.2
-					Top=4.5
-					Width=13.1763
+					Left=10.3452
+					Top=3.07
+					Width=6.45583
 					Height=0.5
 					Parameter='BANKNO'
 				End
@@ -478,7 +463,7 @@
 					Type=StaticBox
 					Name='StaticBox31'
 					Left=1
-					Top=5.2
+					Top=3.79
 					Width=3.2
 					Height=0.47625
 					Text='本次付款金额 ¥：'
@@ -487,16 +472,16 @@
 					Type=StaticBox
 					Name='StaticBox32'
 					Left=4.5
-					Top=5.2
-					Width=8
-					Height=0.5
+					Top=3.79
+					Width=3.4925
+					Height=0.47625
 					Parameter='PayAmount'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox34'
-					Left=1
-					Top=5.9
+					Left=8.12271
+					Top=3.79
 					Width=1.98438
 					Height=0.5
 					Text='人民币：'
@@ -504,9 +489,9 @@
 				Item
 					Type=SummaryBox
 					Name='SummaryBox1'
-					Left=3.2
-					Top=5.9
-					Width=13.2027
+					Left=10.3188
+					Top=3.79
+					Width=6.48229
 					Height=0.5
 					DataField='PayAmount'
 					SummaryFun=Max
@@ -516,7 +501,7 @@
 					Type=StaticBox
 					Name='StaticBox35'
 					Left=1
-					Top=6.6
+					Top=4.47
 					Width=1.98438
 					Height=0.5
 					Text='备  注：'
@@ -525,7 +510,7 @@
 					Type=StaticBox
 					Name='StaticBox36'
 					Left=3.20146
-					Top=6.6
+					Top=4.47
 					Width=13.1763
 					Height=1
 					CanGrow=T
@@ -537,7 +522,7 @@
 					Type=StaticBox
 					Name='StaticBox37'
 					Left=9.81604
-					Top=8.2
+					Top=5.60917
 					Width=1.98438
 					Height=0.5
 					Text='打印时间：'
@@ -546,7 +531,7 @@
 					Type=SystemVarBox
 					Name='SystemVarBox1'
 					Left=12.2238
-					Top=8.2
+					Top=5.60917
 					Width=4.5
 					Height=0.5
 					Format='yyyy/MM/dd HH:mm:ss'

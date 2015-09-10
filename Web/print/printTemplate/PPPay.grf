@@ -525,7 +525,7 @@
 					Type=StaticBox
 					Name='StaticBox37'
 					Left=9.81604
-					Top=5.60917
+					Top=5.48
 					Width=1.98438
 					Height=0.5
 					Text='打印时间：'
@@ -534,11 +534,29 @@
 					Type=SystemVarBox
 					Name='SystemVarBox1'
 					Left=12.2238
-					Top=5.60917
+					Top=5.48
 					Width=4.5
 					Height=0.5
 					Format='yyyy/MM/dd HH:mm:ss'
 					SystemVar=CurrentDateTime
+				End
+				Item
+					Type=StaticBox
+					Name='StaticBox38'
+					Left=1.03188
+					Top=5.47688
+					Width=1.37583
+					Height=0.5
+					Text='制单：'
+				End
+				Item
+					Type=StaticBox
+					Name='StaticBox39'
+					Left=2.83104
+					Top=5.47688
+					Width=3.175
+					Height=0.5
+					Parameter='PayUserName'
 				End
 			End
 		End

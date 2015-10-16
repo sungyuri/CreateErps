@@ -570,6 +570,15 @@ namespace TCEPORT.TC.Business
           return returnValue;
       }
 
+      
+      public string DeletePurchasePayInfo(string billNo)
+      {
+          string strRetun = "";
+          string strSql = " UPDATE dbo.SysPurchasePay SET StepNo=98,StepName='删除' WHERE BillNo='" + billNo + "'  ";
+          strRetun = DBUtil.ExecuteNonQuery(strSql).ToString();
+          return strRetun;
+      }
+
       /// <summary>
       /// 修改采购付款单
       /// </summary>

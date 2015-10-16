@@ -321,7 +321,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox15'
-					Left=1
+					Left=0.449792
 					Top=0.264583
 					Width=1.6
 					Height=0.5
@@ -330,16 +330,16 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox16'
-					Left=2.80458
+					Left=2.24896
 					Top=0.264583
-					Width=6.00604
+					Width=10.16
 					Height=0.5
 					Parameter='ReceiveName'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox17'
-					Left=9.5
+					Left=12.4619
 					Top=0.264583
 					Width=2.09021
 					Height=0.5
@@ -348,16 +348,16 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox18'
-					Left=11.5888
+					Left=14.5521
 					Top=0.264583
-					Width=3.59833
+					Width=2.3
 					Height=0.5
 					Parameter='CreateDate'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox19'
-					Left=1
+					Left=0.449792
 					Top=0.9525
 					Width=1.6
 					Height=0.5
@@ -366,16 +366,16 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox20'
-					Left=2.83104
+					Left=2.27542
 					Top=0.9525
-					Width=6.00604
+					Width=2.3
 					Height=0.5
 					Parameter='TotalAmount'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox21'
-					Left=9.525
+					Left=4.70958
 					Top=0.9525
 					Width=2.09021
 					Height=0.5
@@ -384,17 +384,17 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox22'
-					Left=11.6152
+					Left=6.79979
 					Top=0.9525
-					Width=3.59833
+					Width=2.3
 					Height=0.5
 					Parameter='PaidAmount'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox23'
-					Left=1
-					Top=1.66688
+					Left=9.15458
+					Top=0.95
 					Width=1.98438
 					Height=0.5
 					Text='付款方式：'
@@ -402,17 +402,17 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox24'
-					Left=3.20146
-					Top=1.66688
-					Width=7.14375
+					Left=11.1919
+					Top=0.95
+					Width=5.82083
 					Height=0.5
 					Parameter='PayWayText'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox25'
-					Left=1
-					Top=2.35479
+					Left=0.449792
+					Top=1.65
 					Width=1.98438
 					Height=0.5
 					Text='付款事由：'
@@ -420,17 +420,17 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox26'
-					Left=3.2
-					Top=2.35479
-					Width=13.1763
+					Left=2.64583
+					Top=1.65
+					Width=14.1552
 					Height=0.5
 					Parameter='PayReason'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox27'
-					Left=1
-					Top=3.06917
+					Left=0.449792
+					Top=2.35
 					Width=1.98438
 					Height=0.5
 					Text='开户行：'
@@ -438,16 +438,16 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox28'
-					Left=3.20146
-					Top=3.06917
-					Width=4.78896
+					Left=2.64583
+					Top=2.35
+					Width=13.9435
 					Height=0.5
 					Parameter='BANK'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox29'
-					Left=8.20208
+					Left=0.45
 					Top=3.07
 					Width=1.98438
 					Height=0.5
@@ -456,16 +456,16 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox30'
-					Left=10.3981
+					Left=2.59292
 					Top=3.07
-					Width=6.00604
+					Width=14.2081
 					Height=0.5
 					Parameter='BANKNO'
 				End
 				Item
 					Type=StaticBox
 					Name='StaticBox31'
-					Left=1
+					Left=0.449792
 					Top=3.73063
 					Width=3.2
 					Height=0.47625
@@ -474,7 +474,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox32'
-					Left=4.5
+					Left=3.94229
 					Top=3.73063
 					Width=3.4925
 					Height=0.47625
@@ -483,7 +483,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox34'
-					Left=8.255
+					Left=7.69938
 					Top=3.73
 					Width=1.98438
 					Height=0.5
@@ -492,7 +492,7 @@
 				Item
 					Type=SummaryBox
 					Name='SummaryBox1'
-					Left=10.451
+					Left=9.89542
 					Top=3.73
 					Width=6.35
 					Height=0.5
@@ -503,7 +503,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox35'
-					Left=1
+					Left=0.449792
 					Top=4.36563
 					Width=1.98438
 					Height=0.5
@@ -512,9 +512,9 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox36'
-					Left=3.20146
+					Left=2.64583
 					Top=4.36563
-					Width=13.1763
+					Width=14.3669
 					Height=1
 					CanGrow=T
 					WordWrap=T
@@ -524,7 +524,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox37'
-					Left=9.81604
+					Left=9.26042
 					Top=5.48
 					Width=1.98438
 					Height=0.5
@@ -533,7 +533,7 @@
 				Item
 					Type=SystemVarBox
 					Name='SystemVarBox1'
-					Left=12.2238
+					Left=11.6681
 					Top=5.48
 					Width=4.5
 					Height=0.5
@@ -543,7 +543,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox38'
-					Left=1.03188
+					Left=0.47625
 					Top=5.47688
 					Width=1.37583
 					Height=0.5
@@ -552,7 +552,7 @@
 				Item
 					Type=StaticBox
 					Name='StaticBox39'
-					Left=2.83104
+					Left=2.27542
 					Top=5.47688
 					Width=3.175
 					Height=0.5

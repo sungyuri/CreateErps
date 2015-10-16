@@ -78,6 +78,10 @@ namespace TCEPORT.TC.Business
                 {
                     strSql += string.Format(@" and IsAppEnd ='{0}' ", data.IsAppEnd);
                 }
+                if (data.ContractCode != null && data.ContractCode != "")
+                {
+                    strSql += string.Format(@" and ContractCode like '%{0}%' ", data.ContractCode);
+                }
                 if (data.PurUserName != null && data.PurUserName != "")
                 {
                     strSql += string.Format(@" and PurUserName like '%{0}%'", data.PurUserName);
@@ -332,6 +336,14 @@ namespace TCEPORT.TC.Business
             DataTable dtTmp = DBUtil.Fill(pagedSql);
             int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
             return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+        public string Delete(string billNo)
+        {
+            string strRetun = "";
+            string strSql = " UPDATE dbo.SysPurchaseContract SET StepNo=98,StepName='删除' WHERE BillNo='" + billNo + "'  ";
+            strRetun = DBUtil.ExecuteNonQuery(strSql).ToString();
+            return strRetun;
         }
 
         /// <summary>

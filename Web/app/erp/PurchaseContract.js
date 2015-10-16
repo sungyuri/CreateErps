@@ -17,7 +17,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
             url: 'PurchaseContract_BLL/Get',
             addUrl: 'PurchaseContract_BLL/Insert',
             updateUrl: 'PurchaseContract_BLL/Update',
-            //  deleteUrl: 'SaleContract_BLL/Delete',     
+            deleteUrl: 'PurchaseContract_BLL/Delete',
             fields: [
                 'BillNo',
                 'ContractCode',
@@ -78,6 +78,31 @@ Ext.define('TCSYS.erp.PurchaseContract', {
             resizable: false,
             tbar: [{
                 xtype: 'tbfill'
+            }, {
+                text: '删除',
+                name: 'btnRemove',
+                hidden: true,
+                iconCls: "icon-remove",
+                id: 'btnRemove',
+                handler: function (sender) {
+                    var currentWindow = this.up('window');
+                    var form = currentWindow.down('form').getForm();
+                    var formValues = form.getValues();
+                    var strBillNo = formValues['BillNo'];
+                    Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                        if (check == "yes") {
+                            store.deleteData({ billNo: strBillNo }, function (value) {
+                                if (value == '1') {
+                                    Ext.shortAlert('操作成功');
+                                    currentWindow.close();
+                                    store.load();
+                                } else {
+                                    Ext.shortAlert('操作失败');
+                                }
+                            });
+                        }
+                    });
+                }
             }, {
                 text: '修改保存',
                 name: 'btnSave',
@@ -783,6 +808,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                         updateWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
                         updateWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
+                        Ext.getCmp('btnRemove').hidden = false;
                         updateWindow.show(this);
                         gridstore.load({
                             params: { PurBillNo: record.get('BillNo') }

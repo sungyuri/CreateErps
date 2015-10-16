@@ -437,6 +437,10 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                     fieldLabel: '客户名称'
                 }, {
                     xtype: 'textfield',
+                    name: 'ContractCode',
+                    fieldLabel: '合同编号'
+                }, {
+                    xtype: 'textfield',
                     name: 'PurUserName',
                     fieldLabel: '销售员'
                 }, {

@@ -75,6 +75,10 @@ namespace TCEPORT.TC.Business
                 {
                     strSql += string.Format(@" and CustomerName like '%{0}%'", data.CustomerName);
                 }
+                if (data.ContractCode != null && data.ContractCode != "")
+                {
+                    strSql += string.Format(@" and ContractCode like '%{0}%' ", data.ContractCode);
+                }
                 if (data.IsAppEnd != null && data.IsAppEnd != "")
                 {
                     strSql += string.Format(@" and IsAppEnd ='{0}'", data.IsAppEnd);
@@ -512,6 +516,14 @@ namespace TCEPORT.TC.Business
                 DBUtil.Rollback();
             }
             return returnValue;
+        }
+
+        public string Delete(string billNo)
+        {
+            string strRetun = "";
+            string strSql = " UPDATE dbo.SysSaleContract SET StepNo=98,StepName='删除' WHERE BillNo='" + billNo + "'  ";
+           strRetun= DBUtil.ExecuteNonQuery(strSql).ToString();
+           return strRetun;
         }
 
 

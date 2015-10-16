@@ -419,6 +419,10 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                     name: 'PurUserName',
                     fieldLabel: '采购员'
                 }, {
+                    xtype: 'textfield',
+                    name: 'ContractCode',
+                    fieldLabel: '合同编号'
+                }, {
                     name: 'IsAppEnd',
                     xtype: 'TCEPORTcombo',
                     width: '15%',

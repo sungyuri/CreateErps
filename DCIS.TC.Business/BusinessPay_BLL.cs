@@ -39,7 +39,7 @@ namespace TCEPORT.TC.Business
                                       ,[CreateTime]
                                       ,[LastUpdateTime]
                                   FROM [CreateErp].[dbo].[SysBusinessPayItem]
-                                  WHERE CreateUserCode='" + loginUserCode + "'  ";
+                                  WHERE CreateUserCode='" + loginUserCode + "' AND IsDel='N' ";
 
             if (data != null)
             {
@@ -53,6 +53,39 @@ namespace TCEPORT.TC.Business
             DataTable dtTmp = DBUtil.Fill(pagedSql);
             int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
             return PageUtil.WrapByPage(dtTmp, count);
+        }
+
+        public string DeleteCommonPayItemInfo(string CommonPayNo)
+        {
+            string strRetun = "";
+            string strSql = " SELECT COUNT(1) FROM dbo.SysBusinessPay WHERE CommonPayNo=" + CommonPayNo + " AND StepNo NOT IN(98) ";
+            int iChild = int.Parse(DBUtil.Fill(strSql).Rows[0][0].ToString());
+            if (iChild > 0)
+            {
+                strRetun = "no";
+            }
+            else
+            {
+                strSql = " UPDATE dbo.SysBusinessPayItem SET IsDel='Y' WHERE CommonPayNo=" + CommonPayNo + "  ";
+                if (DBUtil.ExecuteNonQuery(strSql) > 0)
+                {
+                    strRetun = "yes";
+                }
+            }
+            return strRetun;
+        }
+
+        /// <summary>
+        /// 删除未生效其他付款单
+        /// </summary>
+        /// <param name="billNo"></param>
+        /// <returns></returns>
+        public string DeleteCommonPayInfo(string billNo)
+        {
+            string strRetun = "";
+            string strSql = " UPDATE dbo.SysBusinessPay SET StepNo=98,StepName='删除' WHERE BillNo='" + billNo + "'  ";
+            strRetun = DBUtil.ExecuteNonQuery(strSql).ToString();
+            return strRetun;
         }
 
         /// <summary>

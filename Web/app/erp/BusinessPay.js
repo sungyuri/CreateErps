@@ -17,6 +17,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             autoLoad: true,
             url: 'BusinessPay_BLL/GetCommonPayItemList',
             addUrl: 'BusinessPay_BLL/InsertCommonPayItemInfo',
+            deleteUrl: 'BusinessPay_BLL/DeleteCommonPayItemInfo',
             fields: [
                 'CommonPayNo',
                 'ReceiveName',
@@ -45,6 +46,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
             autoLoad: true,
             addUrl: 'BusinessPay_BLL/InsertCommonPayInfo',
             updateUrl: 'BusinessPay_BLL/UpdateCommonPayInfo',
+            deleteUrl: 'BusinessPay_BLL/DeleteCommonPayInfo',
             fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
@@ -297,10 +299,40 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     width: 780,
                     xtype: 'textarea',
                     colspan: 3
+                }, {
+                    name: 'StepName',
+                    fieldLabel: '状态',
+                    width: 780,
+                    hidden:true
                 }]
             }],
             tbar: [{
                 xtype: 'tbfill'
+            }, {
+                text: '删除',
+                name: 'btnRemove',
+                hidden: false,
+                iconCls: "icon-remove",
+                id: 'btnRemove',
+                handler: function (sender) {
+                    var currentWindow = Ext.ComponentQuery.query('[itemId="businessPayWd"]')[0];
+                    var form = currentWindow.down('form').getForm();
+                    var formValues = form.getValues();
+                    var strBillNo = formValues['BillNo'];
+                    Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                        if (check == "yes") {
+                            commonPayStore.deleteData({ billNo: strBillNo }, function (value) {
+                                if (value == '1') {
+                                    Ext.shortAlert('操作成功');
+                                    currentWindow.close();
+                                    commonPayStore.load();
+                                } else {
+                                    Ext.shortAlert('操作失败');
+                                }
+                            });
+                        }
+                    });
+                }
             }, {
                 text: '修改保存',
                 name: 'btnSave',
@@ -448,6 +480,33 @@ Ext.define('TCSYS.erp.BusinessPay', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
+                text: '删除',
+                name: 'btnRemoveItem',
+                hidden: false,
+                iconCls: "icon-remove",
+                id: 'btnRemoveItem',
+                handler: function (sender) {
+                    var currentWindow = this.up('window');
+                    var form = currentWindow.down('form').getForm();
+                    var formValues = form.getValues();
+                    var strCommonPayNo = formValues['CommonPayNo'];
+
+                    Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                        if (check == "yes") {
+                            storeItem.deleteData({ CommonPayNo: strCommonPayNo }, function (value) {
+                                if (value == 'yes') {
+                                    Ext.shortAlert('操作成功');
+                                    currentWindow.close();
+                                    storeItem.load();
+                                } else {
+                                    // Ext.shortAlert('操作失败');
+                                    alert("请先删除付款项目下所有付款申请单，再删除付款项目！");
+                                }
+                            });
+                        }
+                    });
+                }
+            }, {
                 text: '保存',
                 name: 'btnSaveItem',
                 iconCls: "icon-save",
@@ -457,6 +516,11 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
+                    if (formValues['TotalAmount'] == 0)
+                    {
+                        alert('总金额不能为0！');
+                        return;
+                    }
                     if (!this.up('window').down('form').isValid()) {
                         return;
                     }
@@ -697,6 +761,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                     addItemWindow.setOperationType('add');
                     addItemWindow.callerComp = sender;
                     Ext.getCmp('btnAddPay').hidden = true;
+                    Ext.getCmp('btnRemoveItem').hidden = true;
                     me.BasicInfoPK = null;
                     addItemWindow.show(this);
                 }
@@ -712,10 +777,10 @@ Ext.define('TCSYS.erp.BusinessPay', {
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
-                width: 50,
+                width: 80,
                 itemId: 'lc',
                 items: [{
-                    linkText: '查 看',
+                    linkText: '付款申请',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
 
@@ -729,6 +794,7 @@ Ext.define('TCSYS.erp.BusinessPay', {
                         Ext.getCmp('btnSaveItem').hidden = true;
                         if (record.get('IsPayoff') == 'Y') {
                             Ext.getCmp('btnAddPay').hidden = true;
+                            Ext.getCmp('btnRemoveItem').hidden = true;
                         }
                         viewWindow.show(this);
                     }
@@ -811,9 +877,10 @@ Ext.define('TCSYS.erp.BusinessPay', {
                         if (strStepName == "退回") {
                             var object = Ext.ComponentQuery.query('[itemId="CommonPayAddAppLog"]')[0];
                             object.show();
-                            appCommonPayLogstore.load({
+                            appBusinessPayLogstore.load({
                                 params: { BillNo: record.get('BillNo') }
                             });
+                            
                         }
 
                     }

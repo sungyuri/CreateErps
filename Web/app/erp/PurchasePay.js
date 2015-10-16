@@ -65,6 +65,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
             autoLoad: true,
             addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'PurchasePay_BLL/UpdatePurchasePayInfo',
+            deleteUrl: 'PurchasePay_BLL/DeletePurchasePayInfo',
             fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
         });
 
@@ -328,6 +329,31 @@ Ext.define('TCSYS.erp.PurchasePay', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
+                text: '删除',
+                name: 'btnRemove',
+                hidden: false,
+                iconCls: "icon-remove",
+                id: 'btnRemove',
+                handler: function (sender) {
+                    var currentWindow = Ext.ComponentQuery.query('[itemId="PurchaseContractPayWd"]')[0];
+                    var form = currentWindow.down('form').getForm();
+                    var formValues = form.getValues();
+                    var strBillNo = formValues['BillNo'];
+                    Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                        if (check == "yes") {
+                            purchasePayStore.deleteData({ billNo: strBillNo }, function (value) {
+                                if (value == '1') {
+                                    Ext.shortAlert('操作成功');
+                                    currentWindow.close();
+                                    purchasePayStore.load();
+                                } else {
+                                    Ext.shortAlert('操作失败');
+                                }
+                            });
+                        }
+                    });
+                }
+            }, {
                 text: '修改保存',
                 name: 'btnSave',
                 iconCls: "icon-save",
@@ -338,6 +364,10 @@ Ext.define('TCSYS.erp.PurchasePay', {
                   // var currentWindow = this.up('window');
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
+                    //if (formValues['TotalAmount'] == 0) {
+                    //    alert('总金额不能为0！');
+                    //    return;
+                    //}
                     if (!this.up('window').down('form').isValid()) {
                        return;
                     }
@@ -862,10 +892,10 @@ Ext.define('TCSYS.erp.PurchasePay', {
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',
-                width: 50,
+                width: 80,
                 itemId: 'lc',
                 items: [{
-                    linkText: '查 看',
+                    linkText: '付款申请',
                     handler: function (grid, rowIndex, colIndex, sender) {
                         var record = grid.getStore().getAt(rowIndex);
                         //  updaterecord = record;

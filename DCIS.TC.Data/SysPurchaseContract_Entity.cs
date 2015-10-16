@@ -42,6 +42,7 @@ namespace TCEPORT.TC.Data
               public const string F_PaidAmount = "PaidAmount";
               public const string F_IsStorage = "IsStorage";
               public const string F_CreateTime = "CreateTime";
+              public const string F_ContractCodeA = "ContractCodeA";
         }
 
         /// <summary>
@@ -285,6 +286,14 @@ namespace TCEPORT.TC.Data
         {
             get { return this._CreateTime; }
             set { this._CreateTime = value; this.SetValue(Consts.F_CreateTime, true); }
+        }
+
+        private string _ContractCodeA;
+        [SqlColumn(Consts.F_ContractCodeA)]
+        public string ContractCodeA
+        {
+            get { return this._ContractCodeA; }
+            set { this._ContractCodeA = value; this.SetValue(Consts.F_ContractCodeA, true); }
         }
        
     }

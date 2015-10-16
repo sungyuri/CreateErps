@@ -17,7 +17,7 @@ Ext.define('TCSYS.erp.SaleContract', {
             url: 'SaleContract_BLL/Get',
             addUrl: 'SaleContract_BLL/Insert',
             updateUrl: 'SaleContract_BLL/Update',
-          //  deleteUrl: 'SaleContract_BLL/Delete',
+            deleteUrl: 'SaleContract_BLL/Delete',
             fields: [
                 'BillNo',
                 'ContractCode',
@@ -59,7 +59,196 @@ Ext.define('TCSYS.erp.SaleContract', {
         });
 
       //  var flag = '';
-      //  var updaterecord = null;
+        //  var updaterecord = null;
+
+        var addGoodsWindow = {
+            xtype: 'datawindow',
+            title: '新增合同产品',
+            width: 600,
+            layout: {
+                type: 'vbox',
+                align: 'stretch'
+            },
+            border: false,
+            resizable: false,
+            items: [
+                {
+                    xtype: 'label',
+                    margin: '5 0 10 260',
+                    style: 'font-weight: bold; font-size: 16px;',
+                    text: "工 矿 产 品 购 销 合 同 产 品 信 息",
+                    baseCls: 'y-plain',
+                    border: false
+                },
+                {
+                    xtype: 'form',
+                    baseCls: 'y-plain',
+                    border: false,
+                    width: 795,
+                    layout: {
+                        type: 'table',
+                        tdAttrs: {
+                            style: {
+                            }
+                        },
+                        columns: 3
+                    },
+                    defaults: {
+                        xtype: 'textfield'
+                    },
+                    items: [
+                       {
+                           name: 'CustomerNo',
+                           margin: '0 0 5 0',
+                           allowBlank: false,
+                           xtype: 'searchfield',
+                           fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                           blankText: '该输入项为必输项',
+                           fieldLabel: '需方',
+                           displayField: 'CustomerName',
+                           valueField: 'CustomerNo',
+                           needCheck: true,
+                           listeners: {
+                               'gridItemClick': function (record) {
+                                   this.up('form').down('textfield[name="CustomerNo"]').setValue(record.get('CustomerNo'));
+                                   this.up('form').down('textfield[name="CustomerName"]').setValue(record.get('CustomerName'));
+                               },
+                               beforerender:
+                                          function (tigger, opt) {
+                                              var recd = this.up('window').record;
+                                              if (recd) {
+                                                  tigger.setHiddenValue(recd.get('CustomerNo'));
+                                                  tigger.setValue(recd.get('CustomerName'));
+                                              }
+                                          }
+                           },
+                           store: 'ViewCustomerStore'
+                       }, {
+                           name: 'CustomerName',
+                           margin: '0 0 5 0',
+                           fieldLabel: '客户名',
+                           hidden: true
+                       }, {
+                           xtype: 'splitter'
+                       }, {
+                           name: 'ContractCode',
+                           allowBlank: false,
+                           blankText: '该输入项为必输项',
+                           margin: '0 0 5 0',
+                           fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                           fieldLabel: '合同编号'
+                       }, {
+                           name: 'PurUserCode',
+                           allowBlank: false,
+                           xtype: 'searchfield',
+                           fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                           blankText: '该输入项为必输项',
+                           fieldLabel: '销售员',
+                           displayField: 'PurUserName',
+                           valueField: 'PurUserCode',
+                           needCheck: true,
+                           listeners: {
+                               'gridItemClick': function (record) {
+                                   this.up('form').down('textfield[name="PurUserCode"]').setValue(record.get('PurUserCode'));
+                                   this.up('form').down('textfield[name="PurUserName"]').setValue(record.get('PurUserName'));
+                               },
+                               beforerender:
+                                          function (tigger, opt) {
+                                              var recd = this.up('window').record;
+                                              //alert(recd);
+                                              if (recd) {
+                                                  tigger.setHiddenValue(recd.get('PurUserCode'));
+                                                  tigger.setValue(recd.get('PurUserName'));
+                                              }
+                                          }
+                           },
+                           store: 'ViewSaleUserStore'
+                       }, {
+                           name: 'PurUserName',
+                           hidden: true
+                       }, {
+                           xtype: 'splitter'
+                       }, {
+                           name: 'SignPlace',
+                           fieldLabel: '签订地点'
+                       }, {
+                           fieldLabel: '供方',
+                           value: '太仓创造电子有限公司',
+                           readonly: true
+                       }, {
+                           xtype: 'splitter'
+                       }, {
+                           name: 'SignDate',
+                           fieldLabel: '签订时间',
+                           format: 'Y-m-d',
+                           xtype: 'datefield'
+                       }, {
+                           name: 'ContractAmount',
+                           xtype: 'numberfield',
+                           hideTrigger: true,
+                           fieldLabel: '合同总价',
+                           value: 0,
+                           maxValue: 99999999,
+                           minValue: 0,
+                           readOnly: true,
+                           allowBlank: false,
+                           fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                           blankText: '请输入数字',
+                           listeners: {
+                               change: function (field, value) {
+                                   //  value = parseInt(value, 10);
+                                   //  field.setValue(value + value % 2);
+                               }
+                           }
+                       }, {
+                           xtype: 'splitter'
+                       }, {
+                           name: 'DeliveryTime',
+                           fieldLabel: '交货时间',
+                           format: 'Y-m-d',
+                           xtype: 'datefield',
+                           allowBlank: false,
+                           fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                           blankText: '请选择时间'
+                       }, {
+                           name: 'ContractAmountBig',
+                           xtype: 'label',
+                           colspan: 3,
+                           width: 780
+                       }, {
+                           name: 'QA',
+                           fieldLabel: '质保条件',
+                           colspan: 3,
+                           width: 780
+                       }, {
+                           name: 'DeliveryWay',
+                           fieldLabel: '交货方式',
+                           colspan: 3,
+                           width: 780
+                       }, {
+                           name: 'PayWay',
+                           fieldLabel: '结算方式',
+                           width: 780,
+                           colspan: 3
+                       }, {
+                           name: 'OtherNote',
+                           fieldLabel: '其他',
+                           width: 780,
+                           colspan: 3
+                       }, {
+                           name: 'DETAILEDINFO',
+                           fieldLabel: '安装信息',
+                           width: 780,
+                           xtype: 'textarea',
+                           colspan: 3
+                       }, {
+                           name: 'BillNo',
+                           hidden: true
+                       }]
+                }
+            ],
+        };
+
         //新增窗口
         var goodsRow = null;
         var SaleContractMgrWindow = {
@@ -522,6 +711,32 @@ Ext.define('TCSYS.erp.SaleContract', {
             tbar: [{
                 xtype: 'tbfill'
             }, {
+                text: '删除',
+                name: 'btnRemove',
+                hidden:true,
+                iconCls: "icon-remove",
+                id: 'btnRemove',
+                handler: function (sender) {
+                    var currentWindow = this.up('window');
+                    var form = currentWindow.down('form').getForm();
+                    var formValues = form.getValues();
+                    var strBillNo = formValues['BillNo'];
+                    Ext.Msg.confirm('提示', '确认删除吗?', function (check) {
+                        if (check == "yes") {                        
+                            store.deleteData({ billNo: strBillNo }, function (value) {
+                                if (value == '1') {
+                                    Ext.shortAlert('操作成功');
+                                    currentWindow.close();
+                                    store.load();
+                                } else {
+                                    Ext.shortAlert('操作失败');
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+            ,{
                 text: '修改保存',
                 name: 'btnSave',
                 iconCls: "icon-save",
@@ -792,6 +1007,7 @@ Ext.define('TCSYS.erp.SaleContract', {
                         updateWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
                         updateWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
+                        Ext.getCmp('btnRemove').hidden = false;
                         updateWindow.show(this);
                         gridstore.load({
                             params: { SaleBillNo: record.get('BillNo') }

@@ -29,6 +29,7 @@ namespace TCEPORT.TC.Data
             public const string F_IsPayoff = "IsPayoff";
             public const string F_CreateTime = "CreateTime";
             public const string F_LastUpdateTime = "LastUpdateTime";
+            public const string F_IsDel = "IsDel";
 
         }
 
@@ -149,6 +150,14 @@ namespace TCEPORT.TC.Data
         {
             get { return this._IsPayoff; }
             set { this._IsPayoff = value; this.SetValue(Consts.F_IsPayoff, true); }
+        }
+
+        private string _IsDel;
+        [SqlColumn(Consts.F_IsDel)]
+        public string IsDel
+        {
+            get { return this._IsDel; }
+            set { this._IsDel = value; this.SetValue(Consts.F_IsDel, true); }
         }
 
 

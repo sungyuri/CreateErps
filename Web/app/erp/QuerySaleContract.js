@@ -20,6 +20,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             fields: [
                 'BillNo',
                 'ContractCode',
+                'ContractCodeA',
                 'CustomerNo',
                 'CustomerName',
                 'SignPlace',
@@ -66,7 +67,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             title: '销售合同',
             store: store,
             record: null,
-            width: 800,
+            width: 900,
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -76,7 +77,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             items: [ {
                 xtype: 'datagrid',
                 itemId: 'SaleContractAppLog',
-                width: 795,
+                width: 895,
               //  height: 128,
                 border: false,
                 renderTo: Ext.getBody(),
@@ -162,7 +163,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             },
                 {
                     xtype: 'label',
-                    margin: '5 0 10 260',
+                    margin: '5 0 10 360',
                     style: 'font-weight: bold; font-size: 16px;',
                     text: "工 矿 产 品 购 销 合 同",
                     baseCls: 'y-plain',
@@ -172,7 +173,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                 xtype: 'form',
                 baseCls: 'y-plain',
                 border: false,
-                width: 795,
+                width: 895,
                 layout: {
                     type: 'table',
                     tdAttrs: {
@@ -182,7 +183,9 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                     columns: 3
                 },
                 defaults: {
-                    xtype: 'textfield'
+                    xtype: 'textfield',
+                    labelWidth: 100,
+                    width: 350
                 },
                 items: [
                    {
@@ -193,6 +196,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '该输入项为必输项',
                        fieldLabel: '需方',
+                       labelStyle: 'color:red;',
                        displayField: 'CustomerName',
                        valueField: 'CustomerNo',
                        needCheck: true,
@@ -220,12 +224,14 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                        fieldLabel: '客户名',
                        hidden: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'ContractCode',
                        allowBlank: false,
                        blankText: '该输入项为必输项',
                        margin: '0 0 5 0',
+                       labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        fieldLabel: '合同编号'
                    }, {
@@ -235,6 +241,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '该输入项为必输项',
                        fieldLabel: '销售员',
+                       labelStyle: 'color:red;',
                        displayField: 'PurUserName',
                        valueField: 'PurUserCode',
                        needCheck: true,
@@ -258,7 +265,8 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                        name: 'PurUserName',
                        hidden: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'SignPlace',
                        fieldLabel: '签订地点'
@@ -267,7 +275,8 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                        value: '太仓创造电子有限公司',
                        readonly: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'SignDate',
                        fieldLabel: '签订时间',
@@ -291,44 +300,52 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
                            }
                        }
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'DeliveryTime',
                        fieldLabel: '交货时间',
                        format: 'Y-m-d',
                        xtype: 'datefield',
                        allowBlank: false,
+                       labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请选择时间'
                    }, {
                        name: 'ContractAmountBig',
                        xtype: 'label',
                        colspan: 3,
-                       width: 780
+                       width: 880
+                   }, {
+                       name: 'ContractCodeA',
+                       fieldLabel: '对方合同编号',
+                       labelStyle: 'color:green;',
+                       colspan: 3,
+                       width: 350
                    }, {
                        name: 'QA',
                        fieldLabel: '质保条件',
                        colspan: 3,
-                       width: 780
+                       width: 880
                    }, {
                        name: 'DeliveryWay',
                        fieldLabel: '交货方式',
                        colspan: 3,
-                       width: 780
+                       width: 880
                    }, {
                        name: 'PayWay',
                        fieldLabel: '结算方式',
-                       width: 780,
+                       width: 880,
                        colspan: 3
                    }, {
                        name: 'OtherNote',
                        fieldLabel: '其他',
-                       width: 780,
+                       width: 880,
                        colspan: 3
                    }, {
                        name: 'DETAILEDINFO',
                        fieldLabel: '安装信息',
-                       width: 780,
+                       width: 880,
                        xtype: 'textarea',
                        rows: 3,
                        colspan: 3
@@ -340,7 +357,7 @@ Ext.define('TCSYS.erp.QuerySaleContract', {
             {
                 xtype: 'datagrid',
                 itemId: 'SaleContractDetailGrid',
-                width: 795,
+                width: 895,
                // height: 108,
                 border: false,
                 renderTo: Ext.getBody(),

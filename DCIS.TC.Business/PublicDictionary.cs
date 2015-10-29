@@ -216,6 +216,30 @@ namespace TCEPORT.TC.Business
        }
 
        /// <summary>
+       /// 销售员
+       /// </summary>
+       /// <param name="start"></param>
+       /// <param name="limit"></param>
+       /// <param name="data"></param>
+       /// <returns></returns>
+       public dynamic GetViewPurUser(int start, int limit, dynamic data)
+       {
+           //UserCode, UserName, PositionName, DepartName, PositionDesc
+           string strSql = " SELECT   UserCode as PurUserCode, UserName as PurUserName, PositionName, DepartName, PositionDesc  FROM ViewUser where 1=1 AND DepartName='采购部' ";
+           if (data != null)
+           {
+               if (data.name != null && data.name != "")
+                   strSql += string.Format(@" and (UserCode like '%{0}%' OR UserName like '%{0}%' OR DepartName like '%{0}%')", data.name.Value.Trim());
+
+           }
+           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.DepartName asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+           string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
+           DataTable dtTmp = DBUtil.Fill(pagedSql);
+           int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
+           return PageUtil.WrapByPage(dtTmp, count);
+       }
+
+       /// <summary>
        /// 货物
        /// </summary>
        /// <param name="start"></param>

@@ -120,6 +120,7 @@
     <Content Include="app\store\SysDepartStore.js" />
     <Content Include="app\store\SysGoodsStore.js" />
     <Content Include="app\store\ViewCustomerStore.js" />
+    <Content Include="app\store\ViewPurUserStore.js" />
     <Content Include="app\store\ViewSaleUserStore.js" />
     <Content Include="app\store\ViewSupplierStore.js" />
     <Content Include="app\store\ViewUserStore.js" />

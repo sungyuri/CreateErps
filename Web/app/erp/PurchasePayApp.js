@@ -795,7 +795,7 @@ Ext.define('TCSYS.erp.PurchasePayApp', {
                         payAppWindow.callerComp = sender;
                         payAppWindow.record = record;
                         payAppWindow.stepName = StepName;
-                        payAppWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: record.get('BillNo') }));
+                        payAppWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('BillNo') }));
                         payAppWindow.down('form').loadRecord(record);
                         me.BasicInfoPK = record.get('BillNo');
 

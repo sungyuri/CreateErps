@@ -38,7 +38,7 @@ namespace TCEPORT.TC.Business
                                       ,[IsPayoff]
                                       ,[CreateTime]
                                       ,[LastUpdateTime]
-                                  FROM [CreateErp].[dbo].[SysBusinessPayItem]
+                                  FROM [SysBusinessPayItem]
                                   WHERE CreateUserCode='" + loginUserCode + "' AND IsDel='N' ";
 
             if (data != null)
@@ -156,7 +156,7 @@ namespace TCEPORT.TC.Business
                                   ,[AppUserName]
                                   ,[IsPayoff]
                                   ,[IsAppEnd]
-                              FROM [CreateErp].[dbo].[SysBusinessPay]
+                              FROM [SysBusinessPay]
                                   WHERE PayUserCode='" + loginUserCode + "' AND  StepNo=0 ";
             }
             strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
@@ -178,7 +178,7 @@ namespace TCEPORT.TC.Business
             string loginUserName = HttpContext.Current.Session["UserName"].ToString();
             try
             {
-                string sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysBusinessPayItem]
+                string sqlStr = string.Format(@" INSERT INTO [SysBusinessPayItem]
                                                    ([ReceiveName]
                                                    ,[PayReason]
                                                    ,[TotalAmount]
@@ -232,7 +232,7 @@ namespace TCEPORT.TC.Business
                                           ,[FlowName]
                                           ,[UserCode]
                                           ,[UserName]
-                                      FROM [CreateErp].[dbo].[ViewPurchasePayApproval]
+                                      FROM [ViewPurchasePayApproval]
                                       WHERE  FlowCdode='BP' ORDER BY StepNo ";
                 DataTable flowDt = DBUtil.Fill(flowQuery);
                 string flowStep = @"   INSERT INTO  SysFlowStep
@@ -432,7 +432,7 @@ namespace TCEPORT.TC.Business
                                       ,[AppUserName]
                                       ,[IsPayoff]
                                       ,[IsAppEnd]
-                                  FROM [CreateErp].[dbo].[SysBusinessPay] WHERE 1=1  ";
+                                  FROM [SysBusinessPay] WHERE 1=1  ";
 
             CommonFun cf = new CommonFun();
             string isAppUser = cf.isAppUserForPay(UserCode, "BP");
@@ -495,7 +495,7 @@ namespace TCEPORT.TC.Business
                                       ,[AppUserName]
                                       ,[IsPayoff]
                                       ,[IsAppEnd]
-                                  FROM [CreateErp].[dbo].[SysBusinessPay] WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
+                                  FROM [SysBusinessPay] WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
 
             if (data != null)
             {
@@ -538,7 +538,7 @@ namespace TCEPORT.TC.Business
                                   ,[AppDataFirst]
                                   ,[AppDataLast]
                                   ,[AppPrescription]
-                              FROM [CreateErp].[dbo].[SysFlowStep] WHERE 1=1  ";
+                              FROM [dbo].[SysFlowStep] WHERE 1=1  ";
 
 
             if (data != null)

@@ -322,7 +322,7 @@ namespace TCEPORT.TC.Business
                               ,[InGoodsCount]
                               ,[STATE]
                               ,[UnitPrice]
-                          FROM [CreateErp].[dbo].[ViewPurchaseContractDetail]
+                          FROM  [ViewPurchaseContractDetail]
                           WHERE 1=1  ";
             if (data != null)
             {

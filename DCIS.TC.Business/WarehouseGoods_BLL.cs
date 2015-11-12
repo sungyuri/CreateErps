@@ -38,7 +38,7 @@ namespace TCEPORT.TC.Business
                               ,[WarehouseCode]
                               ,[WarehouseName]
                               ,[GoodsNote]
-                          FROM [CreateErp].[dbo].[ViewGoods]
+                          FROM  [ViewGoods]
                                 WHERE 1=1  ";
             if (data != null)
             {
@@ -73,7 +73,7 @@ namespace TCEPORT.TC.Business
             else if (data.selectedItem == "SysArea") { tableName = data.selectedItem; colName = "[AreaCode] as Code,[AreaName] as Name"; }
             else if (data.selectedItem == "SysDepart") { tableName = data.selectedItem; colName = "[DepartCode] as Code,[DepartName] as Name"; }
             else if (data.selectedItem == "SysPosition") { tableName = data.selectedItem; colName = "[PositionCode] as Code,[PositionName] as Name"; }
-            string strSql = @" SELECT "+colName+" FROM [CreateErp].[dbo]."+tableName+" WHERE 1=1  ";
+            string strSql = @" SELECT "+colName+" FROM  [dbo]."+tableName+"  WHERE 1=1  ";
             if (data != null)
             {
                 if (tableName == "SysGoodsType")
@@ -155,19 +155,19 @@ namespace TCEPORT.TC.Business
             {
                 if (type == "SysGoodsType")
                 {
-                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysGoodsType] set [GoodsTypeName]='"+entity.Name+"' where [GoodsTypeCode]="+entity.Code+" ");
+                    sqlStr = string.Format(@" update  [SysGoodsType] set [GoodsTypeName]='"+entity.Name+"' where [GoodsTypeCode]="+entity.Code+" ");
                 }
                 else if (type == "SysArea")
                 {
-                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysArea] set [AreaName]='" + entity.Name + "' where [AreaCode]=" + entity.Code + " ");
+                    sqlStr = string.Format(@" update  [SysArea] set [AreaName]='" + entity.Name + "' where [AreaCode]=" + entity.Code + " ");
                 }
                 else if (type == "SysDepart")
                 {
-                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysDepart] set [DepartName]='" + entity.Name + "' where [DepartCode]=" + entity.Code + " ");
+                    sqlStr = string.Format(@" update  [SysDepart] set [DepartName]='" + entity.Name + "' where [DepartCode]=" + entity.Code + " ");
                 }
                 else if (type == "SysPosition")
                 {
-                    sqlStr = string.Format(@" update [CreateErp].[dbo].[SysPosition] set [PositionName]='" + entity.Name + "' where [PositionCode]=" + entity.Code + " ");
+                    sqlStr = string.Format(@" update  [SysPosition] set [PositionName]='" + entity.Name + "' where [PositionCode]=" + entity.Code + " ");
                 }
 
 
@@ -199,7 +199,7 @@ namespace TCEPORT.TC.Business
             string returnValue = "";
             try
             {
-                string sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysGoods]
+                string sqlStr = string.Format(@" INSERT INTO  [SysGoods]
                                                ([GoodsVersion]
                                                ,[GoodsNo]
                                                ,[GoodsName]
@@ -237,21 +237,21 @@ namespace TCEPORT.TC.Business
             {
                 if (type == "SysGoodsType")
                 {
-                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysGoodsType]
+                    sqlStr = string.Format(@" INSERT INTO [SysGoodsType]
                                                ([GoodsTypeName])
              VALUES('{0}') ", entity.Name);
                 }
                 else if (type == "SysArea")
                 {
-                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysArea]([AreaName]) VALUES('{0}') ", entity.Name);
+                    sqlStr = string.Format(@" INSERT INTO  [SysArea]([AreaName]) VALUES('{0}') ", entity.Name);
                 }
                 else if (type == "SysDepart")
                 {
-                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysDepart]([DepartName]) VALUES('{0}') ", entity.Name);
+                    sqlStr = string.Format(@" INSERT INTO  [SysDepart]([DepartName]) VALUES('{0}') ", entity.Name);
                 }
                 else if (type == "SysPosition")
                 {
-                    sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysPosition]([PositionName]) VALUES('{0}') ", entity.Name);
+                    sqlStr = string.Format(@" INSERT INTO  [SysPosition]([PositionName]) VALUES('{0}') ", entity.Name);
                 }
 
 

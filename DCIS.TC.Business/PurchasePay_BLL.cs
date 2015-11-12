@@ -95,7 +95,7 @@ namespace TCEPORT.TC.Business
                                   ,[AppDataFirst]
                                   ,[AppDataLast]
                                   ,[AppPrescription]
-                              FROM [CreateErp].[dbo].[SysFlowStep] WHERE 1=1  ";
+                              FROM  [SysFlowStep] WHERE 1=1  ";
 
 
           if (data != null)
@@ -282,7 +282,7 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
-                          FROM [CreateErp].[dbo].[SysPurchasePay] WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
+                          FROM  [SysPurchasePay] WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
 
           if (data != null)
           {
@@ -334,7 +334,7 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
-                          FROM [CreateErp].[dbo].[SysPurchasePay] WHERE 1=1 ";
+                          FROM  [SysPurchasePay] WHERE 1=1 ";
 
           CommonFun cf = new CommonFun();
           string isAppUser = cf.isAppUserForPay(UserCode, "PP");
@@ -428,7 +428,7 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
-                          FROM [CreateErp].[dbo].[SysPurchasePay] WHERE StepNo=0  ";
+                          FROM  [SysPurchasePay] WHERE StepNo=0  ";
            }
           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
           string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
@@ -465,7 +465,7 @@ namespace TCEPORT.TC.Business
                                           ,[FlowName]
                                           ,[UserCode]
                                           ,[UserName]
-                                      FROM [CreateErp].[dbo].[ViewPurchasePayApproval]
+                                      FROM  [ViewPurchasePayApproval]
                                       WHERE  FlowCdode='PP' ORDER BY StepNo ";
               DataTable flowDt = DBUtil.Fill(flowQuery);
               string flowStep = @"   INSERT INTO  SysFlowStep

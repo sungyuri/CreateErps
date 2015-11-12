@@ -105,7 +105,7 @@ namespace TCEPORT.TC.Business
                                           ,[FlowName]
                                           ,[UserCode]
                                           ,[UserName]
-                                      FROM [CreateErp].[dbo].[ViewPurchasePayApproval]
+                                      FROM [ViewPurchasePayApproval]
                                       WHERE  FlowCdode='" + strFlowCdode + "' ORDER BY StepNo ";
            DataTable flowDt = DBUtil.Fill(flowQuery);
 

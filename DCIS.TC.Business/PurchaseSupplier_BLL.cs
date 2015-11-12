@@ -80,7 +80,7 @@ namespace TCEPORT.TC.Business
             string returnValue = "";
             try
             {
-                string sqlStr = string.Format(@" INSERT INTO [CreateErp].[dbo].[SysSupplier]
+                string sqlStr = string.Format(@" INSERT INTO  [SysSupplier]
                                                ([SupplierName]
                                                ,[CPerson]
                                                ,[CPhone]

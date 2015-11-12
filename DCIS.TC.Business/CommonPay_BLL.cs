@@ -447,9 +447,9 @@ namespace TCEPORT.TC.Business
 
            if (data != null)
            {
-               if (data.SupplierName != null && data.SupplierName != "")
+               if (data.ReceiveName != null && data.ReceiveName != "")
                {
-                   strSql += string.Format(@" and ReceiveName like '%{0}%' ", data.SupplierName);
+                   strSql += string.Format(@" and ReceiveName like '%{0}%' ", data.ReceiveName);
                }
            }
 

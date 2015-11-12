@@ -309,6 +309,20 @@ Ext.define('TCSYS.erp.QueryBusinessPay', {
                     xtype: 'textfield',
                     name: 'ReceiveName',
                     fieldLabel: '收款方'
+                }, {
+                    text: '查询付款单',
+                    width: '8%',
+                    style: 'margin-left:20px;',
+                    xtype: 'button',
+                    iconCls: 'icon-search',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="businessPayQuerySelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        businessPayAppStore.load({
+                            params: obj
+                        });
+                    }
                 }]
             }]
         });

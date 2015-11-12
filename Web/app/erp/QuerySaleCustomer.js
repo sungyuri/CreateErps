@@ -267,6 +267,21 @@ Ext.define('TCSYS.erp.QuerySaleCustomer', {
                     xtype: 'textfield',
                     name: 'AreaName',
                     fieldLabel: '区域'
+                }, {
+                    text: '查询',
+                    xtype: 'button',
+                    iconCls: 'icon-search',
+                    width: '6%',
+                    style: 'margin-left:20px;',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="QuerySaleCustomerSelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        //alert(obj);
+                        store.load({
+                            params: obj
+                        });
+                    }
                 }]
             }]
         });

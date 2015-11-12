@@ -312,6 +312,20 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                     xtype: 'textfield',
                     name: 'ReceiveName',
                     fieldLabel: '收款方'
+                }, {
+                    text: '查询付款单',
+                    xtype: 'button',
+                    width: '8%',
+                    style: 'margin-left:20px;',
+                    iconCls: 'icon-search',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="commonPayQuerySelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        commonPayAppStore.load({
+                            params: obj
+                        });
+                    }
                 }]
             }]
         });

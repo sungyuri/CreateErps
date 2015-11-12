@@ -241,8 +241,23 @@ Ext.define('TCSYS.erp.QueryPurchaseSupplier', {
                 items: [{
                     xtype: 'textfield',
                     name: 'SupplierName',
-                    margin: '5 0 5 0',
-                    fieldLabel: '供应商名称'
+                    fieldLabel: '供应商名称',
+                    style: 'margin-left:20px;'
+                }, {
+                    text: '查询',
+                    xtype: 'button',
+                    iconCls: 'icon-search',
+                    width: '6%',
+                    style: 'margin-left:20px;',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="QuerySupplierSelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        store.load({
+                            params: obj
+                        });
+
+                    }
                 }]
             }]
         });

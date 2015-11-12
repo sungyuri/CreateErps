@@ -81,6 +81,7 @@
     <Content Include="app\combo\SysAreaCombo.js" />
     <Content Include="app\combo\DepartCombo.js" />
     <Content Include="app\combo\PositionCombo.js" />
+    <Content Include="app\erp\BusinessContract.js" />
     <Content Include="app\erp\BusinessPay.js" />
     <Content Include="app\erp\BusinessPayApp.js" />
     <Content Include="app\erp\CommonPay.js" />
@@ -91,6 +92,7 @@
     <Content Include="app\erp\PurchasePayApp.js" />
     <Content Include="app\erp\PurchaseStorage.js" />
     <Content Include="app\erp\PurchaseSupplier.js" />
+    <Content Include="app\erp\QueryBusinessContract.js" />
     <Content Include="app\erp\QueryBusinessPay.js" />
     <Content Include="app\erp\QueryCommonPay.js" />
     <Content Include="app\erp\QueryPurchaseContract.js" />

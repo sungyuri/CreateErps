@@ -673,6 +673,20 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                     xtype: 'textfield',
                     name: 'SupplierName',
                     fieldLabel: '收款单位'
+                }, {
+                    text: '查询付款单',
+                    xtype: 'button',
+                    width: '8%',
+                    style: 'margin-left:20px;',
+                    iconCls: 'icon-search',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="purchasePayQuerySelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        purchasePayAppStore.load({
+                            params: obj
+                        });
+                    }
                 }]
             }]
         });

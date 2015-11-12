@@ -445,6 +445,21 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                     width: '15%',
                     store: [['', '全部'], ['Y', '是'], ['N', '否']],
                     fieldLabel: '审核完成'
+                }, {
+                    xtype: 'button',
+                    text: '查询',
+                    width: '8%',
+                    style:'margin-left:20px;',
+                    iconCls: 'icon-search',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="QueryPurchaseContactSelect"]')[0]
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        store.load({
+                            params: obj
+                        });
+
+                    }
                 }]
             }]
         });

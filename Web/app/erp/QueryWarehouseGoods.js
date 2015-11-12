@@ -257,6 +257,22 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
                     xtype: 'textfield',
                     name: 'GoodsName',
                     fieldLabel: '货物名称'
+                }, {
+                    xtype: 'textfield',
+                    name: 'GoodsVersion',
+                    fieldLabel: '货物型号'
+                }, {
+                    text: '查询',
+                    xtype: 'button',
+                    width: '6%',
+                    style: 'margin-left:20px;',
+                    iconCls: 'icon-Search',
+                    handler: function (sender) {
+                        var object = Ext.ComponentQuery.query('[itemId="QuerySearchGoods"]')[0];
+                        var form = object.getForm();
+                        var obj = form.getValues();
+                        storeWarehouseGoods.load({ params: obj });
+                    }
                 }]
             }]
         });
@@ -314,14 +330,25 @@ Ext.define('TCSYS.erp.QueryWarehouseGoods', {
                 dataIndex: 'GoodsCount',
                 text: '货物数量',
                 align: 'center',
-                width: 150
+                width: 150,
+                renderer: function (value) {
+                    if (value >0) {
+                        return '<span style="color:green">'+value+'</span>';
+                    }                   
+                    else {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+
+                }
             }, {
                 dataIndex: 'GoodsUnit',
                 text: '货物单位',
+                width: 80,
                 align: 'center'
             }, {
                 dataIndex: 'Manufacturer',
                 text: '生产厂家',
+                width: 260,
                 align: 'center'
             }, {
                 dataIndex: 'GoodsTypeCode',

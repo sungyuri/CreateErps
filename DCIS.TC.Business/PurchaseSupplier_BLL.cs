@@ -42,7 +42,7 @@ namespace TCEPORT.TC.Business
             {
                 if (data.SupplierName != null && data.SupplierName != "")
                 {
-                    strSql += string.Format(@" and SupplierName like '%{0}%'", data.CustomerName);
+                    strSql += string.Format(@" and SupplierName like '%{0}%'", data.SupplierName);
                 }
             }
             strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.SupplierNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";

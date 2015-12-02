@@ -518,6 +518,35 @@ namespace TCEPORT.TC.Business
             return returnValue;
         }
 
+        /// <summary>
+        /// 检查合同编号是否重复
+        /// </summary>
+        /// <param name="ContractCode"></param>
+        /// <returns></returns>
+        public string checkSaleContractCode(string ContractCode, string billNo)
+        {
+            string returnValue = "";
+            string checkSql = "";
+            if (billNo != "add")
+            {
+                checkSql = " SELECT COUNT(1) FROM dbo.SysSaleContract WHERE ContractCode='" + ContractCode + "' AND BillNo NOT IN('" + billNo + "')  ";
+            }
+            else
+            {
+                checkSql = " SELECT COUNT(1) FROM dbo.SysSaleContract WHERE ContractCode='" + ContractCode + "'  ";
+            }           
+            if (int.Parse(DBUtil.ExecuteScalar(checkSql).ToString()) > 0)
+            {
+                returnValue = "yes";
+            }
+            else
+            {
+                returnValue = "no";
+            }
+
+            return returnValue;
+        }
+
         public string Delete(string billNo)
         {
             string strRetun = "";

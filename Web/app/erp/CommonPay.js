@@ -17,6 +17,7 @@ Ext.define('TCSYS.erp.CommonPay', {
             autoLoad: true,
             url: 'CommonPay_BLL/GetCommonPayItemList',
             addUrl: 'CommonPay_BLL/InsertCommonPayItemInfo',
+            updateUrl: 'CommonPay_BLL/UpdateCommonPayItemInfo',
             deleteUrl: 'CommonPay_BLL/DeleteCommonPayItemInfo',
             fields: [
                 'CommonPayNo',
@@ -514,7 +515,13 @@ Ext.define('TCSYS.erp.CommonPay', {
                     var form = currentWindow.down('form').getForm();
                     var formValues = form.getValues();
                     if (formValues['TotalAmount'] == 0) {
-                        alert('总金额不能为0！');
+                        Ext.Msg.show({
+                            title: "提示",
+                            msg: "总金额不能为0！",
+                            buttons: Ext.Msg.OK,
+                            icon: Ext.Msg.INFO
+                        });
+                       // alert('总金额不能为0！');
                         return;
                     }
                     if (!this.up('window').down('form').isValid()) {
@@ -560,8 +567,18 @@ Ext.define('TCSYS.erp.CommonPay', {
                                 Ext.shortAlert('操作成功');
                                 currentWindow.close();
                                 storeItem.load();
-                            } else {
-                                Ext.shortAlert('操作失败');
+                            } else if (value == 'no') {
+                                Ext.Msg.show({
+                                    title: "提示",
+                                    msg: "该付款项目已经填写付款申请单，请先删除付款申请单后再修改！",
+                                    buttons: Ext.Msg.OK,
+                                    icon: Ext.Msg.INFO
+                                });
+                               // Ext.shortAlert('操作失败');
+                            }
+                            else
+                            {
+                                Ext.shortAlert('操作失败' + value);
                             }
                         });
                     }
@@ -745,6 +762,9 @@ Ext.define('TCSYS.erp.CommonPay', {
                     storeItem.load({
                         params: obj
                     });
+                    commonPayStore.load({
+                        params: obj
+                    });
 
                 }
             }, {
@@ -781,13 +801,13 @@ Ext.define('TCSYS.erp.CommonPay', {
                         var record = grid.getStore().getAt(rowIndex);                        
 
                         var viewWindow = Ext.ComponentMgr.create(commonPayItemMgrWindow);
-                        viewWindow.setOperationType('view');
+                        viewWindow.setOperationType('update');
                         viewWindow.callerComp = sender;
                         viewWindow.record = record;
                         //viewWindow.add(Ext.create('widget.filesPanel', { GroupGuid: record.get('CommonPayNo') }));
                         viewWindow.down('form').loadRecord(record);
                       
-                        Ext.getCmp('btnSaveItem').hidden = true;
+                       // Ext.getCmp('btnSaveItem').hidden = true;
                         if (record.get('IsPayoff') == 'Y') {
                             Ext.getCmp('btnAddPay').hidden = true;
                             Ext.getCmp('btnRemoveItem').hidden = true;
@@ -846,8 +866,11 @@ Ext.define('TCSYS.erp.CommonPay', {
                 xtype: 'button',
                 iconCls: 'icon-search',
                 handler: function (sender) {
+                    var object = Ext.ComponentQuery.query('[itemId="commonPaySelect"]')[0]
+                    var form = object.getForm();
+                    var obj = form.getValues();
                     commonPayStore.load({
-                        params: null
+                        params: obj
                     });
                 }
             }

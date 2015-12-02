@@ -19,6 +19,7 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                 'BillNo',
                 'ContractCode',
                 'ContractCodeA',
+                 'PurchasePurpose',
                 'SupplierNo',
                 'SupplierName',
                 'SignPlace',
@@ -322,10 +323,19 @@ Ext.define('TCSYS.erp.QueryPurchaseContract', {
                        colspan: 3,
                        width: 880
                    }, {
+                       name: 'PurchasePurpose',
+                       fieldLabel: '采购用途',
+                       labelStyle: 'color:red;',
+                       allowBlank: false,
+                       fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                       blankText: '该输入项为必输项',
+                       colspan: 2,
+                       width: 350
+                   }, {
                        name: 'ContractCodeA',
                        fieldLabel: '对方合同编号',
                        labelStyle: 'color:green;',
-                       colspan: 3,
+                       colspan: 1,
                        width: 350
                    }, {
                        name: 'QA',

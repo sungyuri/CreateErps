@@ -297,6 +297,7 @@ Ext.define('TCSYS.erp.PurchaseSupplier', {
                 items: [{
                     xtype: 'textfield',
                     name: 'SupplierName',
+                    style: 'margin-left:20px;',
                     fieldLabel: '供应商名称',
                 }]
             }]

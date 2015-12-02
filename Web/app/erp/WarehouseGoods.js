@@ -61,7 +61,7 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                                 storeWarehouseGoods[currentWindow.operationType + 'Data']({ entity: formValues }, function (value) {
                                     if (value == 'true') {
                                         Ext.shortAlert('操作成功！');
-                                        storeWarehouseGoods.load();
+                                        storeWarehouseGoods.load({ params: formValues });
                                         Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');
@@ -72,7 +72,7 @@ Ext.define('TCSYS.erp.WarehouseGoods', {
                                     var pk = rec.get('GoodsCode');
                                     if (value == pk) {
                                         Ext.shortAlert('操作成功！');
-                                        storeWarehouseGoods.load();
+                                        storeWarehouseGoods.load({ params: formValues });
                                         Ext.getCmp('mW').close();
                                     } else {
                                         Ext.shortAlert('操作失败！');

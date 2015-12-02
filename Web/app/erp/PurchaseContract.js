@@ -22,6 +22,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 'BillNo',
                 'ContractCode',
                 'ContractCodeA',
+                'PurchasePurpose',
                 'SupplierNo',
                 'SupplierName',
                 'SignPlace',
@@ -452,7 +453,54 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                        margin: '0 0 5 0',
                        labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
-                       fieldLabel: '合同编号'
+                       fieldLabel: '合同编号',
+                       listeners: {
+                           change: function (field, value) {
+                               if (value == null) {
+
+                               }
+                               else {
+                                   if (this.up('window').operationType == "view") {
+                                   }
+                                   if (this.up('window').operationType == "update") {
+                                       var strBillNo = this.up('window').record.get('BillNo');
+                                       callapi("PurchaseContract_BLL/checkPurchaseContractCode", { ContractCode: value, billNo: strBillNo }, function (result) {
+                                           if (result == 'yes') {
+                                            //   var txt = this.up('form').down('textfield[name="ContractCode"]');
+                                               Ext.Msg.show({
+                                                   title: "提示",
+                                                   msg: "合同编号已经存在，请重新输入。",
+                                                   buttons: Ext.Msg.OK,
+                                                   icon: Ext.Msg.INFO,
+                                                   fn: function () {
+                                                       field.setValue('');
+                                                   }
+                                               });
+                                           }
+                                       }, this);
+                                   }
+                                   if (this.up('window').operationType == "add") {
+                                       //  var strBillNo = this.up('window').record.get('BillNo');
+                                       callapi("PurchaseContract_BLL/checkPurchaseContractCode", { ContractCode: value, billNo: 'add' }, function (result) {
+                                           if (result == 'yes') {
+                                               //var txt = this.up('form').down('textfield[name="ContractCode"]');
+                                               Ext.Msg.show({
+                                                   title: "提示",
+                                                   msg: "合同编号已经存在，请重新输入。",
+                                                   buttons: Ext.Msg.OK,
+                                                   icon: Ext.Msg.INFO,
+                                                   fn: function () {
+                                                       field.setValue('');
+                                                   }
+                                               });
+                                              
+                                           }
+
+                                       }, this);
+                                   }
+                               }
+                           }
+                       }
                    }, {
                        name: 'PurUserCode',
                        allowBlank: false,
@@ -533,10 +581,19 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请选择时间'
                    }, {
+                       name: 'PurchasePurpose',
+                       fieldLabel: '采购用途',
+                       labelStyle: 'color:red;',
+                       allowBlank: false,
+                       fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                       blankText: '该输入项为必输项',
+                       colspan: 2,
+                       width: 350
+                   }, {
                        name: 'ContractCodeA',
                        fieldLabel: '对方合同编号',
                        labelStyle: 'color:green;',
-                       colspan: 3,
+                       colspan: 1,
                        width: 350
                    }, {
                        name: 'ContractAmountBig',
@@ -846,13 +903,13 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                 }
             }
             ],
-            //multiSelect: false,
-            //selModel: {
-            //    mode: 'SINGLE',  //多选multi,simple,单选single;
-            //    selType: 'checkboxmodel',
-            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-            //    allowDeselect: true  //允许取消选中状态
-            //},
+            multiSelect: false,
+            selModel: {
+                mode: 'SINGLE',  //多选multi,simple,单选single;
+                selType: 'checkboxmodel',
+                showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+                allowDeselect: true  //允许取消选中状态
+            },
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',

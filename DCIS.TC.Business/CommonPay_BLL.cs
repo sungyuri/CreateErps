@@ -97,6 +97,37 @@ namespace TCEPORT.TC.Business
                    {
                        strSql += string.Format(@" and CommonPayNo={0}  ", data.CommonPayNo);
                    }
+                   else
+                   {
+                       if (data.ReceiveName != null && data.ReceiveName != "")
+                       {
+                           strSql = @" SELECT [BillNo]
+                                  ,[CreateDate]
+                                  ,[CommonPayNo]
+                                  ,[ReceiveName]
+                                  ,[PayReason]
+                                  ,[PayWayCode]
+                                  ,[PayWayText]
+                                  ,[TotalAmount]
+                                  ,[PayAmount]
+                                  ,[PayAmountBig]
+                                  ,[PaidAmount]
+                                  ,[BANK]
+                                  ,[BANKNO]
+                                  ,[Remarks]
+                                  ,[PayUserCode]
+                                  ,[PayUserName]
+                                  ,[StepNo]
+                                  ,[StepName]
+                                  ,[AppUserCode]
+                                  ,[AppUserName]
+                                  ,[IsPayoff]
+                                  ,[IsAppEnd]
+                              FROM [SysCommonPay]
+                                  WHERE PayUserCode='" + loginUserCode + "' AND  StepNo=0 ";
+                           strSql += string.Format(@" and ReceiveName like '%{0}%'  ", data.ReceiveName);
+                       }
+                   }                  
            }
            else
            {
@@ -170,6 +201,38 @@ namespace TCEPORT.TC.Business
            return returnValue;
 
        }
+
+       /// <summary>
+       /// 更新一般付款项目
+       /// </summary>
+       /// <param name="entity"></param>
+       /// <returns></returns>
+       public string UpdateCommonPayItemInfo(SysCommonPayItem_Entity entity)
+       {
+           string returnValue = "";
+           string loginUserCode = HttpContext.Current.Session["UserCode"].ToString();
+           string loginUserName = HttpContext.Current.Session["UserName"].ToString();
+           string strSql = " SELECT COUNT(1) FROM dbo.SysCommonPay WHERE CommonPayNo=" + entity.CommonPayNo + " AND StepNo NOT IN(98) ";
+           int iChild = int.Parse(DBUtil.Fill(strSql).Rows[0][0].ToString());
+           if (iChild > 0)
+           {
+               returnValue = "no";
+               return returnValue;
+           }
+           try
+           {
+               PublicRule.Update(entity);
+               returnValue = "true";
+           }
+            catch (Exception ex)
+           {
+               returnValue = "出错信息：" + ex.ToString();
+           }
+           
+           return returnValue;
+
+       }
+
 
        /// <summary>
        /// 新增其他付款单
@@ -455,7 +518,7 @@ namespace TCEPORT.TC.Business
 
            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
-           DataTable dtTmp = DBUtil.Fill(strSql);
+           DataTable dtTmp = DBUtil.Fill(pagedSql);
            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
            return PageUtil.WrapByPage(dtTmp, count);
        }
@@ -507,7 +570,7 @@ namespace TCEPORT.TC.Business
 
            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
            string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
-           DataTable dtTmp = DBUtil.Fill(strSql);
+           DataTable dtTmp = DBUtil.Fill(pagedSql);
            int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
            return PageUtil.WrapByPage(dtTmp, count);
        }

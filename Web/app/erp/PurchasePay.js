@@ -18,6 +18,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
             fields: [
                 'BillNo',
                 'ContractCode',
+                 'ContractCodeA',
+                 'PurchasePurpose',
                 'SupplierNo',
                 'SupplierName',
                 'SignPlace',
@@ -40,7 +42,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 'IsAppEnd',
                 'PaidAmount',
                 'IsStorage',
-                'CreateTime'
+                'CreateTime',
+                'UpdateTime'
             ]
         });
 
@@ -496,7 +499,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
             store: store,
             record: null,
             id: 'PurchaseContractView',
-            width: 800,
+            width: 900,
             layout: {
                 type: 'vbox',
                 align: 'stretch'
@@ -547,7 +550,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
             items: [{
                 xtype: 'datagrid',
                 itemId: 'PurchaseContractAppLog',
-                width: 795,
+                width: 895,
                // height: 128,
                 border: false,
                 renderTo: Ext.getBody(),
@@ -613,7 +616,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
             },
                 {
                     xtype: 'label',
-                    margin: '5 0 10 260',
+                    margin: '5 0 10 360',
                     text: "采 购 合 同",
                     style: 'font-weight: bold; font-size: 16px;',
                     baseCls: 'y-plain',
@@ -626,7 +629,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 baseCls: 'y-plain',
                 border: false,
                 itemId:'purchasePayMainData',
-                width: 795,
+                width: 895,
                 layout: {
                     type: 'table',
                     tdAttrs: {
@@ -636,7 +639,9 @@ Ext.define('TCSYS.erp.PurchasePay', {
                     columns: 3
                 },
                 defaults: {
-                    xtype: 'textfield'
+                    xtype: 'textfield',
+                    labelWidth: 100,
+                    width: 350
                 },
                 items: [
                    {
@@ -647,6 +652,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '该输入项为必输项',
                        fieldLabel: '供应商',
+                       labelStyle: 'color:red;',
                        displayField: 'SupplierName',
                        valueField: 'SupplierNo',
                        needCheck: true,
@@ -671,12 +677,14 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        fieldLabel: '客户名',
                        hidden: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'ContractCode',
                        allowBlank: false,
                        blankText: '该输入项为必输项',
                        margin: '0 0 5 0',
+                       labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        fieldLabel: '合同编号'
                    }, {
@@ -686,6 +694,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '该输入项为必输项',
                        fieldLabel: '采购员',
+                       labelStyle: 'color:red;',
                        displayField: 'PurUserName',
                        valueField: 'PurUserCode',
                        needCheck: true,
@@ -709,7 +718,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        name: 'PurUserName',
                        hidden: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'SignPlace',
                        fieldLabel: '签订地点'
@@ -718,7 +728,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        value: '太仓创造电子有限公司',
                        readonly: true
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'SignDate',
                        fieldLabel: '签订时间',
@@ -733,6 +744,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        maxValue: 99999999,
                        minValue: 0,
                        allowBlank: false,
+                       labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请输入数字',
                        listeners: {
@@ -742,7 +754,8 @@ Ext.define('TCSYS.erp.PurchasePay', {
                            }
                        }
                    }, {
-                       xtype: 'splitter'
+                       xtype: 'splitter',
+                       width: 20
                    }, {
                        name: 'DeliveryTime',
                        fieldLabel: '交货时间',
@@ -752,29 +765,44 @@ Ext.define('TCSYS.erp.PurchasePay', {
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
                        blankText: '请选择时间'
                    }, {
+                       name: 'PurchasePurpose',
+                       fieldLabel: '采购用途',
+                       labelStyle: 'color:red;',
+                       allowBlank: false,
+                       fieldStyle: 'background-color:#FFFFB9; background-image: none;',
+                       blankText: '该输入项为必输项',
+                       colspan: 2,
+                       width: 350
+                   }, {
+                       name: 'ContractCodeA',
+                       fieldLabel: '对方合同编号',
+                       labelStyle: 'color:green;',
+                       colspan: 1,
+                       width: 350
+                   }, {
                        name: 'ContractAmountBig',
                        xtype: 'label',
                        colspan: 3,
-                       width: 780
+                       width: 880
                    }, {
                        name: 'QA',
                        fieldLabel: '质保条件',
                        colspan: 3,
-                       width: 780
+                       width: 880
                    }, {
                        name: 'DeliveryWay',
                        fieldLabel: '交货方式',
                        colspan: 3,
-                       width: 780
+                       width: 880
                    }, {
                        name: 'PayWay',
                        fieldLabel: '结算方式',
-                       width: 780,
+                       width: 880,
                        colspan: 3
                    }, {
                        name: 'OtherNote',
                        fieldLabel: '其他',
-                       width: 780,
+                       width: 880,
                        colspan: 3
                    }, {
                        name: 'BillNo',
@@ -784,7 +812,7 @@ Ext.define('TCSYS.erp.PurchasePay', {
             {
                 xtype: 'datagrid',
                 itemId: 'PurchaseContractDetailGrid',
-                width: 795,
+                width: 895,
               //  height: 108,
                 border: false,
                 renderTo: Ext.getBody(),
@@ -933,10 +961,20 @@ Ext.define('TCSYS.erp.PurchasePay', {
                 dataIndex: 'SignDate'
             }, {
                 text: '合同金额',
+                width: 65,
                 dataIndex: 'ContractAmount'
             }, {
                 text: '已付金额',
-                dataIndex: 'PaidAmount'
+                width: 65,
+                dataIndex: 'PaidAmount',
+                renderer: function (value) {
+                    if (value == "0") {
+                        return '<span style="color:red">' + value + '</span>';
+                    }
+                    else {
+                        return '<span style="color:green">' + value + '</span>';
+                    }
+                }
             }, {
                 text: '交货日期',
                 dataIndex: 'DeliveryTime'
@@ -946,6 +984,11 @@ Ext.define('TCSYS.erp.PurchasePay', {
             }, {
                 text: '审核状态',
                 dataIndex: 'StepName'                
+            }, {
+                text: '审批完成时间',
+                dataIndex: 'UpdateTime',
+                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+                //format: 'Ymd'                
             }, {
                 text: '创建日期',
                 dataIndex: 'CreateTime',

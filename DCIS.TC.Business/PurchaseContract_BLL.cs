@@ -256,7 +256,7 @@ namespace TCEPORT.TC.Business
                     else//审定，结束审批流程
                     {
                         updateLogSql = @" UPDATE SysFlowManyStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
-                        updateContractSql = @" UPDATE SysPurchaseContract SET AppUserCode='',IsAppEnd='Y',StepNo=99,StepName='审核完成'  WHERE BillNo='" + billNo + "' ";
+                        updateContractSql = @" UPDATE SysPurchaseContract SET AppUserCode='',IsAppEnd='Y',StepNo=99,StepName='审核完成',UpdateTime=GETDATE()  WHERE BillNo='" + billNo + "' ";
                     }
                 }
 
@@ -381,7 +381,7 @@ namespace TCEPORT.TC.Business
                     entity.AppUserCode = flowDt.Rows[0]["AppUserCode"].ToString();
                     entity.StepName = "初审";
                 }
-                entity.CreateTime = DateTime.Now;
+                entity.UpdateTime = DateTime.Now;
                 entity.IsStorage = "N";
                 entity.PaidAmount = 0;
                 entity.IsAppEnd = "N";
@@ -426,6 +426,30 @@ namespace TCEPORT.TC.Business
                 DBUtil.Rollback();
             }
             return returnValue;
+        }
+
+        public string checkPurchaseContractCode(string ContractCode,string billNo)
+        {
+            string returnValue = "";
+             string checkSql="";
+             if (billNo != "add")
+             {
+                 checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "' AND BillNo NOT IN('"+billNo+"')  ";
+             }
+             else
+             {
+                 checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "'   ";
+             }
+           if( int.Parse(DBUtil.ExecuteScalar(checkSql).ToString())>0)
+           {
+               returnValue="yes";
+           }
+            else
+           {
+                 returnValue="no";
+           }
+
+           return returnValue;
         }
 
         /// <summary>
@@ -482,6 +506,7 @@ namespace TCEPORT.TC.Business
                     entity.StepName = "初审";
                 }
                 entity.CreateTime = DateTime.Now;
+                entity.UpdateTime = DateTime.Now;
                 entity.IsStorage = "N";
                 entity.PaidAmount = 0;
                 entity.IsAppEnd = "N";

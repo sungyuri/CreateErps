@@ -42,7 +42,9 @@ namespace TCEPORT.TC.Data
               public const string F_PaidAmount = "PaidAmount";
               public const string F_IsStorage = "IsStorage";
               public const string F_CreateTime = "CreateTime";
-              public const string F_ContractCodeA = "ContractCodeA";
+              public const string F_UpdateTime = "UpdateTime";
+              public const string F_ContractCodeA = "ContractCodeA";//ContractCodeA
+              public const string F_PurchasePurpose = "PurchasePurpose";//PurchasePurpose
         }
 
         /// <summary>
@@ -288,6 +290,16 @@ namespace TCEPORT.TC.Data
             set { this._CreateTime = value; this.SetValue(Consts.F_CreateTime, true); }
         }
 
+
+        private DateTime _UpdateTime;
+        [SqlColumn(Consts.F_UpdateTime)]
+        public DateTime UpdateTime
+        {
+            get { return this._UpdateTime; }
+            set { this._UpdateTime = value; this.SetValue(Consts.F_UpdateTime, true); }
+        }
+
+
         private string _ContractCodeA;
         [SqlColumn(Consts.F_ContractCodeA)]
         public string ContractCodeA
@@ -295,6 +307,14 @@ namespace TCEPORT.TC.Data
             get { return this._ContractCodeA; }
             set { this._ContractCodeA = value; this.SetValue(Consts.F_ContractCodeA, true); }
         }
-       
+
+        //PurchasePurpose
+        private string _PurchasePurpose;
+        [SqlColumn(Consts.F_PurchasePurpose)]
+        public string PurchasePurpose
+        {
+            get { return this._PurchasePurpose; }
+            set { this._PurchasePurpose = value; this.SetValue(Consts.F_PurchasePurpose, true); }
+        }
     }
 }

@@ -138,7 +138,54 @@ Ext.define('TCSYS.erp.SaleContract', {
                            blankText: '该输入项为必输项',
                            margin: '0 0 5 0',
                            fieldStyle: 'background-color:#FFFFB9; background-image: none;',
-                           fieldLabel: '合同编号'
+                           fieldLabel: '合同编号',
+                           listeners: {
+                               change: function (field, value) {
+                                   if (value == null) {
+
+                                   }
+                                   else {                                  
+
+                                       if (this.up('window').operationType == "view") {
+                                       }
+                                       if (this.up('window').operationType == "update") {                                          
+                                           var strBillNo = this.up('window').record.get('BillNo');
+                                           callapi("SaleContract_BLL/checkSaleContractCode", { ContractCode: value, billNo: strBillNo }, function (result) {
+                                               if (result == 'yes') {                      
+                                                   Ext.Msg.show({
+                                                       title: "提示",
+                                                       msg: "合同编号已经存在，请重新输入。",
+                                                       buttons: Ext.Msg.OK,
+                                                       icon: Ext.Msg.INFO,
+                                                       fn: function () {
+                                                           field.setValue('');
+                                                       }
+                                                   });
+                                               }
+                                           }, this);
+                                       }
+                                       if (this.up('window').operationType == "add") {                                      
+                                        
+                                           callapi("SaleContract_BLL/checkSaleContractCode", { ContractCode: value, billNo: 'add' }, function (result) {
+                                               if (result == 'yes') {
+                                                   //var txt = this.up('form').down('textfield[name="ContractCode"]');
+                                                   Ext.Msg.show({
+                                                       title: "提示",
+                                                       msg: "合同编号已经存在，请重新输入。",
+                                                       buttons: Ext.Msg.OK,
+                                                       icon: Ext.Msg.INFO,
+                                                       fn: function () {
+                                                           field.setValue('');
+                                                       }
+                                                   });
+
+                                               }
+
+                                           }, this);
+                                       }
+                                   }
+                               }
+                           }
                        }, {
                            name: 'PurUserCode',
                            allowBlank: false,
@@ -429,7 +476,53 @@ Ext.define('TCSYS.erp.SaleContract', {
                        margin: '0 0 5 0',
                        labelStyle: 'color:red;',
                        fieldStyle: 'background-color:#FFFFB9; background-image: none;',
-                       fieldLabel: '合同编号'
+                       fieldLabel: '合同编号',
+                       listeners: {
+                           change: function (field, value) {
+                               if (value == null) {
+
+                               }
+                               else {
+                                   if (this.up('window').operationType == "view") {
+                                   }
+                                   if (this.up('window').operationType == "update") {
+                                       var strBillNo = this.up('window').record.get('BillNo');
+                                       callapi("SaleContract_BLL/checkSaleContractCode", { ContractCode: value, billNo: strBillNo }, function (result) {
+                                           if (result == 'yes') {
+                                               Ext.Msg.show({
+                                                   title: "提示",
+                                                   msg: "合同编号已经存在，请重新输入。",
+                                                   buttons: Ext.Msg.OK,
+                                                   icon: Ext.Msg.INFO,
+                                                   fn: function () {
+                                                       field.setValue('');
+                                                   }
+                                               });
+                                           }
+                                       }, this);
+                                   }
+                                   if (this.up('window').operationType == "add") {
+
+                                       callapi("SaleContract_BLL/checkSaleContractCode", { ContractCode: value, billNo: 'add' }, function (result) {
+                                           if (result == 'yes') {
+                                               //var txt = this.up('form').down('textfield[name="ContractCode"]');
+                                               Ext.Msg.show({
+                                                   title: "提示",
+                                                   msg: "合同编号已经存在，请重新输入。",
+                                                   buttons: Ext.Msg.OK,
+                                                   icon: Ext.Msg.INFO,
+                                                   fn: function () {
+                                                       field.setValue('');
+                                                   }
+                                               });
+
+                                           }
+
+                                       }, this);
+                                   }
+                               }
+                           }
+                       }
                    },  {
                        name: 'PurUserCode',
                        allowBlank: false,
@@ -1058,13 +1151,13 @@ Ext.define('TCSYS.erp.SaleContract', {
                 }
             }
             ],
-            //multiSelect: false,
-            //selModel: {
-            //    mode: 'SINGLE',  //多选multi,simple,单选single;
-            //    selType: 'checkboxmodel',  
-            //    showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
-            //    allowDeselect:true  //允许取消选中状态
-            //},
+            multiSelect: false,
+            selModel: {
+                mode: 'SINGLE',  //多选multi,simple,单选single;
+                selType: 'checkboxmodel',  
+                showHeaderCheckbox: false,  //不显示标题栏中的一键全选按键
+                allowDeselect:true  //允许取消选中状态
+            },
             columns: [{
                 xtype: 'linkColumn',//这里就是放置按钮的地方
                 text: '操作',

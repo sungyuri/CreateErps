@@ -476,7 +476,7 @@ namespace TCEPORT.TC.Business
                                        (BillNo, StepNo, StepName, FlowId, AppUserCode)
                                        VALUES
                                         ";
-
+                
                 //   string sqlUserName=string.Format(@" SELECT UserName from SysUser   "); 审批人名目前通过连接查询得到，暂不存入数据库
                 flowStep += string.Format(@"  ('{0}',1,'{1}',{2},'{3}'),  ", billNo, "初审",
                                                         flowDt.Rows[0]["FlowId"].ToString(),

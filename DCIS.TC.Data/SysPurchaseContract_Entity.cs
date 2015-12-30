@@ -45,6 +45,7 @@ namespace TCEPORT.TC.Data
               public const string F_UpdateTime = "UpdateTime";
               public const string F_ContractCodeA = "ContractCodeA";//ContractCodeA
               public const string F_PurchasePurpose = "PurchasePurpose";//PurchasePurpose
+              public const string F_FlowId = "FlowId";//FlowId
         }
 
         /// <summary>
@@ -316,5 +317,15 @@ namespace TCEPORT.TC.Data
             get { return this._PurchasePurpose; }
             set { this._PurchasePurpose = value; this.SetValue(Consts.F_PurchasePurpose, true); }
         }
+
+        //FlowId
+        private int _FlowId;
+        [SqlColumn(Consts.F_FlowId)]
+        public int FlowId
+        {
+            get { return this._FlowId; }
+            set { this._FlowId = value; this.SetValue(Consts.F_FlowId, true); }
+        }
+
     }
 }

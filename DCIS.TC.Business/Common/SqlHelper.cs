@@ -161,6 +161,13 @@ namespace TCEPORT.TC.Business.Common
             }
         }
 
+        /// <summary>
+        /// 获取新单据号
+        /// </summary>
+        /// <param name="tblName"></param>
+        /// <param name="colName"></param>
+        /// <param name="colHead"></param>
+        /// <returns></returns>
         public string getTableNo(string tblName, string colName, string colHead)
         {
             string reStr = "";

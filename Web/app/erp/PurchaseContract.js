@@ -149,6 +149,7 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                     if (!this.up('window').down('form').isValid()) {
                         return;
                     }
+                   // console.log(formValues);
                     if (this.up('window').operationType == "add") {
                         if (me.BasicInfoPK == null) {
                             store[currentWindow.operationType + "Data"]({
@@ -859,6 +860,11 @@ Ext.define('TCSYS.erp.PurchaseContract', {
                     addWindow.record = null;
                     addWindow.setOperationType('add');
                     addWindow.callerComp = sender;
+                    var result = callapiAsync("SqlHelper/getTableNo", { tblName: 'SysPurchaseContract', colName: 'BillNo', colHead: 'PC' });
+                    if (result == null || result == "")
+                        return;
+                    addWindow.setHiddenFieldValue("BillNo", result);
+                    addWindow.add(Ext.create('widget.uploadpanel', { GroupGuid: result }));
                     Ext.getCmp('btnApp').hidden = true;
                     addWindow.show(this);
                     me.BasicInfoPK = null;

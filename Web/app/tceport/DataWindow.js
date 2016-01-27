@@ -62,5 +62,9 @@
                 }
             }
         }
+    },
+    setHiddenFieldValue: function (fieldName, value) {
+        this.query('form')[0].getForm().findField(fieldName).setValue(value);
     }
+
 });

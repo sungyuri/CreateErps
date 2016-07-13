@@ -66,7 +66,7 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'PurchasePay_BLL/UpdatePurchasePayAppInfo',
-            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'PurBillNo', 'ContractCode', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd', 'UpdateTime']
         });
 
 
@@ -756,11 +756,12 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
                 text: '制单日期',
                 dataIndex: 'CreateDate'
             }, {
-                text: '付款金额',
+                text: '申请付款金额',
                 dataIndex: 'PayAmount'
             }, {
                 text: '已付金额',
-                dataIndex: 'PaidAmount'
+                dataIndex: 'PaidAmount',
+                hidden:true
             }, {
                 text: '合同金额',
                 dataIndex: 'TotalAmount'
@@ -780,6 +781,11 @@ Ext.define('TCSYS.erp.QueryPurchasePay', {
 
                 }
             }, {
+                text: '付款完成时间',
+                dataIndex: 'UpdateTime',
+                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
+            },
+            {
                 text: '申请人',
                 dataIndex: 'PayUserName'
             }

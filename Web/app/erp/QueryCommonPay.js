@@ -24,7 +24,7 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
             autoLoad: true,
             //  addUrl: 'PurchasePay_BLL/InsertPurchasePayInfo',
             updateUrl: 'CommonPay_BLL/UpdateCommonPayAppInfo',
-            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd']
+            fields: ['BillNo', 'CreateDate', 'CommonPayNo', 'ReceiveName', 'PayReason', 'PayWayCode', 'PayWayText', 'TotalAmount', 'PayAmount', 'PayAmountBig', 'PaidAmount', 'BANK', 'BANKNO', 'Remarks', 'PayUserCode', 'PayUserName', 'StepNo', 'StepName', 'AppUserCode', 'AppUserName', 'IsPayoff', 'IsAppEnd', 'UpdateTime']
         });
 
 
@@ -390,11 +390,12 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                 text: '制单日期',
                 dataIndex: 'CreateDate'
             }, {
-                text: '付款金额',
+                text: '申请付款金额',
                 dataIndex: 'PayAmount'
             }, {
                 text: '已付金额',
-                dataIndex: 'PaidAmount'
+                dataIndex: 'PaidAmount',
+                hidden:true
             }, {
                 text: '总金额',
                 dataIndex: 'TotalAmount'
@@ -413,6 +414,10 @@ Ext.define('TCSYS.erp.QueryCommonPay', {
                     }
 
                 }
+            }, {
+                text: '付款完成时间',
+                dataIndex: 'UpdateTime',
+                renderer: Ext.util.Format.dateRenderer('Y-m-d H:i')
             }, {
                 text: '申请人',
                 dataIndex: 'PayUserName'

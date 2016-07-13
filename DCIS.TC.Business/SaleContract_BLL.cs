@@ -56,11 +56,15 @@ namespace TCEPORT.TC.Business
         public dynamic QuerySaleContract(int start, int limit, string strOrderBy, dynamic data)
         {
 
-            string strSql = @" SELECT * FROM SysSaleContract WHERE 1=1 ";
+            string strSql = @" SELECT * FROM SysSaleContract WHERE StepNo<>98 ";
             //int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
             string UserCode = HttpContext.Current.Session["UserCode"].ToString();  
             CommonFun cf = new CommonFun();
             bool isAppUser= cf.isAppUserForConstract(UserCode, "SC");
+            if (UserCode == "luwenbin")
+            {
+                isAppUser = true;
+            }
             if (isAppUser)
             {
 

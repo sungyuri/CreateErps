@@ -164,7 +164,7 @@ namespace TCEPORT.TC.Business
                   else//审定，结束审批流程
                   {
                       updateLogSql = @" UPDATE SysFlowStep SET " + colNoteName + "='" + appnote + "',AppDataLast=GETDATE(),AppState='Y'  WHERE BillNo='" + billNo + "' AND AppUserCode='" + loginUserCode + "' AND StepNo=" + stepNo + "  ";
-                      updateContractSql = @" UPDATE SysPurchasePay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='已付款'  WHERE BillNo='" + billNo + "' ";
+                      updateContractSql = @" UPDATE SysPurchasePay SET AppUserCode='',AppUserName='',IsAppEnd='Y',StepNo=99,StepName='已付款',UpdateTime=GETDATE()  WHERE BillNo='" + billNo + "' ";
                       string strSelPCNO = @" SELECT PurBillNo,TotalAmount,PayAmount,PaidAmount FROM SysPurchasePay WHERE BillNo='"+billNo+"'   ";
                       DataTable dtIsPayOver = DBUtil.Fill(strSelPCNO);
                       if (dtIsPayOver.Rows.Count>0)
@@ -282,6 +282,7 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
+                               ,[UpdateTime]
                           FROM  [SysPurchasePay] WHERE AppUserCode ='" + UserCode + "' AND IsAppEnd='N' ";
 
           if (data != null)
@@ -334,7 +335,8 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
-                          FROM  [SysPurchasePay] WHERE 1=1 ";
+                              ,[UpdateTime]
+                          FROM  [SysPurchasePay] WHERE StepNo<>98 ";
 
           CommonFun cf = new CommonFun();
           string isAppUser = cf.isAppUserForPay(UserCode, "PP");
@@ -428,6 +430,7 @@ namespace TCEPORT.TC.Business
                               ,[AppUserName]
                               ,[IsPayoff]
                               ,[IsAppEnd]
+                             ,[UpdateTime]
                           FROM  [SysPurchasePay] WHERE StepNo=0  ";
            }
           strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";

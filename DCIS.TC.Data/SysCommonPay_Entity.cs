@@ -38,6 +38,7 @@ namespace TCEPORT.TC.Data
             public const string F_IsAppEnd = "IsAppEnd";
             public const string F_PayWayCode = "PayWayCode";
             public const string F_PayWayText = "PayWayText";
+            public const string F_UpdateTime = "UpdateTime";//UpdateTime
 
         }
 
@@ -251,5 +252,12 @@ namespace TCEPORT.TC.Data
             set { this._PayWayText = value; this.SetValue(Consts.F_PayWayText, true); }
         }
 
+        private DateTime _UpdateTime;
+        [SqlColumn(Consts.F_UpdateTime)]
+        public DateTime UpdateTime
+        {
+            get { return this._UpdateTime; }
+            set { this._UpdateTime = value; this.SetValue(Consts.F_UpdateTime, true); }
+        }
     }
 }

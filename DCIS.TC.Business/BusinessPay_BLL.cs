@@ -432,7 +432,7 @@ namespace TCEPORT.TC.Business
                                       ,[AppUserName]
                                       ,[IsPayoff]
                                       ,[IsAppEnd]
-                                  FROM [SysBusinessPay] WHERE 1=1  ";
+                                  FROM [SysBusinessPay] WHERE StepNo<>98  ";
 
             CommonFun cf = new CommonFun();
             string isAppUser = cf.isAppUserForPay(UserCode, "BP");

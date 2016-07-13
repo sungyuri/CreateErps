@@ -66,6 +66,7 @@
     <Compile Include="CommonPay_BLL.cs" />
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="Common\Users.cs" />
+    <Compile Include="DelSaleContract_BLL.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="MssqlReportData.cs" />
     <Compile Include="PageUtil.cs" />

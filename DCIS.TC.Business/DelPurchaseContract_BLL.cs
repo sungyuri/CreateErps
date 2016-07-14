@@ -11,7 +11,7 @@ using System.Web;
 
 namespace TCEPORT.TC.Business
 {
-   public class PurchaseContract_BLL
+    public class DelPurchaseContract_BLL
     {
         /// <summary>
         /// 采购合同
@@ -24,21 +24,22 @@ namespace TCEPORT.TC.Business
         public dynamic Get(int start, int limit, string strOrderBy, dynamic data)
         {
 
-            string strSql = @" SELECT * FROM SysPurchaseContract WHERE StepNo=0 ";
+            string strSql = @" SELECT * FROM SysPurchaseContract WHERE 1=1 ";
             int PositionCode = int.Parse(HttpContext.Current.Session["PositionCode"].ToString());
             string UserCode = HttpContext.Current.Session["UserCode"].ToString();
-            if (PositionCode == 1)
-            {
-                strSql += string.Format(@" and PurUserCode='{0}' ", UserCode);
-            }
+          
             if (data != null)
             {
                 if (data.SupplierName != null && data.SupplierName != "")
                 {
                     strSql += string.Format(@" and SupplierName like '%{0}%'", data.SupplierName);
                 }
+                if (data.ContractCode != null && data.ContractCode != "")
+                {
+                    strSql += string.Format(@" and ContractCode like '%{0}%'", data.ContractCode);
+                }
             }
-            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo asc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
+            strSql = "SELECT QUERY.*,ROW_NUMBER() OVER(ORDER BY QUERY.BillNo desc)  AS ROWNUM FROM (" + strSql + ") QUERY  ";
             string pagedSql = OracleUtil.PreparePageSqlString(strSql, start, limit);
             DataTable dtTmp = DBUtil.Fill(pagedSql);
             int count = Int32.Parse(DBUtil.Fill(string.Format("SELECT COUNT(1) FROM ({0}) CC", strSql)).Rows[0][0].ToString());
@@ -59,7 +60,7 @@ namespace TCEPORT.TC.Business
             string strSql = @" SELECT * FROM SysPurchaseContract WHERE StepNo<>98 ";
             string UserCode = HttpContext.Current.Session["UserCode"].ToString();
             CommonFun cf = new CommonFun();
-           
+
             bool isAppUser = cf.isAppUserForConstract(UserCode, "PC");
             if (UserCode == "luwenbin")
             {
@@ -99,14 +100,14 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
-       /// <summary>
-       /// 获取采购合同审批记录
-       /// </summary>
-       /// <param name="start"></param>
-       /// <param name="limit"></param>
-       /// <param name="strOrderBy"></param>
-       /// <param name="data"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 获取采购合同审批记录
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public dynamic GetPurchaseAppLog(int start, int limit, string strOrderBy, dynamic data)
         {
             string strSql = @" SELECT [BillNo]
@@ -141,14 +142,14 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
-       /// <summary>
-       /// 采购合同审批列表
-       /// </summary>
-       /// <param name="start"></param>
-       /// <param name="limit"></param>
-       /// <param name="strOrderBy"></param>
-       /// <param name="data"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 采购合同审批列表
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="limit"></param>
+        /// <param name="strOrderBy"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public dynamic GetAppRecord(int start, int limit, string strOrderBy, dynamic data)
         {
             string UserCode = HttpContext.Current.Session["UserCode"].ToString();
@@ -167,14 +168,14 @@ namespace TCEPORT.TC.Business
             return PageUtil.WrapByPage(dtTmp, count);
         }
 
-       /// <summary>
-       /// 采购合同审批提交
-       /// </summary>
-       /// <param name="billNo"></param>
-       /// <param name="stepNo"></param>
-       /// <param name="appnote"></param>
-       /// <param name="type"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// 采购合同审批提交
+        /// </summary>
+        /// <param name="billNo"></param>
+        /// <param name="stepNo"></param>
+        /// <param name="appnote"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public string UpdateAppRecord(string billNo, string stepNo, string appnote, string type)
         {
             string returnValue = "";
@@ -433,28 +434,28 @@ namespace TCEPORT.TC.Business
             return returnValue;
         }
 
-        public string checkPurchaseContractCode(string ContractCode,string billNo)
+        public string checkPurchaseContractCode(string ContractCode, string billNo)
         {
             string returnValue = "";
-             string checkSql="";
-             if (billNo != "add")
-             {
-                 checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "' AND BillNo NOT IN('"+billNo+"')  ";
-             }
-             else
-             {
-                 checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "'   ";
-             }
-           if( int.Parse(DBUtil.ExecuteScalar(checkSql).ToString())>0)
-           {
-               returnValue="yes";
-           }
+            string checkSql = "";
+            if (billNo != "add")
+            {
+                checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "' AND BillNo NOT IN('" + billNo + "')  ";
+            }
             else
-           {
-                 returnValue="no";
-           }
+            {
+                checkSql = " SELECT COUNT(1) FROM dbo.SysPurchaseContract WHERE ContractCode='" + ContractCode + "'   ";
+            }
+            if (int.Parse(DBUtil.ExecuteScalar(checkSql).ToString()) > 0)
+            {
+                returnValue = "yes";
+            }
+            else
+            {
+                returnValue = "no";
+            }
 
-           return returnValue;
+            return returnValue;
         }
 
         /// <summary>
@@ -472,7 +473,7 @@ namespace TCEPORT.TC.Business
             {
                 DBUtil.BeginTrans();
                 string billNo = entity.BillNo;
-              //  string billNo = new SqlHelper().getTableNo("SysPurchaseContract", "BillNo", "PC");
+                //  string billNo = new SqlHelper().getTableNo("SysPurchaseContract", "BillNo", "PC");
                 //entity.BillNo = billNo;
 
                 #region 生成合同审批步骤
@@ -482,7 +483,7 @@ namespace TCEPORT.TC.Business
                                        (BillNo, StepNo, StepName, FlowId, AppUserCode)
                                        VALUES
                                         ";
-                
+
                 //   string sqlUserName=string.Format(@" SELECT UserName from SysUser   "); 审批人名目前通过连接查询得到，暂不存入数据库
                 flowStep += string.Format(@"  ('{0}',1,'{1}',{2},'{3}'),  ", billNo, "初审",
                                                         flowDt.Rows[0]["FlowId"].ToString(),

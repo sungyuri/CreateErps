@@ -86,6 +86,7 @@
     <Content Include="app\erp\BusinessPayApp.js" />
     <Content Include="app\erp\CommonPay.js" />
     <Content Include="app\erp\CommonPayApp.js" />
+    <Content Include="app\erp\DelPurchaseContract.js" />
     <Content Include="app\erp\DelSaleContract.js" />
     <Content Include="app\erp\PurchaseContract.js" />
     <Content Include="app\erp\PurchaseContractApp.js" />

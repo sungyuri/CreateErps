@@ -1,7 +1,7 @@
-﻿//采购合同
+﻿//运营合同
 Ext.define('TCSYS.erp.BusinessContract', {
     extend: 'Ext.panel.Panel',
-    title: '采购合同',
+    title: '运营合同',
     name: 'BusinessContract',
     alias: "widget.BusinessContract",
     closable: true,
@@ -67,7 +67,7 @@ Ext.define('TCSYS.erp.BusinessContract', {
         var goodsRow = null;
         var SaleContractMgrWindow = {
             xtype: 'datawindow',
-            title: '采购合同',
+            title: '运营合同',
             store: store,
             record: null,
             width: 900,
@@ -387,7 +387,7 @@ Ext.define('TCSYS.erp.BusinessContract', {
                     xtype: 'label',
                     margin: '5 0 10 360',
                     style: 'font-weight: bold; font-size: 16px;',
-                    text: "采 购 合 同",
+                    text: "运 营 合 同",
                     baseCls: 'y-plain',
                     border: false
                 },

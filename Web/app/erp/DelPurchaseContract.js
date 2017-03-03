@@ -547,7 +547,7 @@ Ext.define('TCSYS.erp.DelPurchaseContract', {
                        width: 20
                    }, {
                        name: 'SignDate',
-                       fieldLabel: '签订时间',
+                       fieldLabel: '录入时间',
                        format: 'Y-m-d',
                        xtype: 'datefield'
                    }, {
@@ -974,7 +974,7 @@ Ext.define('TCSYS.erp.DelPurchaseContract', {
                 width: 150,
                 text: '供应商'
             }, {
-                text: '签订时间',
+                text: '录入时间',
                 dataIndex: 'SignDate'
             }, {
                 text: '合同金额',
